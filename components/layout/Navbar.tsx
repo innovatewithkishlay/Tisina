@@ -7,6 +7,8 @@ import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { Logo, Hacek } from '@/components/brand/Logo';
 import { useLenis } from '@/components/motion/SmoothScroll';
+import { m, useMotionValueEvent, useScroll, useSpring } from 'motion/react';
+import { scrollSpring } from '@/lib/motion';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
 interface NavbarProps {
@@ -21,9 +23,10 @@ interface NavbarProps {
 const ITEMS = [{ key: 'home', href: '/' } as const, ...siteConfig.nav];
 
 /**
- * The header is a fixed bar that never changes size or hides, so it cannot
- * jitter while scrolling. It is transparent only over the home film; once the
- * page moves it is a solid, blurred night bar that content slides beneath.
+ * The header is a fixed bar that never changes size, so it cannot jitter.
+ * It slips away while you read down the page and returns as soon as you
+ * scroll up; past 80px it becomes a blurred night bar that content slides
+ * beneath. A gold hairline along the top shows how far you have read.
  * Navigation lives in a side panel on every screen size.
  */
 export function Navbar({ address, phone, phoneHref, email, instagram, status }: NavbarProps) {
@@ -33,6 +36,7 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status }: 
   const [open, setOpen] = useState(false);
   const [heroMarkVisible, setHeroMarkVisible] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -55,24 +59,16 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status }: 
     return () => io.disconnect();
   }, [pathname]);
 
-  // One passive listener, read once per frame. The bar only changes colour —
-  // never size or position — so scrolling cannot make it jump.
-  useEffect(() => {
-    let raf = 0;
-    const read = () => {
-      raf = 0;
-      setScrolled(window.scrollY > 24);
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(read);
-    };
-    read();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
+  // Hide while reading down the page, return the moment the visitor scrolls
+  // back up. The bar slides as a whole (transform only), so nothing reflows.
+  const { scrollY, scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, scrollSpring);
+  useMotionValueEvent(scrollY, 'change', (y) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    setScrolled(y > 80);
+    if (y < 160) setHidden(false);
+    else if (Math.abs(y - prev) > 4) setHidden(y > prev);
+  });
 
   const close = useCallback(() => {
     setOpen(false);
@@ -121,7 +117,8 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status }: 
     <>
       <header
         className={cn(
-          'fixed inset-x-0 top-0 z-[70] text-bone transition-[background-color,border-color,backdrop-filter] duration-500',
+          'fixed inset-x-0 top-0 z-[70] text-bone transition-[background-color,border-color,backdrop-filter,transform] duration-700 ease-[var(--ease-out)]',
+          hidden && !open && '-translate-y-full',
           solid ? 'border-b border-white/[0.07] bg-night/90 backdrop-blur-xl' : 'border-b border-transparent bg-transparent',
         )}
       >
@@ -171,6 +168,13 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status }: 
           </div>
         </div>
       </header>
+
+      {/* Reading progress — a hairline of gold across the very top. */}
+      <m.div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-x-0 top-0 z-[72] h-[2px] origin-left bg-[var(--brand-ember-light)]"
+        style={{ scaleX: progress }}
+      />
 
       {/* Dimmed Backdrop */}
       <div 

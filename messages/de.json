@@ -37,7 +37,7 @@
   },
   "Home": {
     "eyebrow": "Opatička 14 · Oberstadt · Zagreb",
-    "heroLine": "Ein stiller Speisesaal in der Zagreber Oberstadt. Kroatien, langsam gekocht — und über Feuer.",
+    "heroLine": "Ein stiller Speisesaal in der Zagreber Oberstadt. Kroatien, *langsam* gekocht — und *über Feuer*.",
     "heroImageAlt": "Handgerollte Fuži mit gehobeltem schwarzem Trüffel in einer dunklen Keramikschale, Kerzen und Weingläser auf einem Holztisch",
     "ctaBook": "Tisch reservieren",
     "ctaMenu": "Zur Speisekarte",
@@ -50,23 +50,26 @@
         "region": "Istrien",
         "dish": "Fuži, schwarzer Trüffel",
         "body": "Im Herbst schicken uns die Trüffelsucher aus dem Mirna-Tal, was ihre Hunde in dieser Woche gefunden haben. Wir hobeln ihn am Tisch über Pasta, die am selben Morgen von Hand gerollt wurde.",
-        "alt": "Bänder frischer Pasta unter Scheiben schwarzer Trüffel auf dunklem Teller"
+        "alt": "Bänder frischer Pasta unter Scheiben schwarzer Trüffel auf dunklem Teller",
+        "ring": "Istrien · Fuži · Schwarzer Trüffel · Mirnatal · "
       },
       "dalmacija": {
         "region": "Dalmatien",
         "dish": "Pašticada",
         "body": "Zwei Tage in Wein und Essig, sechs Stunden im Topf mit Prošek und Dörrpflaumen. Das Rezept stammt von einer Großmutter aus Split, die Geduld ist unsere.",
-        "alt": "Mit Kartoffeln geschmortes Rind in dunkler Sauce, in einer dunklen Schale"
+        "alt": "Mit Kartoffeln geschmortes Rind in dunkler Sauce, in einer dunklen Schale",
+        "ring": "Dalmatien · Pašticada · Sechs Stunden · Split · "
       },
       "jadran": {
         "region": "Die Adria",
         "dish": "Thunfisch, roh",
         "body": "Vor Vis mit der Leine gefangen und auf Bestellung geschnitten, angemacht mit kaum mehr als istrischem Öl und ein paar Kapern von den Inselmauern.",
-        "alt": "Thunfischtatar mit knusprigen Schalotten auf leichter Chilisauce"
+        "alt": "Thunfischtatar mit knusprigen Schalotten auf leichter Chilisauce",
+        "ring": "Die Adria · Thunfisch · Vor Vis mit der Leine gefangen · "
       }
     },
     "signatureLabel": "Signature",
-    "signatureNote": "Seit dem ersten Abend auf der Karte. Und bis zum letzten.",
+    "signatureNote": "Seit dem ersten Abend auf der Karte. Und bis zum *letzten*.",
     "definitionWord": "tišina",
     "definitionPron": "/ˈti.ʃi.na/",
     "definitionKind": "Substantiv, kroatisch",
@@ -125,7 +128,10 @@
     },
     "videoPause": "Video pausieren",
     "videoPlay": "Video abspielen",
-    "menuRollHint": "Durch die Karte scrollen"
+    "menuRollHint": "Durch die Karte scrollen",
+    "signatureStamp": "Seit dem ersten Abend · Unter der Peka · Für zwei · ",
+    "galleryClose": "Schließen",
+    "swipe": "Wischen"
   },
   "Story": {
     "eyebrow": "Unsere Geschichte",
@@ -408,6 +414,9 @@
     "loading": "Wird geladen …",
     "call": "Anrufen",
     "email": "E-Mail",
-    "instagram": "Instagram"
+    "instagram": "Instagram",
+    "cursorView": "Ansehen",
+    "cursorDrag": "Ziehen",
+    "cursorReserve": "Reservieren"
   }
 }

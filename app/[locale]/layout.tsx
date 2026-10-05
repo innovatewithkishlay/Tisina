@@ -16,6 +16,7 @@ import { RevealObserver } from '@/components/motion/RevealObserver';
 import { SmoothScroll } from '@/components/motion/SmoothScroll';
 import { MotionProvider } from '@/components/motion/MotionProvider';
 import { Cursor } from '@/components/motion/Cursor';
+import { Intro, introScript } from '@/components/motion/Intro';
 import '../globals.css';
 
 export const dynamicParams = false;
@@ -68,11 +69,17 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
       <head>
         {/* Enables reveal animations only when JS runs; content stays visible otherwise. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+        {/* Without JS every motion start-state is dropped: the page reads as finished. */}
+        <noscript>
+          <style>{'.split-unit,.odo-strip,.clip-reveal-mask,.clip-reveal-inner,[data-ssr-hide]{transform:none!important;opacity:1!important;clip-path:none!important;filter:none!important}'}</style>
+        </noscript>
       </head>
       <body>
         <NextIntlClientProvider locale={locale} messages={clientMessages}>
           <SmoothScroll>
           <MotionProvider>
+            <Intro name={r.name} />
             <a
               href="#main"
               className="label fixed left-4 top-4 z-[90] -translate-y-24 rounded-[var(--radius-pill)] bg-bone px-5 py-3 text-night transition-transform focus:translate-y-0"

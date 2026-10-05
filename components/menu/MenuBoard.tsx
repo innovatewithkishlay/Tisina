@@ -1,11 +1,14 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
-import { m, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'motion/react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { m, useInView, useMotionTemplate, useMotionValue, useScroll, useSpring, useTransform } from 'motion/react';
 import { Img } from '@/components/ui/Img';
 import { Hacek } from '@/components/brand/Logo';
 import { useLenis } from '@/components/motion/SmoothScroll';
-import { ScrollTrigger, gsap, reducedMotion, useGSAP } from '@/components/motion/gsap';
+import { ClipReveal } from '@/components/motion/ClipReveal';
+import { Parallax } from '@/components/motion/Parallax';
+import { SplitReveal } from '@/components/motion/SplitReveal';
+import { scrollSpring, useCalm, useDesktop } from '@/lib/motion';
 import type { DietaryTag } from '@/types/restaurant';
 import { cn } from '@/lib/utils';
 
@@ -57,7 +60,6 @@ type Filter = DietaryTag | 'all';
  * A sticky bar jumps between courses and filters by diet.
  */
 export function MenuBoard({ categories, labels }: { categories: BoardCategory[]; labels: BoardLabels }) {
-  const root = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
   const [filter, setFilter] = useState<Filter>('all');
   const [activeCat, setActiveCat] = useState(0);
@@ -75,67 +77,12 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
   );
   const count = visible.reduce((n, c) => n + c.items.length, 0);
 
-  useGSAP(
-    () => {
-      const el = root.current;
-      if (!el) return;
-      el.querySelectorAll<HTMLElement>('[data-cat]').forEach((section) => {
-        const i = Number(section.dataset.cat);
-        // Measured after the pinned sideways sections have added their scroll distance.
-        ScrollTrigger.create({ trigger: section, start: 'top 45%', end: 'bottom 45%', refreshPriority: -1, onToggle: (self) => self.isActive && setActiveCat(i) });
-      });
-      if (reducedMotion()) return;
-
-      // Course name: words rise from behind a mask.
-      el.querySelectorAll<HTMLElement>('[data-course-title]').forEach((title) =>
-        gsap.from(title.querySelectorAll('[data-w]'), {
-          yPercent: 110,
-          duration: 1.2,
-          stagger: 0.08,
-          ease: 'expo.out',
-          scrollTrigger: { trigger: title, start: 'top 85%' },
-        }),
-      );
-      // Course photo opens from a band in the middle and settles from a zoom.
-      el.querySelectorAll<HTMLElement>('[data-cover]').forEach((cover) => {
-        gsap.fromTo(
-          cover,
-          { clipPath: 'inset(22% 8% 22% 8% round 22px)' },
-          { clipPath: 'inset(0% 0% 0% 0% round 22px)', ease: 'none', scrollTrigger: { trigger: cover, start: 'top 95%', end: 'top 35%', scrub: true } },
-        );
-        gsap.fromTo(cover.querySelector('img'), { scale: 1.3 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: cover, start: 'top bottom', end: 'bottom top', scrub: true } });
-      });
-      // Sideways courses: pin and move the row of dishes horizontally.
-      el.querySelectorAll<HTMLElement>('[data-hscroll]').forEach((wrap) => {
-        const track = wrap.querySelector<HTMLElement>('[data-track]');
-        if (!track) return;
-        const distance = () => Math.max(0, track.scrollWidth - wrap.clientWidth);
-        gsap.to(track, {
-          x: () => -distance(),
-          ease: 'none',
-          scrollTrigger: { trigger: wrap, start: 'center center', end: () => `+=${distance()}`, pin: true, scrub: 0.5, invalidateOnRefresh: true },
-        });
-      });
-      // Downward courses: each row's photo slides up into its frame.
-      el.querySelectorAll<HTMLElement>('[data-row]').forEach((row) => {
-        gsap.fromTo(
-          row.querySelector('[data-row-media]'),
-          { clipPath: 'inset(100% 0% 0% 0% round 20px)' },
-          { clipPath: 'inset(0% 0% 0% 0% round 20px)', duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: row, start: 'top 80%' } },
-        );
-        gsap.fromTo(row.querySelector('[data-row-media] img'), { yPercent: -8 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: row, start: 'top bottom', end: 'bottom top', scrub: true } });
-        gsap.from(row.querySelector('[data-row-text]'), { y: 50, opacity: 0, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: row, start: 'top 75%' } });
-      });
-    },
-    { scope: root, dependencies: [categories, filter], revertOnUpdate: true },
-  );
-
   const jump = (slug: string) => {
     const target = document.getElementById(`c-${slug}`);
     document.getElementById('menu-courses')?.hidePopover?.();
     if (!target) return;
     if (lenis) lenis.scrollTo(target, { offset: -140, duration: 1.4 });
-    else target.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth' });
+    else target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   };
 
   const current = visible[activeCat] ?? visible[0];
@@ -144,7 +91,7 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
   visible.filter((c) => c.items.length > 0).forEach((c, i) => direction.set(c.slug, i % 2 === 0 && c.items.length > 1));
 
   return (
-    <div ref={root} className="paper relative pb-[var(--section)]">
+    <div className="paper relative pb-[var(--section)]">
       {/* Sticky course + diet bar */}
       <div className="sticky top-[var(--header-h)] z-40 border-b hairline bg-bg/95 backdrop-blur-md">
         <div className="wrap flex items-center gap-6 py-3">
@@ -190,60 +137,46 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
         if (c.items.length === 0) return null;
         const sideways = direction.get(c.slug) ?? false;
         return (
-          <section key={c.slug} id={`c-${c.slug}`} data-cat={ci} aria-labelledby={`h-${c.slug}`} className="scroll-mt-36 pt-[clamp(5rem,10vw,9rem)]">
+          <Course key={c.slug} slug={c.slug} labelledBy={`h-${c.slug}`} onActive={() => setActiveCat(ci)}>
             <div className="wrap">
               <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
-                <h2 id={`h-${c.slug}`} data-course-title className="font-display text-[clamp(3.25rem,8vw,8.5rem)] leading-[0.95] tracking-[-0.03em] lg:col-span-8">
-                  {c.name.split(' ').map((w, i) => (
-                    <span key={i} className="mr-[0.22em] inline-block overflow-hidden pb-[0.08em] align-bottom last:mr-0">
-                      <span data-w className={cn('inline-block', i % 2 === 1 && 'italic')}>{w}</span>
-                    </span>
-                  ))}
-                </h2>
+                <SplitReveal
+                  as="h2"
+                  id={`h-${c.slug}`}
+                  text={c.name
+                    .split(' ')
+                    .map((w, i) => (i % 2 === 1 ? `*${w}*` : w))
+                    .join(' ')}
+                  stagger={0.08}
+                  className="font-display text-[clamp(3.25rem,8vw,8.5rem)] leading-[0.95] tracking-[-0.03em] lg:col-span-8"
+                />
                 {c.description ? (
                   <p className="font-display max-w-[32ch] text-[clamp(1.25rem,1.8vw,1.625rem)] italic leading-[1.35] text-fg-2 lg:col-span-4 lg:pb-3">{c.description}</p>
                 ) : null}
               </div>
-              <div data-cover className="relative mt-10 aspect-[4/3] overflow-hidden rounded-[22px] bg-bg-2 sm:aspect-[16/9] lg:aspect-[21/9]">
-                <Img src={c.image} alt="" fill sizes="(min-width: 1536px) 92rem, 100vw" className="object-cover" />
-              </div>
+              <CourseCover src={c.image} />
             </div>
 
             {sideways ? (
-              <div data-hscroll className="mt-14 overflow-hidden">
-                <ul data-track className="flex w-max gap-[clamp(1.25rem,3vw,2.5rem)] px-[var(--gutter)] motion-reduce:w-auto motion-reduce:overflow-x-auto">
-                  {c.items.map((item) => (
-                    <li key={item.slug} id={item.slug} className={cn('w-[min(78vw,26rem)] shrink-0 scroll-mt-40', !item.available && 'opacity-55')}>
-                      <TiltFrame className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-bg-2">
-                        <Img src={item.image ?? c.image} alt={item.name} fill sizes="(min-width: 768px) 26rem, 78vw" className="object-cover" />
-                        <Badges item={item} labels={labels} className="absolute left-4 top-4" />
-                      </TiltFrame>
-                      <DishText item={item} labels={labels} className="mt-5" />
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <SidewaysCourse>
+                {c.items.map((item) => (
+                  <li key={item.slug} id={item.slug} className={cn('w-[min(78vw,26rem)] shrink-0 snap-center scroll-mt-40', !item.available && 'opacity-55')}>
+                    <TiltFrame className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-bg-2">
+                      <Img src={item.image ?? c.image} alt={item.name} fill sizes="(min-width: 768px) 26rem, 78vw" className="object-cover" />
+                      <Badges item={item} labels={labels} className="absolute left-4 top-4" />
+                    </TiltFrame>
+                    <DishText item={item} labels={labels} className="mt-5" />
+                  </li>
+                ))}
+              </SidewaysCourse>
             ) : (
               <ul className="wrap mt-16 space-y-[clamp(3.5rem,7vw,6rem)]">
                 {c.items.map((item, i) => (
-                  <li
-                    key={item.slug}
-                    id={item.slug}
-                    data-row
-                    className={cn('grid scroll-mt-40 gap-6 md:grid-cols-12 md:items-center md:gap-10', !item.available && 'opacity-55')}
-                  >
-                    <div data-row-media className={cn('relative aspect-[4/3] overflow-hidden rounded-[20px] bg-bg-2 md:col-span-7', i % 2 === 1 && 'md:order-2 md:col-start-6')}>
-                      <Img src={item.image ?? c.image} alt={item.name} fill sizes="(min-width: 768px) 56vw, 100vw" className="object-cover" />
-                      <Badges item={item} labels={labels} className="absolute left-4 top-4" />
-                    </div>
-                    <div data-row-text className={cn('md:col-span-5', i % 2 === 1 ? 'md:order-1 md:col-span-4' : 'md:col-start-8 md:col-span-5')}>
-                      <DishText item={item} labels={labels} large />
-                    </div>
-                  </li>
+                  <DishRow key={item.slug} item={item} index={i} fallback={c.image} labels={labels} />
                 ))}
               </ul>
             )}
-          </section>
+          </Course>
         );
       })}
       </m.div>
@@ -272,6 +205,113 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
         </ol>
       </nav>
     </div>
+  );
+}
+
+/** A course: reports itself as current while it crosses the reading line. */
+function Course({ slug, labelledBy, onActive, children }: { slug: string; labelledBy: string; onActive: () => void; children: ReactNode }) {
+  const ref = useRef<HTMLElement>(null);
+  const current = useInView(ref, { margin: '-45% 0px -55% 0px' });
+  useEffect(() => {
+    if (current) onActive();
+  }, [current, onActive]);
+  return (
+    <section ref={ref} id={`c-${slug}`} aria-labelledby={labelledBy} className="scroll-mt-36 pt-[clamp(5rem,10vw,9rem)]">
+      {children}
+    </section>
+  );
+}
+
+/** The course photograph opens from a band in the middle and settles from a zoom (scrubbed). */
+function CourseCover({ src }: { src: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const calm = useCalm();
+  const { scrollYProgress: open } = useScroll({ target: ref, offset: ['start 95%', 'start 35%'] });
+  const { scrollYProgress: pass } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const y = useTransform(open, [0, 1], [22, 0]);
+  const x = useTransform(open, [0, 1], [8, 0]);
+  const clipPath = useMotionTemplate`inset(${y}% ${x}% ${y}% ${x}% round 22px)`;
+  const scale = useTransform(pass, [0, 1], [1.3, 1]);
+  return (
+    <m.div
+      ref={ref}
+      className="relative mt-10 aspect-[4/3] overflow-hidden rounded-[22px] bg-bg-2 sm:aspect-[16/9] lg:aspect-[21/9]"
+      style={calm ? undefined : { clipPath }}
+    >
+      <m.div className="absolute inset-0" style={calm ? undefined : { scale }}>
+        <Img src={src} alt="" fill sizes="(min-width: 1536px) 92rem, 100vw" className="object-cover" />
+      </m.div>
+    </m.div>
+  );
+}
+
+/**
+ * Sideways course. Desktop: the row pins and travels horizontally while you
+ * keep scrolling down. Phones: no pinning — a native swipe row with snap.
+ */
+function SidewaysCourse({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLUListElement>(null);
+  const calm = useCalm();
+  const desktop = useDesktop();
+  const pinned = desktop && !calm;
+  const [distance, setDistance] = useState(0);
+
+  useEffect(() => {
+    const el = track.current;
+    if (!el || !pinned) return;
+    const measure = () => setDistance(Math.max(0, el.scrollWidth - window.innerWidth));
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [pinned]);
+
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const progress = useSpring(scrollYProgress, scrollSpring);
+  const x = useTransform(progress, (v) => -v * distance);
+
+  return (
+    <div ref={ref} className="relative mt-14" style={pinned ? { height: `calc(100svh + ${distance}px)` } : undefined}>
+      <div className={cn(pinned && 'sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pt-[calc(var(--header-h)+3.5rem)]')}>
+        <m.ul
+          ref={track}
+          className="no-scrollbar flex snap-x snap-mandatory gap-[clamp(1.25rem,3vw,2.5rem)] overflow-x-auto px-[var(--gutter)] md:w-max md:snap-none md:overflow-visible md:motion-reduce:w-auto md:motion-reduce:snap-x md:motion-reduce:overflow-x-auto"
+          style={pinned ? { x } : undefined}
+        >
+          {children}
+        </m.ul>
+      </div>
+    </div>
+  );
+}
+
+/** A dish in the downward courses: its photo opens like a blind, the words follow. */
+function DishRow({ item, index: i, fallback, labels }: { item: BoardItem; index: number; fallback: string; labels: BoardLabels }) {
+  const ref = useRef<HTMLLIElement>(null);
+  const seen = useInView(ref, { once: true, amount: 0.3 });
+  return (
+    <li
+      ref={ref}
+      id={item.slug}
+      className={cn('grid scroll-mt-40 gap-6 md:grid-cols-12 md:items-center md:gap-10', !item.available && 'opacity-55')}
+    >
+      <ClipReveal className={cn('aspect-[4/3] rounded-[20px] bg-bg-2 md:col-span-7', i % 2 === 1 && 'md:order-2 md:col-start-6')}>
+        <Parallax speed={-0.18} className="absolute inset-0">
+          <Img src={item.image ?? fallback} alt={item.name} fill sizes="(min-width: 768px) 56vw, 100vw" className="object-cover" />
+        </Parallax>
+        <Badges item={item} labels={labels} className="absolute left-4 top-4" />
+      </ClipReveal>
+      <div
+        className={cn(
+          'transition-[opacity,transform] delay-300 duration-[1100ms] ease-[var(--ease-out)]',
+          !seen && 'js:translate-y-12 js:opacity-0',
+          i % 2 === 1 ? 'md:order-1 md:col-span-4' : 'md:col-span-5 md:col-start-8',
+        )}
+      >
+        <DishText item={item} labels={labels} large />
+      </div>
+    </li>
   );
 }
 

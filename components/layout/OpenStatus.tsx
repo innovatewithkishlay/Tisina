@@ -47,17 +47,14 @@ export function OpenStatus({
 
   return (
     <p className={cn('label inline-flex items-center gap-2.5', className)} aria-live="polite">
+      {/* Open: the dot breathes slowly, like a candle seen through a window. */}
       <span
         aria-hidden="true"
         className={cn(
           'relative inline-block size-1.5 rounded-full',
-          status.state === 'open' ? 'bg-[#5f8a55]' : status.state === 'later_today' ? 'bg-accent' : 'bg-muted',
+          status.state === 'open' ? 'breathe bg-[#7fae72] shadow-[0_0_10px_2px_rgb(127_174_114/0.45)]' : status.state === 'later_today' ? 'bg-accent' : 'bg-muted',
         )}
-      >
-        {status.state === 'open' ? (
-          <span className="absolute inset-0 animate-ping rounded-full bg-[#5f8a55] opacity-60 motion-reduce:hidden" />
-        ) : null}
-      </span>
+      />
       {text}
     </p>
   );

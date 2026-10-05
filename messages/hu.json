@@ -37,7 +37,7 @@
   },
   "Home": {
     "eyebrow": "Opatička 14 · Felsőváros · Zágráb",
-    "heroLine": "Csendes étterem Zágráb Felsővárosában. Horvátország, lassan főzve — és tűzön.",
+    "heroLine": "Csendes étterem Zágráb Felsővárosában. Horvátország, *lassan* főzve — és *tűzön*.",
     "heroImageAlt": "Kézzel sodort fuži reszelt fekete szarvasgombával sötét kerámiatálban, gyertyák és borospoharak egy fa asztalon",
     "ctaBook": "Asztalfoglalás",
     "ctaMenu": "Az étlap",
@@ -50,23 +50,26 @@
         "region": "Isztria",
         "dish": "Fuži, fekete szarvasgomba",
         "body": "Ősszel a Mirna-völgy szarvasgombászai elküldik nekünk, amit a kutyák azon a héten találtak. Az asztalnál reszeljük, aznap reggel kézzel sodort tésztára.",
-        "alt": "Friss tésztaszalagok fekete szarvasgomba-szeletek alatt, sötét tányéron"
+        "alt": "Friss tésztaszalagok fekete szarvasgomba-szeletek alatt, sötét tányéron",
+        "ring": "Isztria · Fuzsi · Fekete szarvasgomba · Mirna-völgy · "
       },
       "dalmacija": {
         "region": "Dalmácia",
         "dish": "Pašticada",
         "body": "Két nap borban és ecetben, hat óra a fazékban prošekkel és aszalt szilvával. A recept egy spliti nagymamától származik, a türelem a miénk.",
-        "alt": "Burgonyával párolt marha sötétbarna mártásban, sötét tálban"
+        "alt": "Burgonyával párolt marha sötétbarna mártásban, sötét tálban",
+        "ring": "Dalmácia · Pašticada · Hat óra · Split · "
       },
       "jadran": {
         "region": "Az Adria",
         "dish": "Tonhal, nyersen",
         "body": "Vis szigeténél horoggal fogva, rendelésre vágva, alig többel ízesítve, mint isztriai olaj és néhány, a szigeti falakról szedett kapribogyó.",
-        "alt": "Tonhaltatár ropogós salottával, könnyű chilis mártáson"
+        "alt": "Tonhaltatár ropogós salottával, könnyű chilis mártáson",
+        "ring": "Az Adria · Tonhal · Horgászott, Vis mellől · "
       }
     },
     "signatureLabel": "A ház fogása",
-    "signatureNote": "Az első este óta az étlapon. Az utolsón is ott lesz.",
+    "signatureNote": "Az első este óta az étlapon. Az *utolsón* is ott lesz.",
     "definitionWord": "tišina",
     "definitionPron": "/ˈti.ʃi.na/",
     "definitionKind": "főnév, horvát",
@@ -125,7 +128,10 @@
     },
     "videoPause": "Videó szüneteltetése",
     "videoPlay": "Videó lejátszása",
-    "menuRollHint": "Görgessen az étlapon"
+    "menuRollHint": "Görgessen az étlapon",
+    "signatureStamp": "Az első este óta · Peka alatt · Két főre · ",
+    "galleryClose": "Bezárás",
+    "swipe": "Lapozz"
   },
   "Story": {
     "eyebrow": "Történetünk",
@@ -408,6 +414,9 @@
     "loading": "Betöltés…",
     "call": "Hívás",
     "email": "E-mail",
-    "instagram": "Instagram"
+    "instagram": "Instagram",
+    "cursorView": "Megnéz",
+    "cursorDrag": "Húzd",
+    "cursorReserve": "Foglalás"
   }
 }

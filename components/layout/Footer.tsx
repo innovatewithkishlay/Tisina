@@ -1,26 +1,28 @@
 import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
-import { Magnetic } from '@/components/motion/Magnetic';
 import { intlLocale, type Locale } from '@/config/locales';
 import { siteConfig } from '@/config/site';
 import { getHours, getRestaurant } from '@/lib/data/restaurant';
 import { formatTime, regionName, telHref, weekdayName } from '@/lib/format';
 import { openStatus, weeklyTable } from '@/lib/hours';
-import { Logo } from '@/components/brand/Logo';
+import { images } from '@/content/images';
+import { FooterBackdrop, FooterBook, FooterCta, FooterMark, FooterReveal } from './FooterMotion';
 import { OpenStatus } from './OpenStatus';
 import { LocalClock } from './LocalClock';
 
 /**
- * Curtain footer: it sits under the page (sticky to the viewport bottom) and
- * is uncovered as the last section scrolls away. Hours are set like a menu
- * card; the wordmark closes the page at full width.
+ * Curtain footer: it sits under the page (sticky to the viewport bottom on
+ * desktop) and is uncovered as the last section scrolls away. The call to
+ * book rises letter by letter with the reveal, a candle glows faintly
+ * behind, and the full-width wordmark rises in last.
  */
 export async function Footer() {
   const locale = (await getLocale()) as Locale;
-  const [t, tNav, tHours, r, hours] = await Promise.all([
+  const [t, tNav, tHours, tCommon, r, hours] = await Promise.all([
     getTranslations('Footer'),
     getTranslations('Navigation'),
     getTranslations('Hours'),
+    getTranslations('Common'),
     getRestaurant(locale),
     getHours(),
   ]);
@@ -44,25 +46,19 @@ export async function Footer() {
   const directions = r.geo ? `https://www.google.com/maps/dir/?api=1&destination=${r.geo.lat},${r.geo.lng}` : r.mapsUrl;
 
   return (
+    <FooterReveal>
     <footer className="night relative z-0 flex min-h-[100svh] flex-col justify-between overflow-hidden pt-[calc(var(--header-h)+2rem)] lg:sticky lg:bottom-0 lg:h-[100svh]">
-      <div className="wrap shrink-0">
+      <FooterBackdrop src={images.room.src} />
+      <div className="wrap relative shrink-0">
         <div className="flex flex-col gap-8 border-b hairline pb-12 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p
-              className="font-display text-[clamp(2.75rem,7vw,6.5rem)] leading-[0.95] tracking-[-0.02em] [&_em]:text-accent"
-              dangerouslySetInnerHTML={{ __html: t.raw('ctaTitle') as string }}
+            <FooterCta
+              html={t.raw('ctaTitle') as string}
+              className="font-display text-[clamp(3rem,7.6vw,7.25rem)] leading-[0.95] tracking-[-0.02em]"
             />
             <p className="mt-4 text-lede text-fg-2">{t('ctaBody')}</p>
           </div>
-          <Magnetic className="w-fit" strength={0.25}>
-          <Link
-            href="/book"
-            className="btn-fill label inline-flex min-h-16 w-fit items-center gap-4 rounded-[var(--radius-pill)] bg-bone px-9 text-night transition-colors duration-[var(--dur-2)] [--btn-fill:var(--brand-ember-light)]"
-          >
-            {tNav('bookLong')}
-            <span aria-hidden="true">→</span>
-          </Link>
-          </Magnetic>
+          <FooterBook label={tNav('bookLong')} cursor={tCommon('cursorReserve')} />
         </div>
 
         <div className="grid gap-10 py-12 text-fg-2 sm:grid-cols-2 lg:grid-cols-12">
@@ -114,8 +110,8 @@ export async function Footer() {
         </div>
       </div>
 
-      <div className="wrap flex flex-1 flex-col justify-end min-h-0 overflow-hidden">
-        <Logo className="w-full h-auto max-h-[30vh] shrink text-bone mt-auto" title={r.name} />
+      <div className="wrap relative flex min-h-0 flex-1 flex-col justify-end overflow-hidden">
+        <FooterMark title={r.name} className="mt-auto max-h-[30vh] flex-1 pt-6" />
         <div className="flex shrink-0 flex-col gap-4 border-t hairline py-6 text-small text-muted md:flex-row md:items-center md:justify-between mt-8">
           <nav aria-label={t('explore')}>
             <ul className="flex flex-wrap gap-x-6 gap-y-2">
@@ -149,5 +145,6 @@ export async function Footer() {
         </div>
       </div>
     </footer>
+    </FooterReveal>
   );
 }

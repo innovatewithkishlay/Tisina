@@ -54,20 +54,27 @@ Adriatic konoba (HR/EN/DE) or a Budapest bistro (HU/EN, HUF).
 | Data | Supabase (Postgres + RLS + RPC), with bundled content as an offline fallback |
 | Email | SMTP via Nodemailer (any provider) |
 | Validation | Zod on the server, re-validated inside Postgres |
-| Motion | GSAP + ScrollTrigger for scroll choreography, Framer Motion (`motion`) for interaction — cursor, magnetic buttons, page curtain, spring tilt, ticket roll — Lenis for smooth scrolling, CSS for load reveals and the React `<ViewTransition>`. Everything is switched off under `prefers-reduced-motion`. |
+| Motion | Motion (`motion/react`: useScroll, useTransform, useSpring, useVelocity, useInView, layoutId) for all scroll choreography and interaction, Lenis for smooth scrolling on desktop only, CSS transitions for one-shot reveals. No GSAP. Everything is switched off under `prefers-reduced-motion`. |
 
 Pages: **Home**, **Menu**, **Story**, **Visit** (location, hours, FAQ), **Reserve**, **Contact** and
 **Privacy**. There is also a localized 404, an error boundary, a sitemap, robots.txt, llms.txt, a
 web manifest and per-locale Open Graph images.
 
-Measured with Lighthouse (mobile, simulated slow 4G) on a production build, after the motion
-redesign. Scores vary by a few points between runs:
+Measured with Lighthouse (mobile, simulated slow 4G) on a production build, after the Motion-only
+scroll rebuild. Scores vary by several points between runs:
 
 | Page | Performance | Accessibility | Best practices | SEO |
 |---|---|---|---|---|
-| `/en` | 82–89 | 100 | 100 | 100 |
-| `/en/menu` | 85 | 100 | 100 | 100 |
-| `/en/book` | 84 | 100 | 100 | 100 |
+| `/en` (first visit, with the intro) | 73–85 | 93 | 100 | 100 |
+| `/en` (repeat visit, no intro) | 86–87 | 93 | 100 | 100 |
+| `/en/menu` | 81 | 97 | 100 | 100 |
+| `/en/book` | 83 | 97 | 100 | 100 |
+
+Observed (unthrottled) LCP is ~0.3 s and TBT stays under 100 ms. The simulated LCP (~4 s) is
+dominated by the ~300 KB of JavaScript (React, Next, Motion) that Lighthouse counts because it
+finishes before the headline paints. The accessibility deduction on the home page is the
+manifesto's scrubbed words, which start at 15% ink by design (the full sentence is also in the
+DOM for screen readers).
 
 The home page streams a 1.2 MB (phones) or 3.8 MB (desktop) film. Only one file is loaded, and
 only after the page has finished loading. Its poster and every photograph paint first with a
@@ -96,7 +103,7 @@ components/
   visit/               OpeningHours, Location, Faq
   booking/ contact/    BookingForm (+ live ticket stub), FireFilm, ContactForm
   ui/                  Button, Field, Img (blur placeholders), Kicker, Reveal/Words, PageHeader
-  motion/              SmoothScroll (Lenis), gsap.ts, RevealObserver
+  motion/              Motion primitives (SplitReveal, ClipReveal, Parallax, Counter, CircularText…), SmoothScroll (Lenis), Intro, Cursor
 app/admin/             staff panel: /admin/login and /admin (not localized, noindex)
 config/
   site.ts              ← brand name, enabled locales, nav, revalidation
@@ -360,21 +367,29 @@ After adding or replacing any image in `public/images`, run `npm run media:blur`
 
 ### Motion
 
-Two libraries, two jobs. **GSAP** owns everything tied to scroll position (pins, scrubbed
-reveals, horizontal sections). **Framer Motion** (`motion/react`, loaded through `LazyMotion` in
-`components/motion/MotionProvider.tsx`) owns interaction: the spring cursor (`Cursor.tsx`, mouse
-only), magnetic call-to-action buttons (`Magnetic.tsx`), the page curtain on in-site navigation
-(`app/[locale]/template.tsx`, never on first load), the spring tilt on menu photos and the
-rolling values on the booking ticket. `MotionConfig reducedMotion="user"` turns it off for
-visitors who ask for less motion.
+One library for movement: **Motion** (`motion/react`, loaded through `LazyMotion` +
+`domAnimation`; the gallery lightbox loads `domMax` on demand for its `layoutId` morph). Tokens
+live in `lib/motion.ts`: `ease.out` [0.16, 1, 0.3, 1] for reveals, `ease.inOut` [0.76, 0, 0.24, 1]
+for curtains and wipes, durations 0.4/0.9/1.4 s, and a damped scroll spring.
 
+Primitives in `components/motion/`:
 
-Scroll choreography uses GSAP ScrollTrigger inside `useGSAP` (scoped and cleaned up on
-navigation). Lenis smooths the scroll and drives ScrollTrigger from GSAP's ticker
-(`components/motion/SmoothScroll.tsx`). With `prefers-reduced-motion`, Lenis is not started, every
-GSAP block returns early, CSS animations collapse and the hero video stays on its poster. Most movement is vertical (sticky sections, parallax columns), with pinned sideways sequences
-for the kitchen story and every other menu course; the courses in between stack downwards in
-alternating photo/text rows.
+| Component | What it does |
+|---|---|
+| `SplitReveal` | Masked lines/words/chars that rise into place. Modes: `trigger` (once, in view), `load` (CSS only, above the fold), `scrub` (tied to scroll). `*word*` sets the italic voice. |
+| `ClipReveal` | A blind rising off a photo (`clip-path`) while the photo settles from 1.25×. |
+| `Parallax` | Moves a picture inside a still, clipped frame (no layout shift; half travel on phones). |
+| `Counter` | Odometer roll-up of the digits in a value like "48 h" or "34 €". |
+| `CircularText` | A turning ring of text; idle spin on the compositor, wound up by scroll velocity. |
+| `Magnetic`, `Cursor` | Desktop only: magnetic calls to action and a labelled cursor (`data-cursor="View"`). |
+| `Intro` | First-visit overture (once per session): the wordmark rises letter by letter, the háček drops, the curtain lifts. 1.8 s, CSS only. |
+
+`SmoothScroll.tsx` runs Lenis (lerp 0.08) only for mouse/trackpad users; touch screens keep
+native scrolling. Pinned and horizontal sequences only exist from 768 px up; phones get native
+swipe carousels with scroll-snap. One-shot reveals are CSS transitions switched by a `data-in`
+attribute, and their hidden start states only apply under `html.js`, so the page reads complete
+without JavaScript. With `prefers-reduced-motion` everything is still and instantly readable.
+
 ## 13. How to change the menu
 
 **Live restaurant:** edit rows in Supabase (`menu_categories`, `menu_items` and their
