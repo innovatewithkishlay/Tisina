@@ -62,5 +62,5 @@ export const videos = {
       { src: '/media/hero-1080.mp4' },
     ],
   },
-  fire: { poster: '/images/kitchen/fire.jpg', src: '/media/fire-loop.mp4' },
+  table: { poster: '/images/photo/table-poster.jpg', src: '/media/table-loop.mp4' },
 } as const;

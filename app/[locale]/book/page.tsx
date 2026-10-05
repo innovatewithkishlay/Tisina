@@ -9,7 +9,7 @@ import { breadcrumbJsonLd } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Kicker } from '@/components/ui/Kicker';
 import { Words } from '@/components/ui/Reveal';
-import { FireFilm } from '@/components/booking/FireFilm';
+import { AmbientFilm } from '@/components/booking/AmbientFilm';
 import { BookingForm } from '@/components/booking/BookingForm';
 import { ClientMessages } from '@/components/i18n/ClientMessages';
 import { ButtonA } from '@/components/ui/Button';
@@ -41,9 +41,9 @@ export default async function BookPage({ params }: PageProps<'/[locale]/book'>) 
         ])}
       />
       <div className="night lg:grid lg:grid-cols-2">
-        {/* The fire — pinned on the left while the form scrolls */}
+        {/* The set table — pinned on the left while the form scrolls */}
         <section className="relative flex h-[78svh] min-h-[34rem] flex-col justify-end overflow-hidden lg:sticky lg:top-0 lg:h-[100svh]">
-          <FireFilm poster={videos.fire.poster} src={videos.fire.src} />
+          <AmbientFilm poster={videos.table.poster} src={videos.table.src} />
           <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgb(15_13_11/0.55),transparent_35%,rgb(15_13_11/0.85))]" />
           <div className="relative px-[var(--gutter)] pb-10 lg:pb-14">
             <Kicker className="rise text-bone/80">{t('eyebrow')}</Kicker>

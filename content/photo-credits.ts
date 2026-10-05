@@ -263,6 +263,12 @@ export const photoCredits: PhotoCredit[] = [
     "source": "https://commons.wikimedia.org/wiki/File:Peljesac_south_coast.jpg"
   },
   {
+    "file": "table-poster.jpg",
+    "author": "Freepik",
+    "license": "Freepik free licence (video: public/media/table-loop.mp4)",
+    "source": "https://www.freepik.com"
+  },
+  {
     "file": "wine-decanter.jpg",
     "author": "Freepik",
     "license": "Freepik free licence",
