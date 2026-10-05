@@ -362,7 +362,11 @@ ffmpeg -i source.mp4 -an -vf "scale=-2:540,format=yuv420p"  -c:v libx264 -crf 28
 ffmpeg -ss 2 -i source.mp4 -frames:v 1 -q:v 3 public/images/kitchen/poster.jpg
 ```
 
-After adding or replacing any image in `public/images`, run `npm run media:blur`. It regenerates
+After adding or replacing any image in `public/images`, run **`npm run media:optimize`** and commit
+`public/images/opt/`. It builds WebP copies at 640/1280/1920 px that `next/image` uses through a
+custom loader (`lib/image-loader.ts`), so photos are plain static files on any host. There is no
+on-demand optimizer and no quota: Vercel's Hobby plan limits image transformations, and past that
+limit new sizes stop loading. Then run `npm run media:blur`. It regenerates
 `content/blur.ts` with a tiny blurred preview of every photo, and `<Img>` uses it automatically.
 
 ### Motion
@@ -606,7 +610,7 @@ All photography is in `public/images/photo` (dishes, room, wine) and `public/ima
 
 Replace them with the restaurant's own photography before launch: real photos of real plates
 sell a table better than any stock. Keep the file names, or update `content/images.ts` and the
-menu item `image` paths, then run `npm run media:blur`.
+menu item `image` paths, then run `npm run media:optimize` and `npm run media:blur`.
 
 **Fetching photos in CI.** If your development machine can't reach image hosts,
 `.github/workflows/fetch-photos.yml` + `scripts/fetch-photos.mjs` can do it on GitHub Actions.
