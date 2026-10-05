@@ -364,7 +364,7 @@
     "ctaBody": "Achtundzwanzig Plätze, eine Sitzung, keine Eile.",
     "localTime": "Jetzt in {city}",
     "directions": "Route",
-    "photoCredit": "Fotos: Freepik, Openverse (CC0)"
+    "photoCredit": "Bildnachweise"
   },
   "Privacy": {
     "eyebrow": "Datenschutz",
@@ -391,7 +391,8 @@
         "title": "Ihre Rechte",
         "body": "Sie können Auskunft, Berichtigung oder Löschung Ihrer Daten verlangen oder der Verwendung widersprechen – schreiben Sie an {email}. Außerdem können Sie sich bei der kroatischen Datenschutzbehörde (AZOP) beschweren."
       }
-    ]
+    ],
+    "creditsTitle": "Bildnachweise"
   },
   "NotFound": {
     "title": "Diese Seite steht nicht auf der Karte.",

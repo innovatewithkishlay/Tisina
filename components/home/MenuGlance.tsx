@@ -14,13 +14,11 @@ export function MenuGlance({
   label,
   title,
   cta,
-  count,
   courses,
 }: {
   label: string;
   title: string;
   cta: string;
-  count: string;
   courses: { slug: string; name: string }[];
 }) {
   const root = useRef<HTMLElement>(null);
@@ -46,7 +44,6 @@ export function MenuGlance({
             {title}
           </h2>
         </div>
-        <p className="index text-h3 text-muted">{count}</p>
       </div>
 
       <nav aria-label={label} className="mt-16 space-y-2">

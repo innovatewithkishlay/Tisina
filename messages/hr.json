@@ -364,7 +364,7 @@
     "ctaBody": "Dvadeset i osam mjesta, jedna smjena, bez žurbe.",
     "localTime": "Lokalno vrijeme · {city}",
     "directions": "Upute",
-    "photoCredit": "Fotografije: Freepik, Openverse (CC0)"
+    "photoCredit": "Zasluge za fotografije"
   },
   "Privacy": {
     "eyebrow": "Privatnost",
@@ -391,7 +391,8 @@
         "title": "Vaša prava",
         "body": "Možete zatražiti uvid, ispravak ili brisanje podataka, ili prigovoriti njihovoj upotrebi, pišući na {email}. Prigovor možete podnijeti i Agenciji za zaštitu osobnih podataka (AZOP)."
       }
-    ]
+    ],
+    "creditsTitle": "Zasluge za fotografije"
   },
   "NotFound": {
     "title": "Ove stranice nema na jelovniku.",

@@ -16,8 +16,9 @@ export interface CraftPanel {
 
 /**
  * The one sideways moment on the page: the section pins and the kitchen story
- * travels horizontally as you keep scrolling down. Each photograph opens up
- * as it reaches the centre. Without motion it is a native swipeable row.
+ * travels horizontally as you keep scrolling down. Each photograph settles
+ * from a slight zoom as it reaches the centre. Without motion it is a native
+ * swipeable row.
  */
 export function CraftHorizontal({ label, title, panels }: { label: string; title: string; panels: CraftPanel[] }) {
   const root = useRef<HTMLElement>(null);
@@ -41,27 +42,13 @@ export function CraftHorizontal({ label, title, panels }: { label: string; title
           invalidateOnRefresh: true,
         },
       });
-      gsap.to('[data-craft-progress]', {
-        scaleX: 1,
-        ease: 'none',
-        scrollTrigger: { trigger: root.current, start: 'top top', end: () => `+=${distance()}`, scrub: true },
-      });
-      el.querySelectorAll<HTMLElement>('[data-craft-card]').forEach((card) => {
+      el.querySelectorAll<HTMLElement>('[data-craft-card] img').forEach((img) =>
         gsap.fromTo(
-          card.querySelector('[data-craft-media]'),
-          { clipPath: 'inset(12% 10% 12% 10% round 28px)' },
-          {
-            clipPath: 'inset(0% 0% 0% 0% round 28px)',
-            ease: 'none',
-            scrollTrigger: { trigger: card, containerAnimation: tween, start: 'left right', end: 'center center', scrub: true },
-          },
-        );
-        gsap.fromTo(
-          card.querySelector('img'),
-          { scale: 1.25, xPercent: 6 },
-          { scale: 1, xPercent: -6, ease: 'none', scrollTrigger: { trigger: card, containerAnimation: tween, start: 'left right', end: 'right left', scrub: true } },
-        );
-      });
+          img,
+          { scale: 1.18 },
+          { scale: 1, ease: 'none', scrollTrigger: { trigger: img, containerAnimation: tween, start: 'left right', end: 'center center', scrub: true } },
+        ),
+      );
     },
     { scope: root },
   );
@@ -82,25 +69,22 @@ export function CraftHorizontal({ label, title, panels }: { label: string; title
           </div>
 
           {panels.map((p) => (
-            <article key={p.key} data-craft-card className="flex w-[min(86vw,58rem)] shrink-0 snap-center flex-col gap-6 md:flex-row md:items-end md:gap-10">
-              <div data-craft-media className="relative aspect-[4/5] w-full overflow-hidden rounded-[28px] md:aspect-[4/5] md:w-[56%]">
-                <Img src={p.image} alt={p.alt} fill sizes="(min-width: 768px) 34rem, 86vw" className="object-cover grayscale-[35%]" />
+            <article key={p.key} data-craft-card className="w-[min(84vw,52rem)] shrink-0 snap-center">
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[22px] bg-night-2">
+                <Img src={p.image} alt={p.alt} fill sizes="(min-width: 768px) 52rem, 84vw" className="object-cover" />
               </div>
-              <div className="md:w-[44%] md:pb-4">
-                <p className="font-display text-[clamp(3.5rem,8vw,7.5rem)] leading-none tracking-[-0.03em] text-accent">{p.figure}</p>
-                <h3 className="font-display mt-3 text-h3 italic">{p.title}</h3>
-                <p className="mt-4 max-w-[34ch] text-fg-2">{p.body}</p>
+              <div className="mt-6 grid gap-x-8 gap-y-2 sm:grid-cols-[auto_1fr] sm:items-baseline">
+                <p className="font-display text-[clamp(2.75rem,5vw,4.5rem)] italic leading-none text-accent">{p.figure}</p>
+                <div>
+                  <h3 className="font-display text-h3">{p.title}</h3>
+                  <p className="mt-2 max-w-[44ch] text-fg-2">{p.body}</p>
+                </div>
               </div>
             </article>
           ))}
           <div className="w-[8vw] shrink-0" aria-hidden="true" />
         </div>
 
-        <div className="wrap mt-10 w-full motion-reduce:hidden" aria-hidden="true">
-          <div className="h-px w-full bg-white/15">
-            <div data-craft-progress className="h-px origin-left scale-x-0 bg-accent" />
-          </div>
-        </div>
       </div>
     </section>
   );

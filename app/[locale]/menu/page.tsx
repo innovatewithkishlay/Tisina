@@ -29,7 +29,7 @@ const DIETARY = ['vegetarian', 'vegan', 'gluten_free', 'dairy_free', 'pescataria
  * Dishes with their own photo override it while they are in view.
  */
 const COURSE_IMAGES = images.courses;
-const COURSE_FALLBACK = images.kitchen.hands.src;
+const COURSE_FALLBACK = images.room.src;
 const HERO_PLATES = [
   '/images/photo/oysters.jpg',
   images.hero.src,
@@ -67,7 +67,6 @@ export default async function MenuPage({ params }: PageProps<'/[locale]/menu'>) 
       dietary: i.dietary,
     })),
   }));
-  const dishCount = categories.reduce((n, c) => n + c.items.length, 0);
 
   return (
     <>
@@ -83,7 +82,6 @@ export default async function MenuPage({ params }: PageProps<'/[locale]/menu'>) 
         eyebrow={t('eyebrow')}
         title={t('title')}
         lede={t('lede', { currency: r.currency })}
-        count={(dishCount === 1 ? t('countOne') : t('countOther')).replace('#', String(dishCount))}
         plates={HERO_PLATES.map((src) => ({ src, alt: t('plateAlt') }))}
       />
 

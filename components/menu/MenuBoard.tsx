@@ -49,9 +49,11 @@ export interface BoardLabels {
 type Filter = DietaryTag | 'all';
 
 /**
- * The menu, photograph first. Every course opens on a wide image with its name
- * set into it; dishes that have a photo are shown as image cards, the rest as
- * a quiet list beneath. A sticky bar jumps between courses and filters by diet.
+ * The menu, course by course. Each course opens with its name and a wide
+ * photograph; then its dishes — every one with a picture — either travel
+ * sideways while the section is pinned (odd courses) or stack downwards in
+ * alternating rows (even courses), so the page changes direction as you read.
+ * A sticky bar jumps between courses and filters by diet.
  */
 export function MenuBoard({ categories, labels }: { categories: BoardCategory[]; labels: BoardLabels }) {
   const root = useRef<HTMLDivElement>(null);
@@ -77,55 +79,54 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
       if (!el) return;
       el.querySelectorAll<HTMLElement>('[data-cat]').forEach((section) => {
         const i = Number(section.dataset.cat);
-        ScrollTrigger.create({ trigger: section, start: 'top 45%', end: 'bottom 45%', onToggle: (self) => self.isActive && setActiveCat(i) });
+        // Measured after the pinned sideways sections have added their scroll distance.
+        ScrollTrigger.create({ trigger: section, start: 'top 45%', end: 'bottom 45%', refreshPriority: -1, onToggle: (self) => self.isActive && setActiveCat(i) });
       });
       if (reducedMotion()) return;
-      // Course photo: lies tilted back in 3D and swings flat as it reaches you.
+
+      // Course name: words rise from behind a mask.
+      el.querySelectorAll<HTMLElement>('[data-course-title]').forEach((title) =>
+        gsap.from(title.querySelectorAll('[data-w]'), {
+          yPercent: 110,
+          duration: 1.2,
+          stagger: 0.08,
+          ease: 'expo.out',
+          scrollTrigger: { trigger: title, start: 'top 85%' },
+        }),
+      );
+      // Course photo opens from a band in the middle and settles from a zoom.
       el.querySelectorAll<HTMLElement>('[data-cover]').forEach((cover) => {
         gsap.fromTo(
           cover,
-          { rotateX: 38, scale: 0.82, yPercent: 8, transformOrigin: '50% 100%' },
-          { rotateX: 0, scale: 1, yPercent: 0, ease: 'none', scrollTrigger: { trigger: cover, start: 'top bottom', end: 'top 25%', scrub: true } },
+          { clipPath: 'inset(22% 8% 22% 8% round 22px)' },
+          { clipPath: 'inset(0% 0% 0% 0% round 22px)', ease: 'none', scrollTrigger: { trigger: cover, start: 'top 95%', end: 'top 35%', scrub: true } },
         );
-        gsap.fromTo(
-          cover.querySelector('img'),
-          { scale: 1.25 },
-          { scale: 1, ease: 'none', scrollTrigger: { trigger: cover, start: 'top bottom', end: 'bottom top', scrub: true } },
-        );
+        gsap.fromTo(cover.querySelector('img'), { scale: 1.3 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: cover, start: 'top bottom', end: 'bottom top', scrub: true } });
       });
-      // Course names: letters rise one after another on the way in.
-      el.querySelectorAll<HTMLElement>('[data-course-title]').forEach((title) =>
+      // Sideways courses: pin and move the row of dishes horizontally.
+      el.querySelectorAll<HTMLElement>('[data-hscroll]').forEach((wrap) => {
+        const track = wrap.querySelector<HTMLElement>('[data-track]');
+        if (!track) return;
+        const distance = () => Math.max(0, track.scrollWidth - wrap.clientWidth);
+        gsap.to(track, {
+          x: () => -distance(),
+          ease: 'none',
+          scrollTrigger: { trigger: wrap, start: 'center center', end: () => `+=${distance()}`, pin: true, scrub: 0.5, invalidateOnRefresh: true },
+        });
+      });
+      // Downward courses: each row's photo slides up into its frame.
+      el.querySelectorAll<HTMLElement>('[data-row]').forEach((row) => {
         gsap.fromTo(
-          title.querySelectorAll('[data-ch]'),
-          { yPercent: 105, rotate: 4 },
-          { yPercent: 0, rotate: 0, stagger: 0.025, ease: 'none', scrollTrigger: { trigger: title, start: 'top 92%', end: 'top 55%', scrub: true } },
-        ),
-      );
-      // Dish cards fly in from depth, turned, and settle flat.
-      ScrollTrigger.batch(el.querySelectorAll('[data-reveal-card]'), {
-        start: 'top 92%',
-        once: true,
-        onEnter: (batch) =>
-          gsap.fromTo(
-            batch,
-            { opacity: 0, rotateY: -28, rotateX: 12, z: -260, y: 80 },
-            { opacity: 1, rotateY: 0, rotateX: 0, z: 0, y: 0, duration: 1.4, stagger: 0.12, ease: 'expo.out', clearProps: 'transform' },
-          ),
+          row.querySelector('[data-row-media]'),
+          { clipPath: 'inset(100% 0% 0% 0% round 20px)' },
+          { clipPath: 'inset(0% 0% 0% 0% round 20px)', duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: row, start: 'top 80%' } },
+        );
+        gsap.fromTo(row.querySelector('[data-row-media] img'), { yPercent: -8 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: row, start: 'top bottom', end: 'bottom top', scrub: true } });
+        gsap.from(row.querySelector('[data-row-text]'), { y: 50, opacity: 0, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: row, start: 'top 75%' } });
       });
     },
-    { scope: root, dependencies: [categories] },
+    { scope: root, dependencies: [categories, filter], revertOnUpdate: true },
   );
-
-  const changeFilter = (f: Filter) => {
-    setFilter(f);
-    requestAnimationFrame(() => {
-      root.current?.querySelectorAll<HTMLElement>('[data-reveal-card]').forEach((r) => {
-        r.style.opacity = '';
-        r.style.transform = '';
-      });
-      ScrollTrigger.refresh();
-    });
-  };
 
   const jump = (slug: string) => {
     const target = document.getElementById(`c-${slug}`);
@@ -136,6 +137,9 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
   };
 
   const current = visible[activeCat] ?? visible[0];
+  // Alternate direction over the courses that are actually shown.
+  const direction = new Map<string, boolean>();
+  visible.filter((c) => c.items.length > 0).forEach((c, i) => direction.set(c.slug, i % 2 === 0 && c.items.length > 1));
 
   return (
     <div ref={root} className="paper relative pb-[var(--section)]">
@@ -146,9 +150,9 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
             type="button"
             popoverTarget="menu-courses"
             aria-label={`${labels.jumpTo}: ${current?.name ?? ''}`}
-            className="label flex min-h-11 shrink-0 items-center gap-2.5 rounded-full bg-fg px-4 text-bg transition-colors hover:bg-accent"
+            className="label flex min-h-11 shrink-0 items-center gap-2.5 rounded-full bg-fg px-4 text-bg transition-colors hover:bg-accent hover:text-on-accent"
           >
-            <span className="max-w-[8.5rem] truncate sm:max-w-[14rem]">{current?.name}</span>
+            <span className="max-w-[9rem] truncate sm:max-w-[14rem]">{current?.name}</span>
             <svg viewBox="0 0 10 6" className="size-2.5" aria-hidden="true">
               <path d="M1 1 L5 5 L9 1" fill="none" stroke="currentColor" strokeWidth="1.4" />
             </svg>
@@ -159,7 +163,7 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
                 key={f}
                 type="button"
                 aria-pressed={filter === f}
-                onClick={() => changeFilter(f)}
+                onClick={() => setFilter(f)}
                 className={cn(
                   'label min-h-11 shrink-0 border-b-[1.5px] transition-colors duration-300',
                   filter === f ? 'border-accent text-accent' : 'border-transparent text-fg-2 hover:text-fg',
@@ -177,73 +181,62 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
       </p>
 
       {visible.map((c, ci) => {
-        const pictured = c.items.filter((i) => i.image);
-        const listed = c.items.filter((i) => !i.image);
-        if (c.items.length === 0 && filter !== 'all') return null;
+        if (c.items.length === 0) return null;
+        const sideways = direction.get(c.slug) ?? false;
         return (
-          <section key={c.slug} id={`c-${c.slug}`} data-cat={ci} aria-labelledby={`h-${c.slug}`} className="scroll-mt-36 pt-[clamp(4rem,9vw,8rem)]">
-            {/* Course name, then its photograph — nothing laid over the picture */}
+          <section key={c.slug} id={`c-${c.slug}`} data-cat={ci} aria-labelledby={`h-${c.slug}`} className="scroll-mt-36 pt-[clamp(5rem,10vw,9rem)]">
             <div className="wrap">
-              <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
-                <h2 id={`h-${c.slug}`} data-course-title className="font-display text-[clamp(3.5rem,13vw,13rem)] leading-[0.82]">
-                  <span className="sr-only">{c.name}</span>
-                  <span aria-hidden="true" className="inline-flex flex-wrap overflow-hidden pb-[0.04em]">
-                    {Array.from(c.name).map((ch, i) => (
-                      <span key={i} data-ch className="inline-block">
-                        {ch === ' ' ? '\u00a0' : ch}
-                      </span>
-                    ))}
-                  </span>
+              <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+                <h2 id={`h-${c.slug}`} data-course-title className="font-display text-[clamp(3.25rem,8vw,8.5rem)] leading-[0.95] tracking-[-0.03em] lg:col-span-8">
+                  {c.name.split(' ').map((w, i) => (
+                    <span key={i} className="mr-[0.22em] inline-block overflow-hidden pb-[0.08em] align-bottom last:mr-0">
+                      <span data-w className={cn('inline-block', i % 2 === 1 && 'italic')}>{w}</span>
+                    </span>
+                  ))}
                 </h2>
-                <div className="pb-[0.6em] text-right">
-                  <p className="label text-accent">{(c.items.length === 1 ? labels.countOne : labels.countOther).replace('#', String(c.items.length))}</p>
-                  {c.description ? <p className="font-serif mt-2 max-w-[34ch] text-lede italic text-fg-2">{c.description}</p> : null}
-                </div>
+                {c.description ? (
+                  <p className="font-display max-w-[32ch] text-[clamp(1.25rem,1.8vw,1.625rem)] italic leading-[1.35] text-fg-2 lg:col-span-4 lg:pb-3">{c.description}</p>
+                ) : null}
               </div>
-              <div className="mt-8 [perspective:1400px]">
-                <div data-cover className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-bg-2 will-change-transform sm:aspect-[16/9] lg:aspect-[21/9]">
-                  <Img src={c.image} alt="" fill sizes="(min-width: 1536px) 92rem, 100vw" className="object-cover" />
-                </div>
+              <div data-cover className="relative mt-10 aspect-[4/3] overflow-hidden rounded-[22px] bg-bg-2 sm:aspect-[16/9] lg:aspect-[21/9]">
+                <Img src={c.image} alt="" fill sizes="(min-width: 1536px) 92rem, 100vw" className="object-cover" />
               </div>
             </div>
 
-            {/* Dishes with photographs */}
-            {pictured.length ? (
-              <ul className={cn('wrap mt-14 grid gap-x-8 gap-y-16 [perspective:1600px]', pictured.length === 2 ? 'sm:grid-cols-2' : pictured.length > 2 && 'sm:grid-cols-2 lg:grid-cols-3')}>
-                {pictured.map((item) => (
+            {sideways ? (
+              <div data-hscroll className="mt-14 overflow-hidden">
+                <ul data-track className="flex w-max gap-[clamp(1.25rem,3vw,2.5rem)] px-[var(--gutter)] motion-reduce:w-auto motion-reduce:overflow-x-auto">
+                  {c.items.map((item) => (
+                    <li key={item.slug} id={item.slug} className={cn('w-[min(78vw,26rem)] shrink-0 scroll-mt-40', !item.available && 'opacity-55')}>
+                      <TiltFrame className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-bg-2">
+                        <Img src={item.image ?? c.image} alt={item.name} fill sizes="(min-width: 768px) 26rem, 78vw" className="object-cover" />
+                        <Badges item={item} labels={labels} className="absolute left-4 top-4" />
+                      </TiltFrame>
+                      <DishText item={item} labels={labels} className="mt-5" />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <ul className="wrap mt-16 space-y-[clamp(3.5rem,7vw,6rem)]">
+                {c.items.map((item, i) => (
                   <li
                     key={item.slug}
                     id={item.slug}
-                    data-reveal-card
-                    className={cn('group scroll-mt-40', pictured.length === 1 && 'md:grid md:grid-cols-[1.25fr_1fr] md:items-end md:gap-12', !item.available && 'opacity-55')}
+                    data-row
+                    className={cn('grid scroll-mt-40 gap-6 md:grid-cols-12 md:items-center md:gap-10', !item.available && 'opacity-55')}
                   >
-                    <TiltFrame className={cn('relative overflow-hidden rounded-[20px] bg-bg-2', pictured.length === 1 ? 'aspect-[4/3]' : 'aspect-[4/5]')}>
-                      <Img
-                        src={item.image!}
-                        alt={item.name}
-                        fill
-                        sizes={pictured.length === 1 ? '(min-width: 768px) 55vw, 100vw' : '(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 100vw'}
-                        className="object-cover transition-transform duration-[1400ms] ease-[var(--ease-out)] group-hover:scale-[1.06]"
-                      />
+                    <div data-row-media className={cn('relative aspect-[4/3] overflow-hidden rounded-[20px] bg-bg-2 md:col-span-7', i % 2 === 1 && 'md:order-2 md:col-start-6')}>
+                      <Img src={item.image ?? c.image} alt={item.name} fill sizes="(min-width: 768px) 56vw, 100vw" className="object-cover" />
                       <Badges item={item} labels={labels} className="absolute left-4 top-4" />
-                    </TiltFrame>
-                    <DishText item={item} labels={labels} className={cn('mt-5', pictured.length === 1 && 'md:mt-0 md:pb-4')} />
+                    </div>
+                    <div data-row-text className={cn('md:col-span-5', i % 2 === 1 ? 'md:order-1 md:col-span-4' : 'md:col-start-8 md:col-span-5')}>
+                      <DishText item={item} labels={labels} large />
+                    </div>
                   </li>
                 ))}
               </ul>
-            ) : null}
-
-            {/* Everything else, as a list */}
-            {listed.length ? (
-              <ul className="wrap mt-14 grid gap-x-16 [perspective:1600px] md:grid-cols-2">
-                {listed.map((item) => (
-                  <li key={item.slug} id={item.slug} data-reveal-card className={cn('scroll-mt-40 border-t hairline py-7', !item.available && 'opacity-55')}>
-                    <Badges item={item} labels={labels} className="mb-3" />
-                    <DishText item={item} labels={labels} />
-                  </li>
-                ))}
-              </ul>
-            ) : null}
+            )}
           </section>
         );
       })}
@@ -258,13 +251,13 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
       >
         <ol>
           {visible.map((c, i) => (
-            <li key={c.slug} className={cn(c.items.length === 0 && filter !== 'all' && 'hidden')}>
+            <li key={c.slug} className={cn(c.items.length === 0 && 'hidden')}>
               <button
                 type="button"
                 onClick={() => jump(c.slug)}
-                className={cn('flex min-h-11 w-full items-baseline gap-4 rounded-xl px-3 py-2 text-left transition-colors hover:bg-white/5', i === activeCat && 'text-accent')}
+                className={cn('flex min-h-11 w-full items-center gap-4 rounded-xl px-3 py-2 text-left transition-colors hover:bg-white/5', i === activeCat && 'text-accent')}
               >
-                <span className="font-display text-[1.75rem] leading-none">{c.name}</span>
+                <span className="font-display text-[1.6rem] leading-tight">{c.name}</span>
                 {i === activeCat ? <Hacek className="ml-auto h-2" /> : null}
               </button>
             </li>
@@ -275,15 +268,15 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
   );
 }
 
-function DishText({ item, labels, className }: { item: BoardItem; labels: BoardLabels; className?: string }) {
+function DishText({ item, labels, className, large }: { item: BoardItem; labels: BoardLabels; className?: string; large?: boolean }) {
   return (
     <div className={className}>
       <div className="flex items-baseline">
-        <h3 className="font-serif text-[clamp(1.5rem,2.2vw,2rem)] italic leading-[1.1]">{item.name}</h3>
+        <h3 className={cn('font-display leading-[1.08]', large ? 'text-[clamp(2rem,3.4vw,3.25rem)]' : 'text-[clamp(1.5rem,2.2vw,2rem)]')}>{item.name}</h3>
         <span className="leader" aria-hidden="true" />
-        <p className={cn('font-display whitespace-nowrap text-[1.75rem] leading-none', item.marketPrice && 'font-serif text-[1.0625rem] italic normal-case text-fg-2')}>{item.price}</p>
+        <p className={cn('font-display whitespace-nowrap italic leading-none text-accent', large ? 'text-[1.875rem]' : 'text-[1.5rem]', item.marketPrice && 'text-[1.0625rem] text-fg-2')}>{item.price}</p>
       </div>
-      {item.description ? <p className="mt-2 max-w-[48ch] text-fg-2">{item.description}</p> : null}
+      {item.description ? <p className={cn('mt-3 max-w-[46ch] text-fg-2', large && 'text-lede')}>{item.description}</p> : null}
       {item.dietary.length || item.allergens.length ? (
         <dl className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-small text-muted">
           {item.dietary.length ? (

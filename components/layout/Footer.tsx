@@ -138,7 +138,10 @@ export async function Footer() {
             </ul>
           </nav>
           <p>
-            {t('rights', { year, name: r.name })} <span aria-hidden="true">·</span> {t('madeBy')} <span aria-hidden="true">·</span> {t('photoCredit')}
+            {t('rights', { year, name: r.name })} <span aria-hidden="true">·</span> {t('madeBy')} <span aria-hidden="true">·</span>{' '}
+            <Link href={{ pathname: '/privacy', hash: 'credits' }} className="link-draw">
+              {t('photoCredit')}
+            </Link>
           </p>
         </div>
       </div>
