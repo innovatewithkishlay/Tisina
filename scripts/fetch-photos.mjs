@@ -12,26 +12,52 @@ async function download(url, file) {
   writeFileSync(file, Buffer.from(await res.arrayBuffer()));
 }
 
+// Candidate image URLs for a query: Unsplash's public search page first, then
+// Openverse (CC0 / public-domain only, so no attribution is needed).
+async function candidates(q) {
+  const found = [];
+  try {
+    const slug = q.query.trim().replace(/\s+/g, '-');
+    const page = await fetch(`https://unsplash.com/s/photos/${encodeURIComponent(slug)}${q.orientation ? `?orientation=${q.orientation}` : ''}`, {
+      headers: { ...HEADERS, accept: 'text/html' },
+    });
+    console.log('unsplash page', q.query, page.status);
+    if (page.ok) {
+      const html = await page.text();
+      const ids = [...new Set([...html.matchAll(/https:\/\/images\.unsplash\.com\/(photo-[\w-]+)/g)].map((m) => m[1]))];
+      for (const id of ids) found.push({ src: 'unsplash', id, url: `https://images.unsplash.com/${id}?ixlib=rb-4.0.3` });
+    }
+  } catch (e) { console.log('unsplash error', e.message); }
+  if (found.length < 6) {
+    try {
+      const params = new URLSearchParams({ q: q.query, license: 'cc0,pdm', page_size: '20', ...(q.orientation === 'landscape' ? { aspect_ratio: 'wide' } : {}) });
+      const res = await fetch(`https://api.openverse.org/v1/images/?${params}`, { headers: HEADERS });
+      console.log('openverse', q.query, res.status);
+      if (res.ok) for (const r of (await res.json()).results) found.push({ src: 'openverse', id: r.id, url: r.url, title: r.title, by: r.creator, license: r.license, w: r.width, h: r.height });
+    } catch (e) { console.log('openverse error', e.message); }
+  }
+  return found;
+}
+
 if (req.mode === 'search') {
   const out = '.image-review/candidates';
   mkdirSync(out, { recursive: true });
   const manifest = {};
   for (const [key, q] of Object.entries(req.queries)) {
-    const params = new URLSearchParams({ query: q.query, per_page: '20' });
-    if (q.orientation) params.set('orientation', q.orientation);
-    const res = await fetch(`https://unsplash.com/napi/search/photos?${params}`, { headers: HEADERS });
-    if (!res.ok) { console.log('search failed', key, res.status); manifest[key] = { error: res.status }; continue; }
-    const json = await res.json();
-    const free = json.results.filter((r) => !r.premium && !r.plus && r.urls.raw.startsWith('https://images.unsplash.com'));
+    const list = await candidates(q);
     manifest[key] = [];
     const tiles = [];
-    for (const [i, r] of free.slice(0, req.perQuery ?? 9).entries()) {
+    for (const c of list) {
+      if (manifest[key].length >= (req.perQuery ?? 9)) break;
+      const i = manifest[key].length;
       const file = `${out}/${key}-${i}.jpg`;
       try {
-        await download(`${r.urls.raw}&w=480&h=360&fit=crop&q=60&fm=jpg`, file);
-        manifest[key].push({ i, id: r.id, w: r.width, h: r.height, alt: r.alt_description, by: r.user?.name });
+        const url = c.src === 'unsplash' ? `${c.url}&w=480&h=360&fit=crop&q=60&fm=jpg` : c.url;
+        await download(url, file);
+        execFileSync('convert', [file, '-resize', '480x360^', '-gravity', 'center', '-extent', '480x360', file]);
+        manifest[key].push({ i, ...c });
         tiles.push('-label', `${i}`, file);
-      } catch (e) { console.log(e.message); }
+      } catch (e) { console.log('skip', e.message); }
     }
     if (tiles.length) {
       execFileSync('montage', [...tiles, '-tile', '3x', '-geometry', '480x360+4+4', '-pointsize', '28', '-background', '#222', '-fill', 'white', `.image-review/sheet-${key}.jpg`]);
@@ -42,12 +68,14 @@ if (req.mode === 'search') {
 }
 
 if (req.mode === 'fetch') {
-  for (const { id, file, w = 1800 } of req.photos) {
-    const res = await fetch(`https://unsplash.com/napi/photos/${id}`, { headers: HEADERS });
-    if (!res.ok) { console.log('photo failed', id, res.status); continue; }
-    const r = await res.json();
+  // photos: [{ url, file, w? }] — url as listed in manifest.json
+  for (const { url, file, w = 1800 } of req.photos) {
     mkdirSync(file.split('/').slice(0, -1).join('/'), { recursive: true });
-    await download(`${r.urls.raw}&w=${w}&q=82&fm=jpg`, file);
-    console.log('saved', file);
+    const full = url.startsWith('https://images.unsplash.com') ? `${url}&w=${w}&q=82&fm=jpg` : url;
+    try {
+      await download(full, file);
+      execFileSync('convert', [file, '-resize', `${w}x${w}>`, '-quality', '82', '-strip', file]);
+      console.log('saved', file);
+    } catch (e) { console.log('failed', file, e.message); }
   }
 }

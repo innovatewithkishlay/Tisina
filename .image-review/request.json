@@ -1,5 +1,5 @@
 {
-  "mode": "search",
+  "mode": "search", "run": 2,
   "perQuery": 9,
   "queries": {
     "truffle-pasta": { "query": "truffle pasta" },
