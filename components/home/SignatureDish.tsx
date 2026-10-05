@@ -22,62 +22,49 @@ interface SignatureDishProps {
  */
 export function SignatureDish({ label, name, description, note, price, image, cta }: SignatureDishProps) {
   const root = useRef<HTMLElement>(null);
-  const words = name.split(' ');
-  const half = Math.ceil(words.length / 2);
 
   useGSAP(
     () => {
       if (reducedMotion()) return;
-      const mm = gsap.matchMedia();
-      mm.add('(min-width: 768px)', () => {
-        const tl = gsap.timeline({
-          scrollTrigger: { trigger: root.current, start: 'top top', end: '+=120%', scrub: true, pin: '[data-sig-pin]' },
-        });
-        tl.fromTo('[data-sig-img]', { clipPath: 'inset(30% 34% 30% 34% round 24px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'power2.inOut' }, 0)
-          .fromTo('[data-sig-img] img', { scale: 1.35 }, { scale: 1, ease: 'power2.inOut' }, 0)
-          .to('[data-sig-left]', { xPercent: -60, opacity: 0, ease: 'power2.in' }, 0)
-          .to('[data-sig-right]', { xPercent: 60, opacity: 0, ease: 'power2.in' }, 0)
-          .fromTo('[data-sig-caption]', { opacity: 0, y: 40 }, { opacity: 1, y: 0, ease: 'power2.out' }, 0.55);
-      });
-      mm.add('(max-width: 767px)', () => {
-        gsap.fromTo('[data-sig-img]', { clipPath: 'inset(12% 10% 12% 10% round 20px)' }, {
-          clipPath: 'inset(0% 0% 0% 0% round 20px)',
+      gsap.fromTo(
+        '[data-parallax] img',
+        { yPercent: -10 },
+        {
+          yPercent: 10,
           ease: 'none',
-          scrollTrigger: { trigger: '[data-sig-img]', start: 'top 85%', end: 'top 25%', scrub: true },
-        });
-      });
+          scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: true },
+        }
+      );
     },
-    { scope: root },
+    { scope: root }
   );
 
   return (
-    <section ref={root} className="night relative" aria-labelledby="signature-title">
-      <div data-sig-pin className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden py-24 md:py-0">
-        <div className="wrap relative z-10 flex items-center justify-between md:absolute md:inset-x-0 md:top-[calc(var(--header-h)+1rem)]">
-          <Kicker>{label}</Kicker>
-          {price ? <p className="font-display text-h3 tabular-nums">{price}</p> : null}
+    <section ref={root} className="night relative flex min-h-[100svh] flex-col overflow-hidden py-24" aria-labelledby="signature-title">
+      <div className="absolute inset-0 z-0 overflow-hidden" data-parallax>
+        <Img src={image.src} alt={image.alt} fill sizes="100vw" className="object-cover scale-110" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-night/40" />
+      </div>
+
+      <div className="wrap relative z-10 flex flex-1 flex-col justify-end mt-32">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+          <div className="max-w-4xl">
+            <Kicker className="mb-6">{label}</Kicker>
+            <h2 id="signature-title" className="font-display text-[clamp(4rem,10vw,9rem)] leading-[0.85] tracking-[-0.02em] text-white italic">
+              {name}
+            </h2>
+          </div>
+          {price ? <p className="font-display text-[clamp(2.5rem,5vw,4rem)] text-white">{price}</p> : null}
         </div>
 
-        <h2 id="signature-title" className="pointer-events-none relative z-20 mt-8 text-center md:absolute md:inset-x-0 md:top-1/2 md:mt-0 md:-translate-y-1/2">
-          <span className="font-display text-giant flex flex-wrap justify-center gap-x-[0.25em] px-[var(--gutter)] italic leading-[0.85] tracking-[-0.03em] mix-blend-difference md:flex-nowrap">
-            <span data-sig-left>{words.slice(0, half).join(' ')}</span>
-            <span data-sig-right>{words.slice(half).join(' ')}</span>
-          </span>
-        </h2>
-
-        <div data-sig-img className="relative mx-[var(--gutter)] mt-10 aspect-[4/5] overflow-hidden md:absolute md:inset-0 md:m-0 md:aspect-auto">
-          <Img src={image.src} alt={image.alt} fill sizes="100vw" className="object-cover object-[50%_55%]" />
-          <div aria-hidden="true" className="absolute inset-0 hidden bg-[linear-gradient(0deg,rgb(15_13_11/0.75),transparent_45%)] md:block" />
-        </div>
-
-        <div
-          data-sig-caption
-          className="wrap relative z-10 mt-8 grid gap-6 md:absolute md:inset-x-0 md:bottom-10 md:mt-0 md:grid-cols-12 md:items-end"
-        >
-          <p className="font-display text-h3 italic md:col-span-6">“{note}”</p>
-          <div className="md:col-span-4 md:col-start-9">
-            {description ? <p className="text-bone/85">{description}</p> : null}
-            <Link href="/menu" className="label link-draw mt-5 inline-flex min-h-11 items-center gap-3">
+        <div className="grid md:grid-cols-12 gap-8 border-t border-white/20 pt-10">
+          <div className="md:col-span-7">
+            <p className="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] leading-tight text-white/90 italic">“{note}”</p>
+          </div>
+          <div className="md:col-span-4 md:col-start-9 flex flex-col justify-between">
+            {description ? <p className="text-white/75 text-lede">{description}</p> : null}
+            <Link href="/menu" className="label link-draw mt-10 inline-flex items-center gap-3 text-white">
               {cta} <span aria-hidden="true">→</span>
             </Link>
           </div>

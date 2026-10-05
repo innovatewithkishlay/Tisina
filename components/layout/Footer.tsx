@@ -43,8 +43,8 @@ export async function Footer() {
   const directions = r.geo ? `https://www.google.com/maps/dir/?api=1&destination=${r.geo.lat},${r.geo.lng}` : r.mapsUrl;
 
   return (
-    <footer className="night sticky bottom-0 z-0 flex min-h-[100svh] flex-col justify-between overflow-hidden pt-[calc(var(--header-h)+3rem)]">
-      <div className="wrap">
+    <footer className="night relative z-0 flex min-h-[100svh] flex-col justify-between overflow-hidden pt-[calc(var(--header-h)+2rem)] lg:sticky lg:bottom-0 lg:h-[100svh]">
+      <div className="wrap shrink-0">
         <div className="flex flex-col gap-8 border-b hairline pb-12 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p
@@ -111,9 +111,9 @@ export async function Footer() {
         </div>
       </div>
 
-      <div className="wrap">
-        <Logo className="w-full text-bone" title={r.name} />
-        <div className="flex flex-col gap-4 border-t hairline py-6 text-small text-muted md:flex-row md:items-center md:justify-between">
+      <div className="wrap flex flex-1 flex-col justify-end min-h-0 overflow-hidden">
+        <Logo className="w-full h-auto max-h-[30vh] shrink text-bone mt-auto" title={r.name} />
+        <div className="flex shrink-0 flex-col gap-4 border-t hairline py-6 text-small text-muted md:flex-row md:items-center md:justify-between mt-8">
           <nav aria-label={t('explore')}>
             <ul className="flex flex-wrap gap-x-6 gap-y-2">
               {siteConfig.nav.map((item) => (

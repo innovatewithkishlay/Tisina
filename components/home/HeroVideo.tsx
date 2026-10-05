@@ -85,7 +85,7 @@ export function HeroVideo({ name, eyebrow, line, ctaBook, ctaMenu, scroll, pause
             ))}
           </video>
         </div>
-        <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgb(15_13_11/0.55)_0%,rgb(15_13_11/0.05)_35%,rgb(15_13_11/0.15)_60%,rgb(15_13_11/0.85)_100%)]" />
+        <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/0.7)_0%,rgb(0_0_0/0.4)_50%,rgb(0_0_0/0.9)_100%)]" />
       </div>
 
       <div className="wrap relative z-10 flex h-full flex-col pb-5 pt-[calc(var(--header-h)+0.5rem)]">
@@ -121,25 +121,7 @@ export function HeroVideo({ name, eyebrow, line, ctaBook, ctaMenu, scroll, pause
           <Logo animate title={name} className="w-full text-bone [--hacek:var(--brand-ember-light)]" />
         </div>
 
-        <div className="mt-4 flex items-center justify-between text-bone/70">
-          <p className="label flex items-center gap-3">
-            <span aria-hidden="true" className="relative block h-8 w-px overflow-hidden bg-bone/25">
-              <span className="absolute inset-x-0 top-0 h-1/2 animate-[scrollcue_1.8s_var(--ease-in-out)_infinite] bg-bone motion-reduce:animate-none" />
-            </span>
-            {scroll}
-          </p>
-          <button
-            type="button"
-            onClick={toggle}
-            className="label inline-flex min-h-11 items-center gap-2 px-1 transition-opacity hover:opacity-100"
-            aria-pressed={!playing}
-          >
-            <span aria-hidden="true" className="inline-flex size-6 items-center justify-center rounded-full border border-current text-[0.55rem]">
-              {playing ? '❚❚' : '▶'}
-            </span>
-            {playing ? pauseLabel : playLabel}
-          </button>
-        </div>
+
       </div>
     </section>
   );

@@ -59,8 +59,6 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
   const lenis = useLenis();
   const [filter, setFilter] = useState<Filter>('all');
   const [activeCat, setActiveCat] = useState(0);
-  const [dock, setDock] = useState(false);
-  const [activeSrc, setActiveSrc] = useState<string | undefined>(categories[0]?.image);
 
   const tags = useMemo(() => {
     const seen = new Set<DietaryTag>();
@@ -78,20 +76,10 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
   );
   const count = visible.reduce((n, c) => n + c.items.length, 0);
 
-  const frames = useMemo(() => {
-    const srcs = new Set<string>();
-    categories.forEach((c) => {
-      srcs.add(c.image);
-      c.items.forEach((i) => i.image && srcs.add(i.image));
-    });
-    return [...srcs];
-  }, [categories]);
-
   useGSAP(
     () => {
       const el = root.current;
       if (!el) return;
-      ScrollTrigger.create({ trigger: el, start: 'top 65%', end: 'bottom 95%', onToggle: (self) => setDock(self.isActive) });
       el.querySelectorAll<HTMLElement>('[data-cat]').forEach((section) => {
         const i = Number(section.dataset.cat);
         ScrollTrigger.create({
@@ -101,18 +89,9 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
           onToggle: (self) => {
             if (!self.isActive) return;
             setActiveCat(i);
-            setActiveSrc(categories[i]?.image);
           },
         });
       });
-      el.querySelectorAll<HTMLElement>('[data-row-img]').forEach((row) =>
-        ScrollTrigger.create({
-          trigger: row,
-          start: 'top 50%',
-          end: 'bottom 50%',
-          onToggle: (self) => self.isActive && setActiveSrc(row.dataset.rowImg),
-        }),
-      );
 
       if (reducedMotion()) return;
       el.querySelectorAll<HTMLElement>('[data-fill]').forEach((fill) =>
@@ -127,9 +106,7 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
         once: true,
         onEnter: (batch) => gsap.fromTo(batch, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, stagger: 0.07, ease: 'power3.out' }),
       });
-      el.querySelectorAll<HTMLElement>('[data-cat-img] img').forEach((img) =>
-        gsap.fromTo(img, { yPercent: -8, scale: 1.15 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } }),
-      );
+
     },
     { scope: root, dependencies: [categories] },
   );
@@ -159,41 +136,34 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
   return (
     <div ref={root} className="paper relative">
       <div className="wrap grid gap-x-12 lg:grid-cols-12">
-        {/* Pinned photograph (desktop) */}
-        <div className="hidden lg:col-span-5 lg:block" aria-hidden="true">
-          <div className="sticky top-0 flex h-[100svh] items-center py-[calc(var(--header-h)+1rem)]">
-            <div className="relative h-full max-h-[46rem] w-full overflow-hidden rounded-[var(--radius-card)] bg-bg-2">
-              {frames.map((src) => (
-                <div
-                  key={src}
-                  className="absolute inset-0 transition-[clip-path] duration-[1100ms] ease-[var(--ease-in-out)]"
-                  style={{ clipPath: src === activeSrc ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)', zIndex: src === activeSrc ? 2 : 1 }}
+        {/* Courses */}
+        <div className="pb-[var(--section)] lg:col-span-8 lg:col-start-3 relative">
+          
+          {/* Elegant Sticky Filters */}
+          <div className="sticky top-[calc(var(--header-h))] z-40 mb-12 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b hairline bg-paper pb-4 pt-6">
+            <button popoverTarget="menu-courses" className="label flex shrink-0 items-center gap-2 text-fg hover:text-accent transition-colors">
+               <span className="index text-[1.2em] tabular-nums">{String(activeCat + 1).padStart(2, '0')}</span>
+               <span className="uppercase tracking-widest">{current?.name}</span>
+               <svg viewBox="0 0 10 6" className="size-2.5 ml-1" aria-hidden="true"><path d="M1 5 L5 1 L9 5" fill="none" stroke="currentColor" strokeWidth="1.4" /></svg>
+            </button>
+            <div className="no-scrollbar flex gap-6 overflow-x-auto text-label">
+              {(['all', ...tags] as Filter[]).map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  aria-pressed={filter === f}
+                  onClick={() => changeFilter(f)}
+                  className={cn(
+                    'transition-colors duration-300 whitespace-nowrap pb-1 border-b-[1.5px]',
+                    filter === f ? 'border-accent text-accent' : 'border-transparent text-fg-2 hover:text-fg',
+                  )}
                 >
-                  <Img
-                    src={src}
-                    alt=""
-                    fill
-                    sizes="40vw"
-                    className={cn(
-                      'object-cover transition-transform duration-[1600ms] ease-[var(--ease-out)]',
-                      src === activeSrc ? 'scale-100' : 'scale-125',
-                    )}
-                  />
-                </div>
+                  {f === 'all' ? labels.filterAll : labels.dietary[f]}
+                </button>
               ))}
-              <div className="absolute inset-0 z-[3] bg-[linear-gradient(0deg,rgb(15_13_11/0.6),transparent_40%)]" />
-              <p className="absolute inset-x-6 bottom-6 z-[4] flex items-baseline justify-between gap-4 text-bone">
-                <span className="font-display text-h3 italic">{current?.name}</span>
-                <span className="index text-lede tabular-nums">
-                  ({String(activeCat + 1).padStart(2, '0')}/{String(categories.length).padStart(2, '0')})
-                </span>
-              </p>
             </div>
           </div>
-        </div>
 
-        {/* Courses */}
-        <div className="pb-[var(--section)] lg:col-span-7">
           <p className="sr-only" aria-live="polite">
             {(count === 1 ? labels.countOne : labels.countOther).replace('#', String(count))}
           </p>
@@ -216,9 +186,6 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
               </div>
               {c.description ? <p className="mt-6 max-w-[48ch] pl-[3.25rem] text-lede text-fg-2">{c.description}</p> : null}
 
-              <div data-cat-img className="relative mt-10 aspect-[16/10] overflow-hidden rounded-[var(--radius-card)] lg:hidden">
-                <Img src={c.image} alt="" fill sizes="100vw" className="object-cover" />
-              </div>
 
               <ul className="mt-10 border-t hairline">
                 {c.items.map((item) => (
@@ -226,9 +193,6 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
                     key={item.slug}
                     id={item.slug}
                     data-row
-                    data-row-img={item.image}
-                    onPointerEnter={() => setActiveSrc(item.image ?? c.image)}
-                    onFocus={() => setActiveSrc(item.image ?? c.image)}
                     className={cn('group scroll-mt-32 border-b hairline py-7', !item.available && 'opacity-55')}
                   >
                     <div className="flex items-baseline">
@@ -240,12 +204,8 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
                         {item.price}
                       </p>
                     </div>
-                    <div className="mt-2 flex gap-4">
-                      {item.image && item.image !== c.image ? (
-                        <div className="relative size-16 shrink-0 overflow-hidden rounded-full lg:hidden">
-                          <Img src={item.image} alt={item.name} fill sizes="64px" className="object-cover" />
-                        </div>
-                      ) : null}
+                    <div className="mt-4 flex gap-6">
+
                       <div className="min-w-0">
                         {item.featured || item.seasonal || !item.available ? (
                           <p className="mb-2 flex flex-wrap gap-2">
@@ -282,51 +242,13 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
         </div>
       </div>
 
-      {/* Floating dock: courses + diet filter */}
-      <div
-        inert={!dock}
-        className={cn(
-          'pointer-events-none sticky bottom-4 z-40 mt-[-5rem] flex justify-center px-[var(--gutter)] pb-2 transition-[opacity,transform] duration-700 ease-[var(--ease-out)]',
-          dock ? 'opacity-100' : 'translate-y-[140%] opacity-0',
-        )}
-      >
-        <div className="night pointer-events-auto flex max-w-full items-center gap-1 rounded-[var(--radius-pill)] border border-white/10 bg-night/85 p-1.5 shadow-[var(--shadow-float)] backdrop-blur-md">
-          <button
-            type="button"
-            popoverTarget="menu-courses"
-            className="label flex min-h-11 shrink-0 items-center gap-2.5 rounded-[var(--radius-pill)] bg-bone px-4 text-night"
-            aria-label={`${labels.jumpTo}: ${current?.name ?? ''}`}
-          >
-            <span className="index text-[1.2em] normal-case tabular-nums">{String(activeCat + 1).padStart(2, '0')}</span>
-            <span className="max-w-[9rem] truncate sm:max-w-[12rem]">{current?.name}</span>
-            <svg viewBox="0 0 10 6" className="size-2.5" aria-hidden="true">
-              <path d="M1 5 L5 1 L9 5" fill="none" stroke="currentColor" strokeWidth="1.4" />
-            </svg>
-          </button>
-          <div role="group" aria-label={labels.filterLabel} className="no-scrollbar flex min-w-0 gap-1 overflow-x-auto">
-            {(['all', ...tags] as Filter[]).map((f) => (
-              <button
-                key={f}
-                type="button"
-                aria-pressed={filter === f}
-                onClick={() => changeFilter(f)}
-                className={cn(
-                  'label min-h-11 shrink-0 rounded-[var(--radius-pill)] px-3.5 transition-colors duration-300',
-                  filter === f ? 'bg-accent text-on-accent' : 'text-bone/75 hover:text-bone',
-                )}
-              >
-                {f === 'all' ? labels.filterAll : labels.dietary[f]}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+
 
       <nav
         id="menu-courses"
         popover="auto"
         aria-label={labels.jumpTo}
-        className="night m-0 mx-auto mb-[5.5rem] mt-auto w-[min(26rem,calc(100vw-2*var(--gutter)))] rounded-[var(--radius-card)] border border-white/10 p-3 shadow-[var(--shadow-float)] backdrop:bg-night/40"
+        className="night m-0 mx-auto mt-[calc(var(--header-h)+6rem)] mb-auto w-[min(26rem,calc(100vw-2*var(--gutter)))] rounded-[var(--radius-card)] border border-white/10 p-3 shadow-[var(--shadow-float)] backdrop:bg-night/40"
         data-lenis-prevent
       >
         <ol>

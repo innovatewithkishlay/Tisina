@@ -34,7 +34,6 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status, pr
   const pathname = usePathname();
   const lenis = useLenis();
   const [open, setOpen] = useState(false);
-  const [hover, setHover] = useState<string>(ITEMS[0].key);
   const [heroMarkVisible, setHeroMarkVisible] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -140,110 +139,80 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status, pr
             <Logo className="w-[6.25rem] [--hacek:currentColor] sm:w-[7.25rem]" />
           </Link>
 
-          <div className="flex items-center gap-1 justify-self-end">
+          <div className="flex items-center justify-self-end">
             <Suspense fallback={null}>
               <LanguageSwitcher className="pointer-events-auto hidden md:block" />
             </Suspense>
-            <Link
-              href="/book"
-              className="label pointer-events-auto ml-2 inline-flex min-h-10 items-center rounded-[var(--radius-pill)] border border-current px-4 transition-colors duration-[var(--dur-2)] hover:bg-white hover:text-black sm:px-5"
-            >
-              {t('book')}
-            </Link>
           </div>
         </div>
       </header>
 
-      {/* Full-screen menu */}
+      {/* Dimmed Backdrop */}
+      <div 
+        aria-hidden="true"
+        className={cn(
+          "fixed inset-0 z-[64] bg-black/40 backdrop-blur-sm transition-opacity duration-700 pointer-events-none",
+          open ? "opacity-100 pointer-events-auto" : "opacity-0"
+        )}
+        onClick={() => setOpen(false)}
+      />
+      
+      {/* Elegant Right Sidebar Menu */}
       <div
         id="site-menu"
         ref={panelRef}
         data-open={open}
         inert={!open}
         aria-hidden={!open}
-        className="night fixed inset-0 z-[65] flex flex-col overflow-y-auto [clip-path:inset(0_0_100%_0)] transition-[clip-path] duration-[900ms] ease-[var(--ease-in-out)] data-[open=true]:[clip-path:inset(0_0_0_0)]"
-        data-lenis-prevent
+        className={cn(
+          "fixed inset-y-0 right-0 z-[65] flex w-full lg:w-[480px] flex-col bg-night/95 backdrop-blur-2xl text-bone shadow-[-30px_0_60px_rgba(0,0,0,0.5)]",
+          "transition-transform duration-[800ms] ease-[var(--ease-out)]",
+          open ? "translate-x-0" : "translate-x-full"
+        )}
       >
-        <div className="wrap grid flex-1 items-center gap-10 pb-8 pt-[calc(var(--header-h)+2rem)] lg:grid-cols-12">
-          <nav aria-label={t('primary')} className="lg:col-span-7">
-            <ul>
+        <div className="flex flex-col flex-1 px-10 pb-12 pt-[calc(var(--header-h)+2rem)]">
+          <nav aria-label={t('primary')} className="mt-8">
+            <ul className="flex flex-col gap-6">
               {ITEMS.map((item, i) => (
                 <li key={item.href} className="overflow-hidden">
                   <Link
                     href={item.href}
                     aria-current={isActive(item.href) ? 'page' : undefined}
-                    onPointerEnter={() => setHover(item.key)}
-                    onFocus={() => setHover(item.key)}
                     className={cn(
-                      'group flex items-baseline gap-5 py-1 transition-[transform,opacity] duration-[900ms] ease-[var(--ease-out)]',
-                      open ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0',
+                      'group flex items-center gap-6 transition-[transform,opacity] duration-[700ms] ease-[var(--ease-out)]',
+                      open ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0',
                     )}
-                    style={{ transitionDelay: open ? `${180 + i * 70}ms` : '0ms' }}
+                    style={{ transitionDelay: open ? `${200 + i * 50}ms` : '0ms' }}
                   >
-                    <span className="index w-10 shrink-0 text-[1.05rem] text-muted">({String(i + 1).padStart(2, '0')})</span>
-                    <span className="font-display text-[clamp(3rem,9.5vw,7.25rem)] leading-[0.98] tracking-[-0.02em] transition-[color,font-style] duration-[var(--dur-2)] group-hover:italic group-hover:text-accent group-aria-[current=page]:italic">
+                    <span className="font-display text-[3rem] leading-none text-bone transition-colors duration-[var(--dur-3)] group-hover:text-accent group-hover:italic group-aria-[current=page]:italic group-aria-[current=page]:text-accent">
                       {t(item.key)}
                     </span>
-                    <Hacek className="h-[0.9rem] text-accent opacity-0 transition-opacity group-hover:opacity-100 group-aria-[current=page]:opacity-100" />
+                    <Hacek className="h-[1.2rem] text-accent opacity-0 transition-[opacity,transform] duration-[var(--dur-3)] -translate-x-4 group-hover:translate-x-0 group-hover:opacity-100 group-aria-[current=page]:opacity-100 group-aria-[current=page]:translate-x-0" />
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
 
-          <div
-            className={cn(
-              'relative hidden aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] transition-[opacity,transform] duration-[1100ms] ease-[var(--ease-out)] lg:col-span-4 lg:col-start-9 lg:block',
-              open ? 'scale-100 opacity-100 delay-300' : 'scale-95 opacity-0',
-            )}
-            aria-hidden="true"
-          >
-            {ITEMS.map((item) => (
-              <Img
-                key={item.key}
-                src={previews[item.key]}
-                alt=""
-                fill
-                sizes="30vw"
-                className={cn(
-                  'object-cover transition-[opacity,transform] duration-[900ms] ease-[var(--ease-out)]',
-                  hover === item.key ? 'scale-100 opacity-100' : 'scale-110 opacity-0',
-                )}
-              />
-            ))}
+          <div className="mt-auto pt-16">
+            <div className="mb-8 h-px w-12 bg-white/20" />
+            <p className="text-sm leading-relaxed text-muted">
+              {address}
+              <br />
+              <a href={phoneHref} className="transition-colors hover:text-white">{phone}</a>
+            </p>
+            <div className="mt-6 flex gap-6">
+              <a href={`mailto:${email}`} className="text-sm text-bone transition-colors hover:text-accent">Email</a>
+              {instagram && (
+                <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-sm text-bone transition-colors hover:text-accent">Instagram</a>
+              )}
+            </div>
+            <div className="mt-8 sm:hidden">
+              <Suspense fallback={null}>
+                <LanguageSwitcher onNavigate={() => setOpen(false)} />
+              </Suspense>
+            </div>
           </div>
-        </div>
-
-        <div
-          className={cn(
-            'wrap grid gap-6 border-t hairline py-6 text-small text-muted transition-opacity duration-700 sm:grid-cols-2 lg:grid-cols-4',
-            open ? 'opacity-100 delay-500' : 'opacity-0',
-          )}
-        >
-          <Suspense fallback={null}>
-            <LanguageSwitcher onNavigate={() => setOpen(false)} className="-ml-2" />
-          </Suspense>
-          <div>{status}</div>
-          <p>
-            {address}
-            <br />
-            <a href={phoneHref} className="link-static">
-              {phone}
-            </a>
-          </p>
-          <p className="lg:text-right">
-            <a href={`mailto:${email}`} className="link-static break-all">
-              {email}
-            </a>
-            {instagram ? (
-              <>
-                <br />
-                <a href={instagram} target="_blank" rel="noopener noreferrer" className="link-static">
-                  Instagram
-                </a>
-              </>
-            ) : null}
-          </p>
         </div>
       </div>
     </>

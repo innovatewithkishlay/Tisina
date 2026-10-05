@@ -45,21 +45,29 @@ export default async function ContactPage({ params }: PageProps<'/[locale]/conta
         </div>
         <Reveal className="lg:col-span-4 lg:col-start-9">
           <div className="night p-8 sm:p-10 lg:sticky lg:top-28">
-            <h2 className="label text-muted">{t('direct')}</h2>
-            <p className="mt-6 space-y-2 font-display text-h3">
-              <a href={telHref(r.phone)} className="link-draw block w-fit">
-                {r.phone}
-              </a>
-              <a href={`mailto:${r.email}`} className="link-draw block w-fit break-all text-[0.8em]">
-                {r.email}
-              </a>
-            </p>
-            <h2 className="label mt-10 text-muted">{tVisit('addressTitle')}</h2>
-            <address className="mt-4 not-italic text-fg-2">
-              {r.address.street}
-              <br />
-              {r.address.postalCode} {r.address.city}
-            </address>
+            <Reveal delay={100}>
+              <h2 className="label text-muted">{t('direct')}</h2>
+            </Reveal>
+            <Reveal delay={200}>
+              <p className="mt-6 space-y-2 font-display text-h3">
+                <a href={telHref(r.phone)} className="link-draw block w-fit">
+                  {r.phone}
+                </a>
+                <a href={`mailto:${r.email}`} className="link-draw block w-fit break-all text-[0.8em]">
+                  {r.email}
+                </a>
+              </p>
+            </Reveal>
+            <Reveal delay={300}>
+              <h2 className="label mt-10 text-muted">{tVisit('addressTitle')}</h2>
+            </Reveal>
+            <Reveal delay={400}>
+              <address className="mt-4 not-italic text-fg-2">
+                {r.address.street}
+                <br />
+                {r.address.postalCode} {r.address.city}
+              </address>
+            </Reveal>
           </div>
         </Reveal>
       </div>

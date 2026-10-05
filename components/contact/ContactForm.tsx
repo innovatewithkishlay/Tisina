@@ -8,6 +8,7 @@ import { CONTACT_SUBJECTS } from '@/lib/booking/constants';
 import type { ContactState } from '@/lib/booking/schema';
 import { Field, Honeypot, Select, Spinner, inputClass } from '@/components/ui/Field';
 import { Arrow } from '@/components/ui/Button';
+import { Reveal } from '@/components/ui/Reveal';
 import { cn } from '@/lib/utils';
 
 export function ContactForm({ restaurantName, restaurantEmail }: { restaurantName: string; restaurantEmail: string }) {
@@ -56,68 +57,82 @@ export function ContactForm({ restaurantName, restaurantEmail }: { restaurantNam
       ) : null}
 
       <div className="grid gap-8 sm:grid-cols-2">
-        <Field id="contact-subject" label={t('subject')} className="sm:col-span-2">
-          {(a11y) => (
-            <Select {...a11y} name="subject" defaultValue={v.subject ?? 'general'}>
-              {CONTACT_SUBJECTS.map((s) => (
-                <option key={s} value={s}>
-                  {t(`subjects.${s}`)}
-                </option>
-              ))}
-            </Select>
-          )}
-        </Field>
-        <Field id="contact-name" label={t('name')} error={err('name')} className="sm:col-span-2">
-          {(a11y) => <input {...a11y} name="name" autoComplete="name" required defaultValue={v.name} className={inputClass} />}
-        </Field>
-        <Field id="contact-email" label={t('email')} error={err('email')}>
-          {(a11y) => <input {...a11y} name="email" type="email" inputMode="email" autoComplete="email" required defaultValue={v.email} className={inputClass} />}
-        </Field>
-        <Field id="contact-phone" label={t('phone')} optionalLabel={tBooking('optional')} error={err('phone')}>
-          {(a11y) => <input {...a11y} name="phone" type="tel" inputMode="tel" autoComplete="tel" defaultValue={v.phone} className={inputClass} />}
-        </Field>
-        <Field id="contact-message" label={t('message')} error={err('message')} className="sm:col-span-2">
-          {(a11y) => (
-            <textarea {...a11y} name="message" rows={6} required minLength={10} maxLength={4000} defaultValue={v.message} className={cn(inputClass, 'resize-y')} />
-          )}
-        </Field>
+        <Reveal delay={100} className="sm:col-span-2">
+          <Field id="contact-subject" label={t('subject')}>
+            {(a11y) => (
+              <Select {...a11y} name="subject" defaultValue={v.subject ?? 'general'}>
+                {CONTACT_SUBJECTS.map((s) => (
+                  <option key={s} value={s}>
+                    {t(`subjects.${s}`)}
+                  </option>
+                ))}
+              </Select>
+            )}
+          </Field>
+        </Reveal>
+        <Reveal delay={200} className="sm:col-span-2">
+          <Field id="contact-name" label={t('name')} error={err('name')}>
+            {(a11y) => <input {...a11y} name="name" autoComplete="name" required defaultValue={v.name} className={inputClass} />}
+          </Field>
+        </Reveal>
+        <Reveal delay={300}>
+          <Field id="contact-email" label={t('email')} error={err('email')}>
+            {(a11y) => <input {...a11y} name="email" type="email" inputMode="email" autoComplete="email" required defaultValue={v.email} className={inputClass} />}
+          </Field>
+        </Reveal>
+        <Reveal delay={400}>
+          <Field id="contact-phone" label={t('phone')} optionalLabel={tBooking('optional')} error={err('phone')}>
+            {(a11y) => <input {...a11y} name="phone" type="tel" inputMode="tel" autoComplete="tel" defaultValue={v.phone} className={inputClass} />}
+          </Field>
+        </Reveal>
+        <Reveal delay={500} className="sm:col-span-2">
+          <Field id="contact-message" label={t('message')} error={err('message')}>
+            {(a11y) => (
+              <textarea {...a11y} name="message" rows={6} required minLength={10} maxLength={4000} defaultValue={v.message} className={cn(inputClass, 'resize-y')} />
+            )}
+          </Field>
+        </Reveal>
       </div>
 
-      <label className="mt-10 flex cursor-pointer items-start gap-4 text-small text-fg-2">
-        <input
-          type="checkbox"
-          name="consent"
-          required
-          aria-invalid={err('consent') ? true : undefined}
-          aria-describedby={err('consent') ? 'contact-consent-error' : undefined}
-          className="mt-0.5 size-5 shrink-0 cursor-pointer accent-[var(--brand-ink)]"
-        />
-        <span>
-          {tBooking.rich('consent', {
-            name: restaurantName,
-            link: (chunks) => (
-              <Link href="/privacy" className="link-static" target="_blank">
-                {chunks}
-              </Link>
-            ),
-          })}
-        </span>
-      </label>
-      {err('consent') ? (
-        <p id="contact-consent-error" className="mt-2 text-small text-error">
-          — {err('consent')}
-        </p>
-      ) : null}
+      <Reveal delay={600}>
+        <label className="mt-10 flex cursor-pointer items-start gap-4 text-small text-fg-2">
+          <input
+            type="checkbox"
+            name="consent"
+            required
+            aria-invalid={err('consent') ? true : undefined}
+            aria-describedby={err('consent') ? 'contact-consent-error' : undefined}
+            className="mt-0.5 size-5 shrink-0 cursor-pointer accent-[var(--brand-ink)]"
+          />
+          <span>
+            {tBooking.rich('consent', {
+              name: restaurantName,
+              link: (chunks) => (
+                <Link href="/privacy" className="link-static" target="_blank">
+                  {chunks}
+                </Link>
+              ),
+            })}
+          </span>
+        </label>
+        {err('consent') ? (
+          <p id="contact-consent-error" className="mt-2 text-small text-error">
+            — {err('consent')}
+          </p>
+        ) : null}
+      </Reveal>
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="group label mt-12 inline-flex min-h-14 items-center gap-4 rounded-[var(--radius-pill)] bg-fg px-9 text-bg transition-colors duration-[var(--dur-2)] hover:bg-accent hover:text-on-accent disabled:opacity-70"
-      >
-        {pending ? <Spinner /> : null}
-        {pending ? t('submitting') : t('submit')}
-        {!pending ? <Arrow /> : null}
-      </button>
+      <Reveal delay={700}>
+        <button
+          type="submit"
+          disabled={pending}
+          className="group label mt-12 inline-flex min-h-14 items-center gap-4 rounded-[var(--radius-pill)] bg-fg px-9 text-bg transition-colors duration-[var(--dur-2)] hover:bg-accent hover:text-on-accent disabled:opacity-70"
+        >
+          {pending ? <Spinner /> : null}
+          {pending ? t('submitting') : t('submit')}
+          {!pending ? <Arrow /> : null}
+        </button>
+      </Reveal>
       <p className="sr-only" aria-live="polite">
         {pending ? t('submitting') : ''}
       </p>
