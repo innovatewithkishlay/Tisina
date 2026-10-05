@@ -1,5 +1,6 @@
 import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
+import { Magnetic } from '@/components/motion/Magnetic';
 import { intlLocale, type Locale } from '@/config/locales';
 import { siteConfig } from '@/config/site';
 import { getHours, getRestaurant } from '@/lib/data/restaurant';
@@ -53,6 +54,7 @@ export async function Footer() {
             />
             <p className="mt-4 text-lede text-fg-2">{t('ctaBody')}</p>
           </div>
+          <Magnetic className="w-fit" strength={0.25}>
           <Link
             href="/book"
             className="btn-fill label inline-flex min-h-16 w-fit items-center gap-4 rounded-[var(--radius-pill)] bg-bone px-9 text-night transition-colors duration-[var(--dur-2)] [--btn-fill:var(--brand-ember-light)]"
@@ -60,6 +62,7 @@ export async function Footer() {
             {tNav('bookLong')}
             <span aria-hidden="true">→</span>
           </Link>
+          </Magnetic>
         </div>
 
         <div className="grid gap-10 py-12 text-fg-2 sm:grid-cols-2 lg:grid-cols-12">

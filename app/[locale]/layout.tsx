@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { fontVariables } from '@/lib/fonts';
 import { notFound } from 'next/navigation';
-import { ViewTransition } from 'react';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
@@ -15,6 +14,8 @@ import { Footer } from '@/components/layout/Footer';
 import { OpenStatus } from '@/components/layout/OpenStatus';
 import { RevealObserver } from '@/components/motion/RevealObserver';
 import { SmoothScroll } from '@/components/motion/SmoothScroll';
+import { MotionProvider } from '@/components/motion/MotionProvider';
+import { Cursor } from '@/components/motion/Cursor';
 import '../globals.css';
 
 export const dynamicParams = false;
@@ -71,6 +72,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
       <body>
         <NextIntlClientProvider locale={locale} messages={clientMessages}>
           <SmoothScroll>
+          <MotionProvider>
             <a
               href="#main"
               className="label fixed left-4 top-4 z-[90] -translate-y-24 rounded-[var(--radius-pill)] bg-bone px-5 py-3 text-night transition-transform focus:translate-y-0"
@@ -85,8 +87,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
               instagram={r.instagram}
               status={status}
             />
-            <ViewTransition>
-              {/* Lifts off the curtain footer underneath as you reach the end. */}
+            {/* Lifts off the curtain footer underneath as you reach the end. */}
               <main
                 id="main"
                 tabIndex={-1}
@@ -94,9 +95,10 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
               >
                 {children}
               </main>
-            </ViewTransition>
             <Footer />
             <RevealObserver />
+            <Cursor />
+          </MotionProvider>
           </SmoothScroll>
         </NextIntlClientProvider>
       </body>

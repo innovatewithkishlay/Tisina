@@ -120,7 +120,8 @@ if (req.mode === 'fetch') {
     const full = url.startsWith('https://images.unsplash.com') ? `${url}&w=${w}&q=82&fm=jpg` : url;
     try {
       await download(full, file);
-      execFileSync('convert', [file, '-resize', `${w}x${w}>`, '-quality', '82', '-strip', file]);
+      // Images are resized; anything else (e.g. video) is saved as downloaded.
+      if (/\.(jpe?g|png|webp)$/i.test(file)) execFileSync('convert', [file, '-resize', `${w}x${w}>`, '-quality', '82', '-strip', file]);
       console.log('saved', file);
     } catch (e) { console.log('failed', file, e.message); }
   }

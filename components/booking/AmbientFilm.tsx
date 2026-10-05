@@ -5,11 +5,11 @@ import { Img } from '@/components/ui/Img';
 import { cn } from '@/lib/utils';
 
 /**
- * A silent loop of the oven fire behind the reservation page. The still is
+ * A silent ambient loop — a candlelit, set table — behind the reservation page. The still is
  * painted first; the film fades in once it can play. Visitors who prefer
  * reduced motion keep the still.
  */
-export function FireFilm({ poster, src, className }: { poster: string; src: string; className?: string }) {
+export function AmbientFilm({ poster, src, className }: { poster: string; src: string; className?: string }) {
   const video = useRef<HTMLVideoElement>(null);
   const [ready, setReady] = useState(false);
 
