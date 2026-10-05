@@ -21,7 +21,7 @@ async function download(url, file) {
 // Openverse (CC0 / public-domain only, so no attribution is needed).
 async function candidates(q) {
   const found = [];
-  try {
+  if (!req.skipUnsplash) try {
     const slug = q.query.trim().replace(/\s+/g, '-');
     const page = await fetch(`https://unsplash.com/s/photos/${encodeURIComponent(slug)}${q.orientation ? `?orientation=${q.orientation}` : ''}`, {
       headers: { ...HEADERS, accept: 'text/html' },
@@ -35,7 +35,7 @@ async function candidates(q) {
   } catch (e) { console.log('unsplash error', e.message); }
   if (found.length < 6) {
     try {
-      const params = new URLSearchParams({ q: q.query, license: 'cc0,pdm', page_size: '20', ...(q.orientation === 'landscape' ? { aspect_ratio: 'wide' } : {}) });
+      const params = new URLSearchParams({ q: q.query, license: req.licenses ?? 'cc0,pdm', category: 'photograph', page_size: '30', ...(q.orientation === 'landscape' ? { aspect_ratio: 'wide' } : {}) });
       const res = await fetch(`https://api.openverse.org/v1/images/?${params}`, { headers: HEADERS });
       console.log('openverse', q.query, res.status);
       if (res.ok) for (const r of (await res.json()).results) found.push({ src: 'openverse', id: r.id, url: r.url, title: r.title, by: r.creator, license: r.license, w: r.width, h: r.height });
