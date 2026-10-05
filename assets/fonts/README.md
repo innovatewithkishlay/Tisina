@@ -1,6 +1,6 @@
-TrueType copies of the two brand typefaces, used only to render the Open Graph
-image (`app/[locale]/opengraph-image.tsx`). The website itself loads the fonts
-through `next/font/google`.
+TrueType copy of the display typeface, used only to render the Open Graph image
+(`app/[locale]/opengraph-image.tsx`) and as the source of the wordmark outlines
+in `components/brand/Logo.tsx`. The website itself loads its fonts (Anton,
+Bodoni Moda, Archivo) through `next/font/google` — see `lib/fonts.ts`.
 
-- Instrument Serif — © The Instrument Serif Project Authors, SIL Open Font License 1.1
-- Hanken Grotesk — © The Hanken Grotesk Project Authors, SIL Open Font License 1.1
+- Anton — © The Anton Project Authors (Vernon Adams), SIL Open Font License 1.1

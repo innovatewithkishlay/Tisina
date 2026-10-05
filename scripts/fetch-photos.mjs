@@ -1,8 +1,13 @@
 // Run by .github/workflows/fetch-photos.yml. Unsplash photos are free for
 // commercial use under the Unsplash License (no attribution required).
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
+// The workflow also fires when the request file is removed: nothing to do then.
+if (!existsSync('.image-review/request.json')) {
+  console.log('No .image-review/request.json — nothing to fetch.');
+  process.exit(0);
+}
 const req = JSON.parse(readFileSync('.image-review/request.json', 'utf8'));
 const HEADERS = { 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/126 Safari/537.36', accept: 'application/json' };
 

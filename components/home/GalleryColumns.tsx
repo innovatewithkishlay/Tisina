@@ -12,8 +12,9 @@ export interface GalleryImage {
 }
 
 /**
- * Vertical gallery: three columns drift at different speeds as you scroll
- * (two on phones), so the photographs slide past one another.
+ * Vertical gallery: the wall stands up out of 3D as it arrives, then three
+ * columns drift at different speeds (two on phones) so the photographs slide
+ * past one another.
  */
 export function GalleryColumns({ label, title, body, items }: { label: string; title: string; body: string; items: GalleryImage[] }) {
   const root = useRef<HTMLElement>(null);
@@ -23,6 +24,12 @@ export function GalleryColumns({ label, title, body, items }: { label: string; t
   useGSAP(
     () => {
       if (reducedMotion()) return;
+      // The whole wall starts tipped back in 3D and stands up as it arrives.
+      gsap.fromTo(
+        '[data-gallery-wall]',
+        { rotateX: 28, scale: 0.86, transformOrigin: '50% 0%' },
+        { rotateX: 0, scale: 1, ease: 'none', scrollTrigger: { trigger: '[data-gallery-wall]', start: 'top bottom', end: 'top 20%', scrub: true } },
+      );
       const mm = gsap.matchMedia();
       mm.add('(min-width: 768px)', () => {
         [-18, 14, -30].forEach((y, i) =>
@@ -51,7 +58,8 @@ export function GalleryColumns({ label, title, body, items }: { label: string; t
         </div>
       </div>
 
-      <div className="wrap mt-20 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-8">
+      <div className="[perspective:1400px]">
+      <div data-gallery-wall className="wrap mt-20 grid grid-cols-2 gap-4 will-change-transform md:grid-cols-3 md:gap-8">
         {cols.map((col, ci) => (
           <ul key={ci} data-col={ci} className={ci === 2 ? 'hidden space-y-8 md:block' : 'space-y-4 md:space-y-8'}>
             {col.map((it, i) => (
@@ -69,6 +77,7 @@ export function GalleryColumns({ label, title, body, items }: { label: string; t
             ))}
           </ul>
         ))}
+      </div>
       </div>
     </section>
   );

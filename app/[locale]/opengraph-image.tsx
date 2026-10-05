@@ -13,24 +13,23 @@ export const alt = siteConfig.brandName;
 /** Social sharing card, generated per locale at build time in the brand typography. */
 export default async function OpengraphImage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  const [r, serif, sans, photo] = await Promise.all([
+  const [r, display, photo] = await Promise.all([
     getRestaurant(locale as Locale),
-    readFile(join(process.cwd(), 'assets/fonts/InstrumentSerif-Regular.ttf')),
-    readFile(join(process.cwd(), 'assets/fonts/HankenGrotesk-Medium.ttf')),
+    readFile(join(process.cwd(), 'assets/fonts/Anton-Regular.ttf')),
     readFile(join(process.cwd(), 'public', images.hero.src)),
   ]);
   const src = `data:image/jpeg;base64,${photo.toString('base64')}`;
 
   return new ImageResponse(
     (
-      <div style={{ display: 'flex', width: '100%', height: '100%', background: '#14110e', color: '#ece4d7' }}>
+      <div style={{ display: 'flex', width: '100%', height: '100%', background: '#0e0e0d', color: '#ecebe6' }}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '64px 56px 56px 64px', width: 660 }}>
-          <div style={{ fontFamily: 'Sans', fontSize: 18, letterSpacing: 4, textTransform: 'uppercase', color: '#a2978a' }}>
+          <div style={{ fontFamily: 'Display', fontSize: 22, letterSpacing: 3, textTransform: 'uppercase', color: '#93a0ff' }}>
             {`${r.address.street} · ${r.address.city}`}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ fontFamily: 'Serif', fontSize: 196, lineHeight: 0.85, letterSpacing: -6 }}>{r.name}</div>
-            <div style={{ fontFamily: 'Serif', fontSize: 40, lineHeight: 1.2, marginTop: 28, color: '#cfc5b6', maxWidth: 520 }}>
+            <div style={{ fontFamily: 'Display', fontSize: 210, lineHeight: 0.85, textTransform: 'uppercase' }}>{r.name}</div>
+            <div style={{ fontFamily: 'Display', fontSize: 40, lineHeight: 1.1, marginTop: 28, color: '#cfcec7', maxWidth: 540, textTransform: 'uppercase' }}>
               {r.tagline}
             </div>
           </div>
@@ -41,8 +40,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
     {
       ...size,
       fonts: [
-        { name: 'Serif', data: serif, style: 'normal', weight: 400 },
-        { name: 'Sans', data: sans, style: 'normal', weight: 500 },
+        { name: 'Display', data: display, style: 'normal', weight: 400 },
       ],
     },
   );

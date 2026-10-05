@@ -81,11 +81,10 @@ export function CraftHorizontal({ label, title, panels }: { label: string; title
             </p>
           </div>
 
-          {panels.map((p, i) => (
+          {panels.map((p) => (
             <article key={p.key} data-craft-card className="flex w-[min(86vw,58rem)] shrink-0 snap-center flex-col gap-6 md:flex-row md:items-end md:gap-10">
               <div data-craft-media className="relative aspect-[4/5] w-full overflow-hidden rounded-[28px] md:aspect-[4/5] md:w-[56%]">
                 <Img src={p.image} alt={p.alt} fill sizes="(min-width: 768px) 34rem, 86vw" className="object-cover grayscale-[35%]" />
-                <span className="index absolute left-5 top-4 text-lede text-bone/80">({String(i + 1).padStart(2, '0')})</span>
               </div>
               <div className="md:w-[44%] md:pb-4">
                 <p className="font-display text-[clamp(3.5rem,8vw,7.5rem)] leading-none tracking-[-0.03em] text-accent">{p.figure}</p>

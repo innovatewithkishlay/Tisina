@@ -159,7 +159,6 @@ export function BookingForm({ hours, booking, timeZone, restaurantName, phone, p
       {/* ——— When ——— */}
       <fieldset className="min-w-0">
         <legend className="flex w-full items-baseline gap-4">
-          <span className="index text-lede text-muted">(01)</span>
           <span className="font-display text-h3 italic">{t('stepWhen')}</span>
         </legend>
 
@@ -264,7 +263,6 @@ export function BookingForm({ hours, booking, timeZone, restaurantName, phone, p
       {/* ——— Who ——— */}
       <fieldset className="mt-16 min-w-0">
         <legend className="flex w-full items-baseline gap-4">
-          <span className="index text-lede text-muted">(02)</span>
           <span className="font-display text-h3 italic">{t('stepWho')}</span>
         </legend>
 
