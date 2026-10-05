@@ -138,7 +138,7 @@ export async function Footer() {
             </ul>
           </nav>
           <p>
-            {t('rights', { year, name: r.name })} <span aria-hidden="true">·</span> {t('madeBy')}
+            {t('rights', { year, name: r.name })} <span aria-hidden="true">·</span> {t('madeBy')} <span aria-hidden="true">·</span> {t('photoCredit')}
           </p>
         </div>
       </div>

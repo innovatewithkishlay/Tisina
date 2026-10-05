@@ -28,20 +28,9 @@ const DIETARY = ['vegetarian', 'vegan', 'gluten_free', 'dairy_free', 'pescataria
  * Photograph shown for each course (by category slug) in the pinned frame.
  * Dishes with their own photo override it while they are in view.
  */
-const COURSE_IMAGES: Record<string, string> = {
-  'to-begin': images.kitchen.dough.src,
-  starters: '/images/dishes/tuna-tartare.jpg',
-  pasta: '/images/dishes/fuzi-truffle.jpg',
-  'from-the-oven': images.kitchen.fire.src,
-  'from-the-sea': images.gallery.window.src,
-  'from-the-land': '/images/dishes/pasticada.jpg',
-  garden: '/images/dishes/burrata.jpg',
-  desserts: '/images/dishes/panna-cotta.jpg',
-  tasting: images.gallery.candles.src,
-  wine: images.gallery.wine.src,
-};
+const COURSE_IMAGES = images.courses;
 const COURSE_FALLBACK = images.kitchen.hands.src;
-const HERO_PLATES = [images.regions.jadran.src, images.hero.src, images.signature.src];
+const HERO_PLATES = ['/images/photo/oysters.jpg', images.hero.src, '/images/photo/panna-cotta.jpg', '/images/photo/octopus.jpg', '/images/photo/burrata.jpg'];
 
 export default async function MenuPage({ params }: PageProps<'/[locale]/menu'>) {
   const { locale } = (await params) as { locale: Locale };

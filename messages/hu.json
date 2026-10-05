@@ -50,19 +50,19 @@
         "region": "Isztria",
         "dish": "Fuži, fekete szarvasgomba",
         "body": "Ősszel a Mirna-völgy szarvasgombászai elküldik nekünk, amit a kutyák azon a héten találtak. Az asztalnál reszeljük, aznap reggel kézzel sodort tésztára.",
-        "alt": "Fuži tészta reszelt fekete szarvasgomba alatt, gyertyafény a háttérben"
+        "alt": "Friss tésztaszalagok fekete szarvasgomba-szeletek alatt, sötét tányéron"
       },
       "dalmacija": {
         "region": "Dalmácia",
         "dish": "Pašticada",
         "body": "Két nap borban és ecetben, hat óra a fazékban prošekkel és aszalt szilvával. A recept egy spliti nagymamától származik, a türelem a miénk.",
-        "alt": "Szeletelt párolt marha sötét mártásban, aranyló gnocchival kőedény tányéron"
+        "alt": "Burgonyával párolt marha sötétbarna mártásban, sötét tálban"
       },
       "jadran": {
         "region": "Az Adria",
         "dish": "Tonhal, nyersen",
         "body": "Vis szigeténél horoggal fogva, rendelésre vágva, alig többel ízesítve, mint isztriai olaj és néhány, a szigeti falakról szedett kapribogyó.",
-        "alt": "Tonhaltatár retekkel, kapribogyóval és borágóvirággal, mellette rozskeksz"
+        "alt": "Tonhaltatár ropogós salottával, könnyű chilis mártáson"
       }
     },
     "signatureLabel": "A ház fogása",
@@ -82,7 +82,7 @@
     "galleryLabel": "Esték a Tišinában",
     "gallery": {
       "candles": "Fél hétkor gyújtjuk meg a gyertyákat",
-      "window": "Délutáni fény az ablak melletti asztalon",
+      "window": "Az étterem alkonyatkor",
       "wine": "Plavac mali a Pelješac-félszigetről",
       "linen": "Vászon, minden reggel vasalva",
       "dessert": "Panna cotta medvednicai erdei gyümölccsel",
@@ -141,8 +141,8 @@
     "quoteBy": "A Tišina konyhája",
     "ctaMenu": "Az étlap",
     "ctaBook": "Asztalfoglalás",
-    "imageAlt1": "Burrata régi fajta paradicsommal és bazsalikommal egy tányéron az ablak mellett",
-    "imageAlt2": "Panna cotta erdei gyümölccsel egy lágyan megvilágított étteremben"
+    "imageAlt1": "Szakács kézzel tálal egy fogást a fapulton",
+    "imageAlt2": "Vörösbor folyik egy dekanterből, mellette szőlő és körte"
   },
   "Menu": {
     "eyebrow": "Étlap",
@@ -363,7 +363,8 @@
     "ctaTitle": "Egy asztal <em>várja</em>.",
     "ctaBody": "Huszonnyolc hely, egy turnus, sietség nélkül.",
     "localTime": "Helyi idő · {city}",
-    "directions": "Útvonal"
+    "directions": "Útvonal",
+    "photoCredit": "Fotók: Freepik, Openverse (CC0)"
   },
   "Privacy": {
     "eyebrow": "Adatvédelem",

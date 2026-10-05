@@ -65,12 +65,13 @@ redesign. Scores vary by a few points between runs:
 
 | Page | Performance | Accessibility | Best practices | SEO |
 |---|---|---|---|---|
-| `/en` | 84 | 100 | 100 | 100 |
-| `/en/menu` | 84 | 100 | 100 | 100 |
-| `/en/book` | 88–91 | 100 | 100 | 100 |
+| `/en` | 82–89 | 100 | 100 | 100 |
+| `/en/menu` | 85 | 100 | 100 | 100 |
+| `/en/book` | 84 | 100 | 100 | 100 |
 
-The home page streams a 1.2 MB (phones) or 3.8 MB (desktop) film. Its poster and every photograph
-paint first with a blurred placeholder, so the page is never text-only while media loads.
+The home page streams a 1.2 MB (phones) or 3.8 MB (desktop) film. Only one file is loaded, and
+only after the page has finished loading. Its poster and every photograph paint first with a
+blurred placeholder, so the page is never text-only while media loads.
 CLS is 0 on every page.
 
 ## 2. Architecture
@@ -86,15 +87,17 @@ app/
   sitemap.ts robots.ts manifest.ts llms.txt/route.ts icon.svg
 components/
   brand/Logo.tsx       the wordmark as SVG paths, with the háček (ˇ) as a separate stroke
-  layout/              Navbar (blend-mode bar + full-screen menu), LanguageSwitcher,
+  layout/              Navbar (solid bar + side menu), LanguageSwitcher,
                        OpenStatus, LocalClock, Footer (curtain reveal)
-  home/                HeroVideo, Manifesto, KitchenStack, RegionsScroll, SignatureDish,
-                       Definition, MenuRoll, GalleryColumns
-  menu/                MenuHero, MenuBoard (pinned photo, outline titles, diet filter dock)
+  home/                HeroVideo, Manifesto, CraftHorizontal (pinned sideways scroll),
+                       RegionsScroll, SignatureDish, MenuGlance, GalleryColumns
+  menu/                MenuHero, MenuBoard (photo-first courses + dish cards, diet filter)
+  admin/               LoginForm, DecisionForm (staff panel, see §8a)
   visit/               OpeningHours, Location, Faq
   booking/ contact/    BookingForm (+ live ticket stub), FireFilm, ContactForm
   ui/                  Button, Field, Img (blur placeholders), Kicker, Reveal/Words, PageHeader
   motion/              SmoothScroll (Lenis), gsap.ts, RevealObserver
+app/admin/             staff panel: /admin/login and /admin (not localized, noindex)
 config/
   site.ts              ← brand name, enabled locales, nav, revalidation
   locales.ts           every language the starter knows
@@ -248,6 +251,43 @@ Guest submits form
   received. If both fail, the guest sees an honest error with the phone number.
 - States: idle, inline validation (focus moves to the error summary), pending (button spinner,
   `aria-live`), success (focus moves to the confirmation heading) and error.
+
+### 8a. Admin panel (`/admin`)
+
+Staff sign in at **`/admin/login`** with a Supabase Auth email + password. The dashboard shows:
+
+- **Overview**: requests awaiting a decision, covers tonight, confirmed bookings in the next 7
+  days, new messages.
+- **Bookings** (Pending · Upcoming · Past · All), grouped by day: time, party, contact links,
+  occasion, seating, the guest's note, reference and language.
+  - **Confirm**, **Decline**, **Cancel** or reopen a request. You can add an optional note to the
+    guest.
+  - With "Email the guest" ticked, the guest gets a confirmation, decline or cancellation email in
+    the language they booked in (`bookingDecision` in `lib/email/templates.ts`). Whether it was
+    sent is stored in `guest_notified`.
+- **Messages** from the contact form: reply by email, call, mark answered or archived.
+
+Security model (`supabase/migrations/20261005000200_admin.sql`):
+
+- Only users listed in `public.admins` are admins. `public.is_admin()` checks the signed-in JWT.
+- Admins get RLS `select`/`update` on `booking_requests` and `contact_messages`. Column grants
+  limit updates to the decision fields (`status`, `admin_note`, `status_changed_at`,
+  `guest_notified`). Guests and other signed-in users still see nothing.
+- The panel uses the publishable key plus the staff member's session cookie (`@supabase/ssr`,
+  refreshed in `proxy.ts`). No service-role key is needed or shipped to the browser.
+- `/admin` is `noindex` (header + metadata) and disallowed in `robots.txt`. Login attempts are
+  throttled.
+
+**Add an admin.** Create the user in Supabase → Authentication → Users (email + password,
+auto-confirm), then:
+
+```sql
+insert into public.admins (user_id, email)
+select id, email from auth.users where email = 'staff@example.com';
+```
+
+Remove access by deleting that row. Passwords are never stored in this repository. Change them in
+Supabase → Authentication.
 
 ## 9. How the contact form works
 
@@ -526,9 +566,25 @@ Quick reference for the planned forks:
 
 ---
 
-### Image note
+### Photography and credits
 
-The photographs bundled with the starter (`public/images/dishes/*`) came with the original
-repository and look AI-generated. The `atmosphere/*` images are crops of them. They are suitable
-for a demo, but replace them with real photography of the restaurant before launch. Stock sources
-and image generation were not reachable from the build environment used for this version.
+All photography is in `public/images/photo` (dishes, room, wine) and `public/images/kitchen`
+(stills from the restaurant's own film).
+
+- **Freepik** (licensed through Magnific, free licence; attribution "Freepik" is in the footer):
+  truffle pasta, beef stew, tuna tartare, octopus, oysters, panna cotta, rožata, chef plating
+  (×2), wine (×2), dining room (×3), beef medallion.
+- **Openverse, CC0 / public domain** (no attribution required): sourdough, burrata, gnocchi,
+  kremšnita, langoustines.
+
+Replace them with the restaurant's own photography before launch: real photos of real plates
+sell a table better than any stock. Keep the file names, or update `content/images.ts` and the
+menu item `image` paths, then run `npm run media:blur`.
+
+**Fetching photos in CI.** If your development machine can't reach image hosts,
+`.github/workflows/fetch-photos.yml` + `scripts/fetch-photos.mjs` can do it on GitHub Actions.
+Commit a `.image-review/request.json` and the workflow commits the results back:
+
+- `search` builds contact sheets of Openverse (CC0) candidates.
+- `previews` builds labelled contact sheets from a list of preview URLs.
+- `fetch` downloads chosen URLs at full size into `public/images`.

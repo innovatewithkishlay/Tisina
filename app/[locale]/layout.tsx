@@ -15,7 +15,6 @@ import { Footer } from '@/components/layout/Footer';
 import { OpenStatus } from '@/components/layout/OpenStatus';
 import { RevealObserver } from '@/components/motion/RevealObserver';
 import { SmoothScroll } from '@/components/motion/SmoothScroll';
-import { images } from '@/content/images';
 import '../globals.css';
 
 /*
@@ -68,14 +67,6 @@ export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Pr
  */
 const CLIENT_NAMESPACES = ['Navigation', 'Status', 'Error', 'Common'] as const;
 
-const NAV_PREVIEWS: Record<string, string> = {
-  home: images.kitchen.fire.src,
-  menu: images.hero.src,
-  story: images.kitchen.chefs.src,
-  visit: images.gallery.window.src,
-  contact: images.kitchen.hands.src,
-};
-
 export default async function LocaleLayout({ children, params }: LayoutProps<'/[locale]'>) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
@@ -112,7 +103,6 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
               email={r.email}
               instagram={r.instagram}
               status={status}
-              previews={NAV_PREVIEWS}
             />
             <ViewTransition>
               {/* Lifts off the curtain footer underneath as you reach the end. */}

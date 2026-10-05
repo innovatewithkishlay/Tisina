@@ -50,19 +50,19 @@
         "region": "Istra",
         "dish": "Fuži, crni tartuf",
         "body": "U jesen nam tartufari iz doline Mirne šalju ono što su psi pronašli tog tjedna. Ribamo ga za stolom, preko tjestenine koju smo ručno uvaljali istog jutra.",
-        "alt": "Fuži ispod ribanog crnog tartufa, svjetlo svijeća u pozadini"
+        "alt": "Vrpce svježe tjestenine pod listićima crnog tartufa na tamnom tanjuru"
       },
       "dalmacija": {
         "region": "Dalmacija",
         "dish": "Pašticada",
         "body": "Dva dana u vinu i octu, šest sati u loncu s prošekom i suhim šljivama. Recept je od jedne splitske bake; strpljenje je naše.",
-        "alt": "Narezana pirjana govedina u tamnom umaku sa zlatnim njokima na keramičkom tanjuru"
+        "alt": "Govedina pirjana s krumpirom u gustom smeđem umaku, u tamnoj zdjeli"
       },
       "jadran": {
         "region": "Jadran",
         "dish": "Tuna, sirova",
         "body": "Ulovljena udicom kod Visa i rezana po narudžbi, začinjena tek istarskim uljem i pokojim kaparom ubranim s otočnih zidova.",
-        "alt": "Tartar od tune s rotkvicom, kaparima i cvjetovima boražine, uz raženi kruh"
+        "alt": "Tatarski od tune s hrskavim ljutikom na laganom umaku od čilija"
       }
     },
     "signatureLabel": "Potpis kuće",
@@ -82,7 +82,7 @@
     "galleryLabel": "Večeri u Tišini",
     "gallery": {
       "candles": "Svijeće palimo u pola sedam",
-      "window": "Popodnevno svjetlo na stolu uz prozor",
+      "window": "Blagovaonica u sumrak",
       "wine": "Plavac mali s Pelješca",
       "linen": "Lan, glačan svako jutro",
       "dessert": "Panna cotta sa šumskim voćem s Medvednice",
@@ -141,8 +141,8 @@
     "quoteBy": "Kuhinja Tišine",
     "ctaMenu": "Pročitajte jelovnik",
     "ctaBook": "Rezervirajte stol",
-    "imageAlt1": "Burrata s domaćim rajčicama i bosiljkom na tanjuru pokraj prozora",
-    "imageAlt2": "Panna cotta sa šumskim voćem u blago osvijetljenoj blagovaonici"
+    "imageAlt1": "Kuhar ručno slaže jelo na drvenom pultu",
+    "imageAlt2": "Crno vino toči se iz dekantera pokraj grožđa i krušaka"
   },
   "Menu": {
     "eyebrow": "Jelovnik",
@@ -363,7 +363,8 @@
     "ctaTitle": "Stol vas <em>čeka</em>.",
     "ctaBody": "Dvadeset i osam mjesta, jedna smjena, bez žurbe.",
     "localTime": "Lokalno vrijeme · {city}",
-    "directions": "Upute"
+    "directions": "Upute",
+    "photoCredit": "Fotografije: Freepik, Openverse (CC0)"
   },
   "Privacy": {
     "eyebrow": "Privatnost",

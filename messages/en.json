@@ -50,19 +50,19 @@
         "region": "Istria",
         "dish": "Fuži, black truffle",
         "body": "In autumn the truffle hunters of the Mirna valley send us whatever the dogs found that week. We shave it at the table, over pasta rolled by hand that morning.",
-        "alt": "Fuži pasta under shaved black truffle, candlelight behind"
+        "alt": "Ribbons of fresh pasta under slices of black truffle on a dark plate"
       },
       "dalmacija": {
         "region": "Dalmatia",
         "dish": "Pašticada",
         "body": "Two days in wine and vinegar, six hours in the pot with prošek and dried plums. The recipe came from a grandmother in Split; the patience is ours.",
-        "alt": "Slices of braised beef in a dark sauce with golden gnocchi on a stoneware plate"
+        "alt": "Beef braised with potatoes in a deep brown sauce, served in a dark dish"
       },
       "jadran": {
         "region": "The Adriatic",
         "dish": "Tuna, raw",
         "body": "Line-caught off Vis and cut to order, dressed with little more than Istrian oil and a few capers picked from island walls.",
-        "alt": "Tuna tartare topped with radish, capers and borage flowers, rye crisps on the side"
+        "alt": "Tuna tartare with crisp shallots on a light chilli sauce"
       }
     },
     "signatureLabel": "Signature",
@@ -82,7 +82,7 @@
     "galleryLabel": "Evenings at Tišina",
     "gallery": {
       "candles": "Candles lit at half past six",
-      "window": "Afternoon light on the window table",
+      "window": "The dining room at dusk",
       "wine": "Plavac mali from Pelješac",
       "linen": "Linen, pressed every morning",
       "dessert": "Panna cotta with wild berries from Medvednica",
@@ -141,8 +141,8 @@
     "quoteBy": "The Tišina kitchen",
     "ctaMenu": "Read the menu",
     "ctaBook": "Reserve a table",
-    "imageAlt1": "Burrata with heirloom tomatoes and basil on a speckled plate beside a window",
-    "imageAlt2": "Dessert plate with panna cotta and wild berries in a softly lit dining room"
+    "imageAlt1": "A chef plating a dish by hand at a wooden counter",
+    "imageAlt2": "Red wine poured from a decanter beside grapes and pears"
   },
   "Menu": {
     "eyebrow": "Menu",
@@ -363,7 +363,8 @@
     "ctaTitle": "A table is <em>waiting</em>.",
     "ctaBody": "Twenty-eight seats, one sitting, no hurry.",
     "localTime": "Now in {city}",
-    "directions": "Directions"
+    "directions": "Directions",
+    "photoCredit": "Photography: Freepik, Openverse (CC0)"
   },
   "Privacy": {
     "eyebrow": "Privacy",
