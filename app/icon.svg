@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#14110e"/>
+  <!-- Serif "T" with the caron of "š" above it: the Tišina monogram -->
+  <path d="M25 9.5l7 5 7-5" fill="none" stroke="#d08a63" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M15 21.5h34v8.5h-2.2c-.6-3.4-2.2-5.2-5.6-5.2H35.6V48c0 2.6.9 3.4 4.4 3.6V54H24v-2.4c3.5-.2 4.4-1 4.4-3.6V24.8H22.8c-3.4 0-5 1.8-5.6 5.2H15z" fill="#ece4d7"/>
+</svg>

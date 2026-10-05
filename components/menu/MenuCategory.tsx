@@ -1,26 +1,33 @@
-import { MenuCategory as MenuCategoryType } from '@/lib/restaurant/mock-menu';
-import { FeaturedMenuItem } from './FeaturedMenuItem';
-import { useLocale } from 'next-intl';
+import type { Locale } from '@/config/locales';
+import type { MenuCategory as MenuCategoryType } from '@/types/restaurant';
+import { Reveal } from '@/components/ui/Reveal';
+import { MenuItem, type MenuItemLabels } from './MenuItem';
 
-export function MenuCategory({ category }: { category: MenuCategoryType }) {
-  const locale = useLocale();
-  const name = category.name[locale] || category.name.en;
-
-  if (!category.items || category.items.length === 0) return null;
-
+export function MenuCategory({
+  category,
+  index,
+  locale,
+  labels,
+}: {
+  category: MenuCategoryType;
+  index: number;
+  locale: Locale;
+  labels: MenuItemLabels;
+}) {
   return (
-    <section className="mb-24 relative">
-      <div className="container max-w-screen-2xl mx-auto px-4 md:px-12 mb-12 flex items-center gap-6">
-        <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter shrink-0">
-          {name}
-        </h3>
-        <div className="h-[1px] w-full bg-border" />
-      </div>
-      
-      {/* Horizontal Scroll Snap Container */}
-      <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-12 w-full">
-        {category.items.map((item, index) => (
-          <FeaturedMenuItem key={item.id} item={item} index={index} />
+    <section id={`c-${category.slug}`} aria-labelledby={`h-${category.slug}`} className="scroll-mt-32 grid gap-6 py-14 lg:grid-cols-12 lg:py-20">
+      <Reveal className="lg:col-span-4">
+        <div className="lg:sticky lg:top-40">
+          <p className="label tabular-nums text-muted">{String(index + 1).padStart(2, '0')}</p>
+          <h2 id={`h-${category.slug}`} className="font-display text-h2 mt-3">
+            {category.name}
+          </h2>
+          {category.description ? <p className="mt-4 max-w-[30ch] text-fg-2">{category.description}</p> : null}
+        </div>
+      </Reveal>
+      <div className="border-t hairline lg:col-span-7 lg:col-start-6">
+        {category.items.map((item) => (
+          <MenuItem key={item.slug} item={item} locale={locale} labels={labels} />
         ))}
       </div>
     </section>

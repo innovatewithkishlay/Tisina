@@ -1,0 +1,364 @@
+{
+  "Meta": {
+    "skipToContent": "Ugrás a tartalomra",
+    "homeTitle": "{name} — Étterem a Felsővárosban, Zágráb",
+    "menuTitle": "Étlap",
+    "menuDescription": "A {name} zágrábi étterem aktuális étlapja: horvát regionális fogások, hatfogásos kóstolómenü és pohárborok. Árak {currency} pénznemben, allergénekkel.",
+    "storyTitle": "Történetünk",
+    "storyDescription": "Miért főzi a {name} Horvátországot tájegységről tájegységre, és kik állnak a konyhában.",
+    "visitTitle": "Látogatás",
+    "visitDescription": "Cím, nyitvatartás, megközelítés és gyakori kérdések a zágrábi Opatička utcai {name} étteremről.",
+    "bookTitle": "Asztalfoglalás",
+    "bookDescription": "Kérjen asztalt a zágrábi {name} étterembe. Minden foglalást személyesen erősítünk meg.",
+    "contactTitle": "Kapcsolat",
+    "contactDescription": "Írjon a {name} étteremnek privát vacsoráról, rendezvényről, sajtóügyben vagy bármi másról.",
+    "privacyTitle": "Adatvédelem",
+    "privacyDescription": "Hogyan kezeli a {name} az ezen a weboldalon keresztül küldött személyes adatokat."
+  },
+  "Navigation": {
+    "home": "Főoldal",
+    "menu": "Étlap",
+    "story": "Történet",
+    "visit": "Látogatás",
+    "contact": "Kapcsolat",
+    "book": "Foglalás",
+    "bookLong": "Asztalfoglalás",
+    "openMenu": "Menü megnyitása",
+    "closeMenu": "Menü bezárása",
+    "primary": "Fő navigáció",
+    "language": "Nyelv",
+    "currentLanguage": "Jelenlegi nyelv: {language}"
+  },
+  "Status": {
+    "open": "Most nyitva · {time}-ig",
+    "laterToday": "Ma {time}-tól",
+    "closedNext": "Zárva · nyitás: {day} {time}",
+    "closed": "Ma zárva"
+  },
+  "Home": {
+    "eyebrow": "Opatička 14 · Felsőváros · Zágráb",
+    "heroLine": "Csendes étterem a Felsővárosban. Horvátország, tájegységről tájegységre főzve.",
+    "heroImageAlt": "Kézzel sodort fuži reszelt fekete szarvasgombával sötét kerámiatálban, gyertyák és borospoharak egy fa asztalon",
+    "ctaBook": "Asztalfoglalás",
+    "ctaMenu": "Az étlap",
+    "scroll": "Görgessen",
+    "introLabel": "A konyha",
+    "intro": "Lassan főzzük az országot — szarvasgomba az isztriai dombokról, dalmát módra párolt pašticada, a Zagorje sajtja és tejszíne —, és elég csendet hagyunk az asztal körül, hogy mindezt meg lehessen ízlelni.",
+    "regionsLabel": "Három tájegység, egy asztal",
+    "regions": {
+      "istra": {
+        "region": "Isztria",
+        "dish": "Fuži, fekete szarvasgomba",
+        "body": "Ősszel a Mirna-völgy szarvasgombászai elküldik nekünk, amit a kutyák azon a héten találtak. Az asztalnál reszeljük, aznap reggel kézzel sodort tésztára.",
+        "alt": "Fuži tészta reszelt fekete szarvasgomba alatt, gyertyafény a háttérben"
+      },
+      "dalmacija": {
+        "region": "Dalmácia",
+        "dish": "Pašticada",
+        "body": "Két nap borban és ecetben, hat óra a fazékban prošekkel és aszalt szilvával. A recept egy spliti nagymamától származik, a türelem a miénk.",
+        "alt": "Szeletelt párolt marha sötét mártásban, aranyló gnocchival kőedény tányéron"
+      },
+      "jadran": {
+        "region": "Az Adria",
+        "dish": "Tonhal, nyersen",
+        "body": "Vis szigeténél horoggal fogva, rendelésre vágva, alig többel ízesítve, mint isztriai olaj és néhány, a szigeti falakról szedett kapribogyó.",
+        "alt": "Tonhaltatár retekkel, kapribogyóval és borágóvirággal, mellette rozskeksz"
+      }
+    },
+    "signatureLabel": "A ház fogása",
+    "signatureNote": "Az első este óta az étlapon. Az utolsón is ott lesz.",
+    "definitionWord": "tišina",
+    "definitionPron": "/ˈti.ʃi.na/",
+    "definitionKind": "főnév, horvát",
+    "definition1": "Csend; nyugalom.",
+    "definition2": "Az a szünet az asztalnál az első falat után, amikor senkinek sem kell semmit mondania.",
+    "menuLabel": "Az étlap",
+    "menuTitle": "Rövid, szezonális, és újraírjuk, amikor a piac változik.",
+    "menuBody": "Körülbelül húsz fogás, hatfogásos kóstolómenü és kis horvát pincészetek borai. Minden allergént feltüntetünk.",
+    "menuCta": "A teljes étlap",
+    "roomLabel": "A terem",
+    "roomTitle": "Huszonnyolc hely, kőfalak, gyertyafény.",
+    "roomBody": "Földszinti terem az Opatička utcában, néhány percre a Szent Márk tértől. Vászon az asztalokon, egy ablak az utcára, és sosem szól hangosabban a zene, mint a beszélgetés.",
+    "galleryLabel": "Esték a Tišinában",
+    "gallery": {
+      "candles": "Fél hétkor gyújtjuk meg a gyertyákat",
+      "window": "Délutáni fény az ablak melletti asztalon",
+      "wine": "Plavac mali a Pelješac-félszigetről",
+      "linen": "Vászon, minden reggel vasalva",
+      "dessert": "Panna cotta medvednicai erdei gyümölccsel",
+      "garden": "Paradicsom a Neretva völgyéből"
+    },
+    "visitLabel": "Hol talál minket",
+    "visitTitle": "A Felsővárosban, a Kőkapu és a Szent Márk-templom között.",
+    "visitCta": "Útvonal és nyitvatartás",
+    "bookLabel": "Foglalás",
+    "bookTitle": "Asztalfoglalás",
+    "bookBody": "Küldjön nekünk egy kérést, és személyesen erősítjük meg, általában néhány órán belül."
+  },
+  "Story": {
+    "eyebrow": "Történetünk",
+    "title": "Egy étterem, amely arról kapta a nevét, amit a legtöbbre tart.",
+    "lede": "A Tišina egy egyszerű gondolattal indult: Horvátország nem egy konyha, hanem több, és mindegyik megérdemli, hogy a szülőföldje türelmével főzzék.",
+    "chapter1Title": "Tájegységről tájegységre",
+    "chapter1Body": "Isztria szarvasgombát, olívaolajat és malvaziját ad. Dalmácia lassú párolásokat és a tengert. A Kvarner olyan édes scampit, hogy nyersen is enni lehet. A Zagorje és Szlavónia tejszínt, sajtot, lisztet és sertést. Az étlap az évszakokkal vándorol közöttük, a kóstolómenü pedig egy este alatt öt tájegységen vezet végig.",
+    "chapter2Title": "Akiktől vásárolunk",
+    "chapter2Body": "Vis és Ugljan halászaitól, pagi sajtkészítőktől, egy Mirna-völgyi szarvasgombász családtól és Zágrábtól egy órán belül gazdálkodó zöldségtermesztőktől vásárolunk. Ami nem elég jó, az nem kerül az étlapra.",
+    "chapter3Title": "A csendes rész",
+    "chapter3Body": "Huszonnyolc hely azt jelenti, hogy senkit sem siettetünk. A fogások akkor érkeznek, amikor készen áll rájuk. Nincs második turnus — az asztal egész este az Öné.",
+    "quote": "A jó főzéshez idő kell. A jó társasághoz is. Igyekszünk mindkettőt megadni.",
+    "quoteBy": "A Tišina konyhája",
+    "ctaMenu": "Az étlap",
+    "ctaBook": "Asztalfoglalás",
+    "imageAlt1": "Burrata régi fajta paradicsommal és bazsalikommal egy tányéron az ablak mellett",
+    "imageAlt2": "Panna cotta erdei gyümölccsel egy lágyan megvilágított étteremben"
+  },
+  "Menu": {
+    "eyebrow": "Étlap",
+    "title": "Az étlap",
+    "lede": "Minden reggel újraírjuk aszerint, mi érkezik a tengerpartról és a gazdaságokból. Árak {currency} pénznemben, a felszolgálási díjat tartalmazzák.",
+    "jumpTo": "Ugrás ide",
+    "signature": "A ház fogása",
+    "seasonal": "Szezonális",
+    "unavailable": "Ma elfogyott",
+    "marketPrice": "Napi ár",
+    "allergensLabel": "Tartalmaz",
+    "dietaryLabel": "Alkalmas",
+    "legendTitle": "Allergének és étrendi igények",
+    "legendBody": "Az allergéneket az 1169/2011/EU rendelet szerint tüntetjük fel. Konyhánkban mind a tizennégy előfordul, ezért nyomokban sem zárhatók ki. Kérjük, jelezze a pincérnek, ha allergiája vagy intoleranciája van.",
+    "empty": "Az étlapot éppen újraírjuk. Kérjük, hívjon minket a mai fogásokért.",
+    "ctaTitle": "Megéhezett?",
+    "ctaBook": "Asztalfoglalás",
+    "allergens": {
+      "gluten": "Glutén",
+      "crustaceans": "Rákfélék",
+      "eggs": "Tojás",
+      "fish": "Hal",
+      "peanuts": "Földimogyoró",
+      "soy": "Szója",
+      "milk": "Tej",
+      "nuts": "Diófélék",
+      "celery": "Zeller",
+      "mustard": "Mustár",
+      "sesame": "Szezám",
+      "sulphites": "Szulfitok",
+      "lupin": "Csillagfürt",
+      "molluscs": "Puhatestűek"
+    },
+    "dietary": {
+      "vegetarian": "Vegetáriánus",
+      "vegan": "Vegán",
+      "gluten_free": "Gluténmentes",
+      "dairy_free": "Tejmentes",
+      "pescatarian": "Peszkateriánus"
+    }
+  },
+  "Hours": {
+    "title": "Nyitvatartás",
+    "closed": "Zárva",
+    "today": "Ma",
+    "special": "Különleges napok",
+    "specialClosed": "Zárva",
+    "timezoneNote": "Minden időpont helyi idő szerint értendő ({city}).",
+    "services": {
+      "breakfast": "Reggeli",
+      "lunch": "Ebéd",
+      "dinner": "Vacsora",
+      "all_day": "Egész nap",
+      "bar": "Bár"
+    }
+  },
+  "Visit": {
+    "eyebrow": "Látogatás",
+    "title": "Opatička 14, a Felsővárosban.",
+    "lede": "Rövid séta felfelé a Jelačić tértől, vagy két perc a sikló felső állomásától.",
+    "addressTitle": "Cím",
+    "directions": "Útvonaltervezés",
+    "openInMaps": "Megnyitás térképen",
+    "contactTitle": "Kapcsolat",
+    "gettingHereTitle": "Megközelítés",
+    "gettingHere": "A Felsőváros nagyrészt gyalogos övezet. Gyalog a Radićeva utcán és a Kőkapun át érhet fel, vagy a Tomićeva utcai siklóval, majd a Strossmayer sétányon. Autóval a legközelebbi nyilvános parkolóház a Tuškanac, tízperces sétára. Taxi az Opatička és a Mletačka utca sarkán tud megállni.",
+    "faqTitle": "Gyakori kérdések",
+    "faq": [
+      {
+        "q": "Fogadnak vendégeket foglalás nélkül?",
+        "a": "Igen, ha van hely. A bárpultnál négy helyet a foglalás nélkül érkező vendégeknek tartunk fenn. Péntek és szombat este ajánljuk a foglalást."
+      },
+      {
+        "q": "Van öltözködési előírás?",
+        "a": "Nincs. Jöjjön úgy, ahogy kényelmes."
+      },
+      {
+        "q": "Tudnak alkalmazkodni allergiákhoz és étrendi igényekhez?",
+        "a": "Igen. Az étlap minden fogásnál feltünteti mind a tizennégy uniós allergént, és jelöli a vegetáriánus, vegán és gluténmentes fogásokat. Foglaláskor jelezze igényeit, és a konyha felkészül."
+      },
+      {
+        "q": "Hogyan foglalhatok nyolcnál több főre?",
+        "a": "Írjon nekünk a Kapcsolat oldalon, vagy hívjon. Az egész terem lefoglalható legfeljebb huszonnyolc vendég számára."
+      },
+      {
+        "q": "Akadálymentes az étterem?",
+        "a": "Az étterem és a mosdó a földszinten van. A bejáratnál egy alacsony lépcsőfok van, és hordozható rámpával rendelkezünk — szóljon előre, és előkészítjük."
+      },
+      {
+        "q": "Hogyan fizethetek?",
+        "a": "Minden nagyobb bankkártyát elfogadunk, valamint készpénzt euróban."
+      }
+    ]
+  },
+  "Booking": {
+    "eyebrow": "Foglalás",
+    "title": "Asztalfoglalás",
+    "lede": "Válasszon dátumot és időpontot, és meséljen egy kicsit az estéjéről. Ez egy kérés: minden foglalást személyesen erősítünk meg, általában néhány órán belül.",
+    "sideTitle": "Jó tudni",
+    "sideItems": [
+      "Az asztalt tizenöt percig tartjuk.",
+      "{max} főnél nagyobb társaság esetén kérjük, írjon nekünk.",
+      "Ebéd és vacsora keddtől szombatig, vasárnap ebéd."
+    ],
+    "sideCall": "Inkább telefonálna?",
+    "stepWhen": "Mikor",
+    "stepWho": "Ki",
+    "date": "Dátum",
+    "time": "Időpont",
+    "guests": "Vendégek száma",
+    "guestsCount": "{count} fő",
+    "selectDateFirst": "Válasszon dátumot a szabad időpontok megtekintéséhez.",
+    "noTimes": "Ezen a napon zárva tartunk, vagy már elmúlt az utolsó ültetés. Kérjük, válasszon másik napot.",
+    "closedDay": "Zárva",
+    "name": "Teljes név",
+    "email": "E-mail",
+    "phone": "Telefon",
+    "phoneHint": "Országkóddal, pl. +36 30 123 4567",
+    "occasion": "Alkalom",
+    "occasionNone": "Nincs különleges alkalom",
+    "occasions": {
+      "birthday": "Születésnap",
+      "anniversary": "Évforduló",
+      "business": "Üzleti vacsora",
+      "celebration": "Ünneplés",
+      "other": "Valami más"
+    },
+    "seating": "Helyválasztás",
+    "seatings": {
+      "no_preference": "Mindegy",
+      "dining_room": "Étterem",
+      "chefs_counter": "Pult a konyhánál",
+      "terrace": "Terasz (szezonban)"
+    },
+    "message": "Van valami, amit tudnunk kellene?",
+    "messageHint": "Allergia, etetőszék, meglepetés…",
+    "consent": "Hozzájárulok, hogy a {name} ezeket az adatokat a kérésem kezelésére használja az <link>adatvédelmi tájékoztató</link> szerint.",
+    "submit": "Kérés elküldése",
+    "submitting": "Küldés…",
+    "required": "Kötelező",
+    "optional": "Nem kötelező",
+    "successTitle": "Köszönjük — megkaptuk a kérését.",
+    "successBody": "Megkaptuk foglalási kérését {guests} részére, {date}, {time}. Az étterem hamarosan megerősíti foglalását e-mailben vagy telefonon.",
+    "successReference": "Hivatkozási szám",
+    "successNote": "Semmi sem végleges, amíg nem jelentkezünk. Ha változnak a tervei, egyszerűen válaszoljon az e-mailünkre.",
+    "successAgain": "Új kérés küldése",
+    "errors": {
+      "invalid_name": "Kérjük, adja meg a nevét.",
+      "invalid_email": "Kérjük, adjon meg érvényes e-mail-címet.",
+      "invalid_phone": "Kérjük, adjon meg országkóddal egy telefonszámot, amelyen elérjük.",
+      "invalid_party_size": "Online 1–{max} főre lehet foglalni. Nagyobb társaság esetén kérjük, írjon nekünk.",
+      "invalid_date": "Kérjük, válasszon dátumot.",
+      "invalid_time": "Kérjük, válasszon időpontot.",
+      "invalid_message": "Kérjük, legfeljebb 1000 karakterben írjon.",
+      "consent": "Kérjük, erősítse meg, hogy használhatjuk az adatait.",
+      "closed": "Ebben az időpontban nem fogadunk foglalást. Kérjük, válasszon másikat.",
+      "too_soon": "Ez az időpont túl közel van egy online kéréshez — kérjük, hívjon minket.",
+      "too_far": "Legfeljebb {days} nappal előre fogadunk kéréseket.",
+      "booking_disabled": "Az online foglalás jelenleg szünetel. Kérjük, hívjon minket.",
+      "rate_limited": "Az imént több kérést is kaptunk Öntől. Kérjük, várjon néhány percet.",
+      "generic": "Hiba történt, és a kérést nem küldtük el. Kérjük, próbálja újra, vagy hívjon minket: {phone}.",
+      "summary": "Kérjük, ellenőrizze a megjelölt mezőket."
+    }
+  },
+  "Contact": {
+    "eyebrow": "Kapcsolat",
+    "title": "Írjon nekünk",
+    "lede": "Privát vacsora, rendezvény, sajtó vagy kérdés az étlapról. Minden üzenetre egy munkanapon belül válaszolunk.",
+    "subject": "Tárgy",
+    "subjects": {
+      "general": "Általános kérdés",
+      "private_dining": "Privát vacsora",
+      "events": "Rendezvények",
+      "press": "Sajtó",
+      "other": "Valami más"
+    },
+    "name": "Teljes név",
+    "email": "E-mail",
+    "phone": "Telefon",
+    "message": "Üzenet",
+    "submit": "Üzenet küldése",
+    "submitting": "Küldés…",
+    "successTitle": "Köszönjük. Üzenete megérkezett.",
+    "successBody": "Egy munkanapon belül válaszolunk a(z) {email} címre.",
+    "successAgain": "Új üzenet küldése",
+    "direct": "Vagy közvetlenül",
+    "errors": {
+      "invalid_name": "Kérjük, adja meg a nevét.",
+      "invalid_email": "Kérjük, adjon meg érvényes e-mail-címet.",
+      "invalid_phone": "Kérjük, ellenőrizze a telefonszámot.",
+      "invalid_message": "Kérjük, írjon legalább egy mondatot (10–4000 karakter).",
+      "consent": "Kérjük, erősítse meg, hogy használhatjuk az adatait.",
+      "rate_limited": "Az imént több üzenetet is kaptunk Öntől. Kérjük, várjon néhány percet.",
+      "generic": "Hiba történt, és az üzenetet nem küldtük el. Kérjük, próbálja újra, vagy írjon ide: {email}.",
+      "summary": "Kérjük, ellenőrizze a megjelölt mezőket."
+    }
+  },
+  "Footer": {
+    "tagline": "Horvát regionális konyha Zágráb Felsővárosában.",
+    "visit": "Látogatás",
+    "hours": "Nyitvatartás",
+    "follow": "Kövessen",
+    "explore": "Felfedezés",
+    "privacy": "Adatvédelem",
+    "rights": "© {year} {name}. Minden jog fenntartva.",
+    "madeBy": "A weboldalt a Kyro Studio készítette"
+  },
+  "Privacy": {
+    "eyebrow": "Adatvédelem",
+    "title": "Az Ön adatai, gondosan kezelve.",
+    "updated": "Utolsó frissítés: {date}",
+    "sections": [
+      {
+        "title": "Milyen adatokat gyűjtünk",
+        "body": "Amikor asztalt kér vagy ír nekünk, megkapjuk a nevét, e-mail-címét, telefonszámát (ha megadja) és az üzenetében leírtakat. Ezen a weboldalon nem használunk követő sütiket és harmadik féltől származó analitikát."
+      },
+      {
+        "title": "Mire használjuk",
+        "body": "Kizárólag arra, hogy megválaszoljuk megkeresését, illetve megerősítsük, módosítsuk vagy lemondjuk foglalását. A jogalap az Ön kérésére a szerződéskötést megelőzően tett lépések (GDPR 6. cikk (1) bekezdés b) pont)."
+      },
+      {
+        "title": "Meddig őrizzük",
+        "body": "A foglalási kéréseket tizenkét hónapig, az üzeneteket huszonnégy hónapig őrizzük, majd töröljük."
+      },
+      {
+        "title": "Ki kezeli",
+        "body": "Adatbázisunk (Supabase, EU-ban tárolva) és e-mail-szolgáltatónk adatfeldolgozóként jár el nevünkben. Adatait soha nem adjuk el, és marketingcélra nem osztjuk meg."
+      },
+      {
+        "title": "Az Ön jogai",
+        "body": "Kérheti adatai megtekintését, helyesbítését vagy törlését, illetve tiltakozhat felhasználásuk ellen a(z) {email} címre írva. Panaszt tehet a horvát adatvédelmi hatóságnál (AZOP) is."
+      }
+    ]
+  },
+  "NotFound": {
+    "title": "Ez az oldal nincs az étlapon.",
+    "body": "Lehet, hogy elköltözött, vagy elírták a hivatkozást.",
+    "cta": "Vissza a főoldalra"
+  },
+  "Error": {
+    "title": "Valami elromlott a konyhában.",
+    "body": "Kérjük, próbálja újra egy pillanat múlva. Ha továbbra is előfordul, hívjon vagy írjon nekünk — az asztala fontosabb ennél az oldalnál.",
+    "retry": "Újrapróbálás"
+  },
+  "Common": {
+    "loading": "Betöltés…",
+    "call": "Hívás",
+    "email": "E-mail",
+    "instagram": "Instagram"
+  }
+}

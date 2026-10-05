@@ -1,0 +1,364 @@
+{
+  "Meta": {
+    "skipToContent": "Zum Inhalt springen",
+    "homeTitle": "{name} — Restaurant in der Oberstadt, Zagreb",
+    "menuTitle": "Speisekarte",
+    "menuDescription": "Die aktuelle Speisekarte von {name} in Zagreb: kroatische Regionalgerichte, ein Degustationsmenü in sechs Gängen und Weine im Glas. Preise in {currency}, mit Allergenangaben.",
+    "storyTitle": "Unsere Geschichte",
+    "storyDescription": "Warum {name} Kroatien Region für Region kocht – und wer in der Küche steht.",
+    "visitTitle": "Besuch",
+    "visitDescription": "Adresse, Öffnungszeiten, Anfahrt und häufige Fragen zu {name} in der Opatička-Straße, Zagreb.",
+    "bookTitle": "Tisch reservieren",
+    "bookDescription": "Fragen Sie einen Tisch bei {name} in Zagreb an. Wir bestätigen jede Reservierung persönlich.",
+    "contactTitle": "Kontakt",
+    "contactDescription": "Schreiben Sie {name} zu privaten Essen, Veranstaltungen, Presse oder anderen Anliegen.",
+    "privacyTitle": "Datenschutz",
+    "privacyDescription": "Wie {name} mit den personenbezogenen Daten umgeht, die Sie über diese Website senden."
+  },
+  "Navigation": {
+    "home": "Start",
+    "menu": "Speisekarte",
+    "story": "Geschichte",
+    "visit": "Besuch",
+    "contact": "Kontakt",
+    "book": "Reservieren",
+    "bookLong": "Tisch reservieren",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen",
+    "primary": "Hauptnavigation",
+    "language": "Sprache",
+    "currentLanguage": "Aktuelle Sprache: {language}"
+  },
+  "Status": {
+    "open": "Jetzt geöffnet · bis {time}",
+    "laterToday": "Heute ab {time}",
+    "closedNext": "Geschlossen · öffnet {day} um {time}",
+    "closed": "Heute geschlossen"
+  },
+  "Home": {
+    "eyebrow": "Opatička 14 · Oberstadt · Zagreb",
+    "heroLine": "Ein stiller Speisesaal in der Oberstadt. Kroatien, Region für Region gekocht.",
+    "heroImageAlt": "Handgerollte Fuži mit gehobeltem schwarzem Trüffel in einer dunklen Keramikschale, Kerzen und Weingläser auf einem Holztisch",
+    "ctaBook": "Tisch reservieren",
+    "ctaMenu": "Zur Speisekarte",
+    "scroll": "Scrollen",
+    "introLabel": "Die Küche",
+    "intro": "Wir kochen das Land langsam – Trüffel aus den istrischen Hügeln, Pašticada nach dalmatinischer Art, Käse und Rahm aus dem Zagorje – und lassen genug Ruhe am Tisch, um alles zu schmecken.",
+    "regionsLabel": "Drei Regionen, ein Tisch",
+    "regions": {
+      "istra": {
+        "region": "Istrien",
+        "dish": "Fuži, schwarzer Trüffel",
+        "body": "Im Herbst schicken uns die Trüffelsucher aus dem Mirna-Tal, was ihre Hunde in dieser Woche gefunden haben. Wir hobeln ihn am Tisch über Pasta, die am selben Morgen von Hand gerollt wurde.",
+        "alt": "Fuži unter gehobeltem schwarzem Trüffel, Kerzenlicht im Hintergrund"
+      },
+      "dalmacija": {
+        "region": "Dalmatien",
+        "dish": "Pašticada",
+        "body": "Zwei Tage in Wein und Essig, sechs Stunden im Topf mit Prošek und Dörrpflaumen. Das Rezept stammt von einer Großmutter aus Split, die Geduld ist unsere.",
+        "alt": "Scheiben von geschmortem Rind in dunkler Sauce mit goldenen Gnocchi auf einem Steingutteller"
+      },
+      "jadran": {
+        "region": "Die Adria",
+        "dish": "Thunfisch, roh",
+        "body": "Vor Vis mit der Leine gefangen und auf Bestellung geschnitten, angemacht mit kaum mehr als istrischem Öl und ein paar Kapern von den Inselmauern.",
+        "alt": "Thunfischtatar mit Radieschen, Kapern und Borretschblüten, daneben Roggen-Cracker"
+      }
+    },
+    "signatureLabel": "Signature",
+    "signatureNote": "Seit dem ersten Abend auf der Karte. Und bis zum letzten.",
+    "definitionWord": "tišina",
+    "definitionPron": "/ˈti.ʃi.na/",
+    "definitionKind": "Substantiv, kroatisch",
+    "definition1": "Stille; Ruhe.",
+    "definition2": "Die Pause am Tisch nach dem ersten Bissen, wenn niemand etwas sagen muss.",
+    "menuLabel": "Die Karte",
+    "menuTitle": "Kurz, saisonal, neu geschrieben, wenn sich der Markt ändert.",
+    "menuBody": "Rund zwanzig Gerichte, ein Degustationsmenü in sechs Gängen und Weine kleiner kroatischer Winzer. Alle Allergene sind angegeben.",
+    "menuCta": "Die ganze Speisekarte",
+    "roomLabel": "Der Raum",
+    "roomTitle": "Achtundzwanzig Plätze, Steinwände, Kerzenlicht.",
+    "roomBody": "Ein Raum im Erdgeschoss der Opatička-Straße, wenige Gehminuten vom Markusplatz. Leinen auf den Tischen, ein Fenster zur Straße und keine Musik, die lauter ist als das Gespräch.",
+    "galleryLabel": "Abende im Tišina",
+    "gallery": {
+      "candles": "Die Kerzen brennen ab halb sieben",
+      "window": "Nachmittagslicht am Fenstertisch",
+      "wine": "Plavac mali von Pelješac",
+      "linen": "Leinen, jeden Morgen gebügelt",
+      "dessert": "Panna cotta mit Waldbeeren vom Medvednica",
+      "garden": "Tomaten aus dem Neretva-Tal"
+    },
+    "visitLabel": "So finden Sie uns",
+    "visitTitle": "In der Oberstadt, zwischen Steinernem Tor und Markuskirche.",
+    "visitCta": "Anfahrt & Öffnungszeiten",
+    "bookLabel": "Reservierungen",
+    "bookTitle": "Tisch reservieren",
+    "bookBody": "Senden Sie uns eine Anfrage – wir bestätigen sie persönlich, meist innerhalb weniger Stunden."
+  },
+  "Story": {
+    "eyebrow": "Unsere Geschichte",
+    "title": "Ein Restaurant, benannt nach dem, was es am meisten schätzt.",
+    "lede": "Tišina begann mit einer einfachen Idee: Kroatien ist nicht eine Küche, sondern mehrere – und jede verdient es, mit der Geduld ihrer Herkunft gekocht zu werden.",
+    "chapter1Title": "Region für Region",
+    "chapter1Body": "Istrien gibt uns Trüffel, Olivenöl und Malvazija. Dalmatien langsame Schmorgerichte und das Meer. Die Kvarner-Bucht Scampi, süß genug, um sie roh zu essen. Zagorje und Slawonien Rahm, Käse, Mehl und Schwein. Die Karte wandert mit den Jahreszeiten zwischen ihnen, und das Degustationsmenü führt an einem Abend durch fünf Regionen.",
+    "chapter2Title": "Die Menschen, die uns beliefern",
+    "chapter2Body": "Wir kaufen bei Fischern auf Vis und Ugljan, Käsern auf Pag, einer Trüffelfamilie im Mirna-Tal und Gemüsebauern, die weniger als eine Stunde von Zagreb entfernt sind. Was nicht gut genug ist, kommt nicht auf die Karte.",
+    "chapter3Title": "Der stille Teil",
+    "chapter3Body": "Achtundzwanzig Plätze bedeuten, dass niemand gehetzt wird. Die Gänge kommen, wenn Sie bereit sind. Es gibt keine zweite Sitzung – der Tisch gehört Ihnen für den ganzen Abend.",
+    "quote": "Gutes Kochen braucht Zeit. Gute Gesellschaft auch. Wir versuchen, beides zu geben.",
+    "quoteBy": "Die Küche des Tišina",
+    "ctaMenu": "Zur Speisekarte",
+    "ctaBook": "Tisch reservieren",
+    "imageAlt1": "Burrata mit alten Tomatensorten und Basilikum auf einem Teller am Fenster",
+    "imageAlt2": "Panna cotta mit Waldbeeren in einem sanft beleuchteten Speisesaal"
+  },
+  "Menu": {
+    "eyebrow": "Speisekarte",
+    "title": "Die Speisekarte",
+    "lede": "Jeden Morgen neu geschrieben, je nachdem, was von der Küste und den Höfen kommt. Preise in {currency}, Service inklusive.",
+    "jumpTo": "Springe zu",
+    "signature": "Signature",
+    "seasonal": "Saisonal",
+    "unavailable": "Heute ausverkauft",
+    "marketPrice": "Tagespreis",
+    "allergensLabel": "Enthält",
+    "dietaryLabel": "Geeignet für",
+    "legendTitle": "Allergene & Ernährungsbedürfnisse",
+    "legendBody": "Allergene gemäß Verordnung (EU) 1169/2011. In unserer Küche werden alle vierzehn verarbeitet, Spuren lassen sich daher nicht ausschließen. Bitte informieren Sie Ihren Kellner über Allergien oder Unverträglichkeiten.",
+    "empty": "Die Karte wird gerade neu geschrieben. Bitte rufen Sie uns für die heutigen Gerichte an.",
+    "ctaTitle": "Schon Appetit?",
+    "ctaBook": "Tisch reservieren",
+    "allergens": {
+      "gluten": "Gluten",
+      "crustaceans": "Krebstiere",
+      "eggs": "Eier",
+      "fish": "Fisch",
+      "peanuts": "Erdnüsse",
+      "soy": "Soja",
+      "milk": "Milch",
+      "nuts": "Schalenfrüchte",
+      "celery": "Sellerie",
+      "mustard": "Senf",
+      "sesame": "Sesam",
+      "sulphites": "Sulfite",
+      "lupin": "Lupinen",
+      "molluscs": "Weichtiere"
+    },
+    "dietary": {
+      "vegetarian": "Vegetarisch",
+      "vegan": "Vegan",
+      "gluten_free": "Glutenfrei",
+      "dairy_free": "Laktosefrei",
+      "pescatarian": "Pescetarisch"
+    }
+  },
+  "Hours": {
+    "title": "Öffnungszeiten",
+    "closed": "Geschlossen",
+    "today": "Heute",
+    "special": "Besondere Tage",
+    "specialClosed": "Geschlossen",
+    "timezoneNote": "Alle Zeiten in Ortszeit {city}.",
+    "services": {
+      "breakfast": "Frühstück",
+      "lunch": "Mittag",
+      "dinner": "Abend",
+      "all_day": "Ganztägig",
+      "bar": "Bar"
+    }
+  },
+  "Visit": {
+    "eyebrow": "Besuch",
+    "title": "Opatička 14, in der Oberstadt.",
+    "lede": "Ein kurzer Aufstieg vom Jelačić-Platz oder zwei Minuten von der Bergstation der Standseilbahn.",
+    "addressTitle": "Adresse",
+    "directions": "Route planen",
+    "openInMaps": "In Karten öffnen",
+    "contactTitle": "Kontakt",
+    "gettingHereTitle": "Anreise",
+    "gettingHere": "Die Oberstadt ist größtenteils Fußgängerzone. Zu Fuß gehen Sie die Radićeva hinauf und durch das Steinerne Tor, oder Sie nehmen die Standseilbahn von der Tomićeva und folgen der Strossmayer-Promenade. Mit dem Auto ist die Tiefgarage Tuškanac die nächste, zehn Gehminuten entfernt. Taxis halten an der Ecke Opatička und Mletačka.",
+    "faqTitle": "Häufig gestellte Fragen",
+    "faq": [
+      {
+        "q": "Kann man ohne Reservierung kommen?",
+        "a": "Ja, wenn Platz ist. Vier Plätze an der Bar halten wir für Gäste ohne Reservierung frei. Freitag- und Samstagabend empfehlen wir zu reservieren."
+      },
+      {
+        "q": "Gibt es einen Dresscode?",
+        "a": "Nein. Kommen Sie, wie Sie sind."
+      },
+      {
+        "q": "Können Sie auf Allergien und Ernährungswünsche eingehen?",
+        "a": "Ja. Die Karte nennt für jedes Gericht alle vierzehn EU-Allergene und kennzeichnet vegetarische, vegane und glutenfreie Gerichte. Erwähnen Sie Ihre Wünsche bei der Reservierung, dann plant die Küche entsprechend."
+      },
+      {
+        "q": "Wie reserviere ich für mehr als acht Personen?",
+        "a": "Schreiben Sie uns über die Kontaktseite oder rufen Sie an. Der ganze Raum kann für bis zu achtundzwanzig Gäste reserviert werden."
+      },
+      {
+        "q": "Ist das Restaurant barrierefrei?",
+        "a": "Speisesaal und Toilette liegen im Erdgeschoss. Am Eingang gibt es eine niedrige Stufe, wir haben eine mobile Rampe – sagen Sie uns Bescheid, dann liegt sie bereit."
+      },
+      {
+        "q": "Wie kann ich bezahlen?",
+        "a": "Wir akzeptieren alle gängigen Karten und Bargeld in Euro."
+      }
+    ]
+  },
+  "Booking": {
+    "eyebrow": "Reservierungen",
+    "title": "Tisch reservieren",
+    "lede": "Wählen Sie Datum und Uhrzeit und erzählen Sie uns etwas über Ihren Abend. Dies ist eine Anfrage: Wir bestätigen jede Reservierung persönlich, meist innerhalb weniger Stunden.",
+    "sideTitle": "Gut zu wissen",
+    "sideItems": [
+      "Wir halten Tische fünfzehn Minuten frei.",
+      "Für mehr als {max} Gäste schreiben Sie uns bitte.",
+      "Mittag- und Abendessen von Dienstag bis Samstag, sonntags Mittagessen."
+    ],
+    "sideCall": "Lieber anrufen?",
+    "stepWhen": "Wann",
+    "stepWho": "Wer",
+    "date": "Datum",
+    "time": "Uhrzeit",
+    "guests": "Personen",
+    "guestsCount": "{count, plural, one {# Person} other {# Personen}}",
+    "selectDateFirst": "Wählen Sie ein Datum, um freie Zeiten zu sehen.",
+    "noTimes": "An diesem Tag haben wir geschlossen oder die letzte Sitzung ist vorbei. Bitte wählen Sie ein anderes Datum.",
+    "closedDay": "Geschlossen",
+    "name": "Vor- und Nachname",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "phoneHint": "Mit Ländervorwahl, z. B. +49 151 2345 6789",
+    "occasion": "Anlass",
+    "occasionNone": "Kein besonderer Anlass",
+    "occasions": {
+      "birthday": "Geburtstag",
+      "anniversary": "Jahrestag",
+      "business": "Geschäftsessen",
+      "celebration": "Feier",
+      "other": "Etwas anderes"
+    },
+    "seating": "Sitzwunsch",
+    "seatings": {
+      "no_preference": "Egal",
+      "dining_room": "Speisesaal",
+      "chefs_counter": "Küchentresen",
+      "terrace": "Terrasse (in der Saison)"
+    },
+    "message": "Sollten wir etwas wissen?",
+    "messageHint": "Allergien, ein Kinderstuhl, eine Überraschung …",
+    "consent": "Ich bin einverstanden, dass {name} diese Angaben zur Bearbeitung meiner Anfrage verwendet, wie im <link>Datenschutzhinweis</link> beschrieben.",
+    "submit": "Anfrage senden",
+    "submitting": "Wird gesendet …",
+    "required": "Pflichtfeld",
+    "optional": "Optional",
+    "successTitle": "Danke – Ihre Anfrage ist bei uns.",
+    "successBody": "Wir haben Ihre Anfrage für {guests} am {date} um {time} erhalten. Das Restaurant bestätigt Ihre Reservierung in Kürze per E-Mail oder Telefon.",
+    "successReference": "Anfragenummer",
+    "successNote": "Nichts ist bestätigt, bevor Sie von uns hören. Wenn sich Ihre Pläne ändern, antworten Sie einfach auf unsere E-Mail.",
+    "successAgain": "Neue Anfrage senden",
+    "errors": {
+      "invalid_name": "Bitte geben Sie Ihren Namen ein.",
+      "invalid_email": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      "invalid_phone": "Bitte geben Sie eine Telefonnummer mit Ländervorwahl an, unter der wir Sie erreichen.",
+      "invalid_party_size": "Online-Anfragen gelten für 1 bis {max} Personen. Für größere Gruppen schreiben Sie uns bitte.",
+      "invalid_date": "Bitte wählen Sie ein Datum.",
+      "invalid_time": "Bitte wählen Sie eine Uhrzeit.",
+      "invalid_message": "Bitte halten Sie Ihre Nachricht unter 1.000 Zeichen.",
+      "consent": "Bitte bestätigen Sie, dass wir Ihre Angaben verwenden dürfen.",
+      "closed": "Zu dieser Zeit nehmen wir keine Reservierungen an. Bitte wählen Sie eine andere Zeit.",
+      "too_soon": "Diese Zeit ist für eine Online-Anfrage zu kurzfristig – bitte rufen Sie uns an.",
+      "too_far": "Wir nehmen Anfragen bis zu {days} Tage im Voraus an.",
+      "booking_disabled": "Online-Reservierungen sind derzeit pausiert. Bitte rufen Sie uns an.",
+      "rate_limited": "Wir haben gerade mehrere Anfragen von Ihnen erhalten. Bitte warten Sie einige Minuten.",
+      "generic": "Etwas ist schiefgelaufen und Ihre Anfrage wurde nicht gesendet. Bitte versuchen Sie es erneut oder rufen Sie uns an: {phone}.",
+      "summary": "Bitte prüfen Sie die markierten Felder."
+    }
+  },
+  "Contact": {
+    "eyebrow": "Kontakt",
+    "title": "Schreiben Sie uns",
+    "lede": "Private Essen, Veranstaltungen, Presse oder eine Frage zur Karte. Wir beantworten jede Nachricht innerhalb eines Werktags.",
+    "subject": "Betreff",
+    "subjects": {
+      "general": "Allgemeine Frage",
+      "private_dining": "Privates Essen",
+      "events": "Veranstaltungen",
+      "press": "Presse",
+      "other": "Etwas anderes"
+    },
+    "name": "Vor- und Nachname",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "message": "Nachricht",
+    "submit": "Nachricht senden",
+    "submitting": "Wird gesendet …",
+    "successTitle": "Danke. Ihre Nachricht ist angekommen.",
+    "successBody": "Wir antworten an {email} innerhalb eines Werktags.",
+    "successAgain": "Weitere Nachricht senden",
+    "direct": "Oder direkt",
+    "errors": {
+      "invalid_name": "Bitte geben Sie Ihren Namen ein.",
+      "invalid_email": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      "invalid_phone": "Bitte prüfen Sie die Telefonnummer.",
+      "invalid_message": "Bitte schreiben Sie mindestens einen Satz (10–4.000 Zeichen).",
+      "consent": "Bitte bestätigen Sie, dass wir Ihre Angaben verwenden dürfen.",
+      "rate_limited": "Wir haben gerade mehrere Nachrichten von Ihnen erhalten. Bitte warten Sie einige Minuten.",
+      "generic": "Etwas ist schiefgelaufen und Ihre Nachricht wurde nicht gesendet. Bitte versuchen Sie es erneut oder schreiben Sie an {email}.",
+      "summary": "Bitte prüfen Sie die markierten Felder."
+    }
+  },
+  "Footer": {
+    "tagline": "Kroatische Regionalküche in der Zagreber Oberstadt.",
+    "visit": "Besuch",
+    "hours": "Öffnungszeiten",
+    "follow": "Folgen",
+    "explore": "Entdecken",
+    "privacy": "Datenschutz",
+    "rights": "© {year} {name}. Alle Rechte vorbehalten.",
+    "madeBy": "Website von Kyro Studio"
+  },
+  "Privacy": {
+    "eyebrow": "Datenschutz",
+    "title": "Ihre Daten, mit Sorgfalt behandelt.",
+    "updated": "Zuletzt aktualisiert am {date}",
+    "sections": [
+      {
+        "title": "Was wir erheben",
+        "body": "Wenn Sie einen Tisch anfragen oder uns schreiben, erhalten wir Ihren Namen, Ihre E-Mail-Adresse, Ihre Telefonnummer (falls angegeben) und den Inhalt Ihrer Nachricht. Wir verwenden auf dieser Website keine Tracking-Cookies und keine Analysedienste Dritter."
+      },
+      {
+        "title": "Wofür wir sie verwenden",
+        "body": "Ausschließlich, um Ihre Anfrage zu beantworten oder Ihre Reservierung zu bestätigen, zu ändern oder zu stornieren. Rechtsgrundlage ist die Durchführung vorvertraglicher Maßnahmen auf Ihre Anfrage (Art. 6 Abs. 1 lit. b DSGVO)."
+      },
+      {
+        "title": "Wie lange wir sie speichern",
+        "body": "Reservierungsanfragen speichern wir zwölf Monate, Nachrichten vierundzwanzig Monate; danach werden sie gelöscht."
+      },
+      {
+        "title": "Wer sie verarbeitet",
+        "body": "Unsere Datenbank (Supabase, gehostet in der EU) und unser E-Mail-Anbieter sind in unserem Auftrag als Auftragsverarbeiter tätig. Wir verkaufen Ihre Daten nie und geben sie nicht zu Werbezwecken weiter."
+      },
+      {
+        "title": "Ihre Rechte",
+        "body": "Sie können Auskunft, Berichtigung oder Löschung Ihrer Daten verlangen oder der Verwendung widersprechen – schreiben Sie an {email}. Außerdem können Sie sich bei der kroatischen Datenschutzbehörde (AZOP) beschweren."
+      }
+    ]
+  },
+  "NotFound": {
+    "title": "Diese Seite steht nicht auf der Karte.",
+    "body": "Vielleicht wurde sie verschoben, oder der Link ist fehlerhaft.",
+    "cta": "Zur Startseite"
+  },
+  "Error": {
+    "title": "In der Küche ist etwas schiefgelaufen.",
+    "body": "Bitte versuchen Sie es gleich noch einmal. Wenn es weiter passiert, rufen Sie uns an oder schreiben Sie uns – Ihr Tisch ist uns wichtiger als diese Seite.",
+    "retry": "Erneut versuchen"
+  },
+  "Common": {
+    "loading": "Wird geladen …",
+    "call": "Anrufen",
+    "email": "E-Mail",
+    "instagram": "Instagram"
+  }
+}

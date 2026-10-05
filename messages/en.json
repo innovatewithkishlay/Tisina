@@ -1,13 +1,364 @@
 {
-  "Index": {
-    "title": "Welcome to Maison Example",
-    "description": "Modern European dining in the heart of Zagreb."
+  "Meta": {
+    "skipToContent": "Skip to content",
+    "homeTitle": "{name} — Restaurant in the Upper Town, Zagreb",
+    "menuTitle": "Menu",
+    "menuDescription": "The current menu at {name}, Zagreb: Croatian regional dishes, a six-course tasting menu and wines by the glass. Prices in {currency}, allergens listed.",
+    "storyTitle": "Our story",
+    "storyDescription": "Why {name} cooks Croatia one region at a time, and who is in the kitchen.",
+    "visitTitle": "Visit",
+    "visitDescription": "Address, opening hours, directions and frequently asked questions for {name} on Opatička Street, Zagreb.",
+    "bookTitle": "Reserve a table",
+    "bookDescription": "Request a table at {name}, Zagreb. We confirm every reservation personally.",
+    "contactTitle": "Contact",
+    "contactDescription": "Write to {name} about private dining, events, press or anything else.",
+    "privacyTitle": "Privacy",
+    "privacyDescription": "How {name} handles the personal data you send through this website."
   },
   "Navigation": {
     "home": "Home",
     "menu": "Menu",
-    "about": "About",
-    "location": "Location",
-    "book": "Book a Table"
+    "story": "Story",
+    "visit": "Visit",
+    "contact": "Contact",
+    "book": "Reserve",
+    "bookLong": "Reserve a table",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "primary": "Main",
+    "language": "Language",
+    "currentLanguage": "Current language: {language}"
+  },
+  "Status": {
+    "open": "Open now · until {time}",
+    "laterToday": "Today from {time}",
+    "closedNext": "Closed · opens {day} at {time}",
+    "closed": "Closed today"
+  },
+  "Home": {
+    "eyebrow": "Opatička 14 · Upper Town · Zagreb",
+    "heroLine": "A quiet dining room in the Upper Town. Croatia, cooked one region at a time.",
+    "heroImageAlt": "Hand-rolled fuži with shaved black truffle in a dark ceramic bowl, candles and wine glasses on a wooden table",
+    "ctaBook": "Reserve a table",
+    "ctaMenu": "See the menu",
+    "scroll": "Scroll",
+    "introLabel": "The kitchen",
+    "intro": "We cook the country slowly — truffle from the Istrian hills, pašticada braised the Dalmatian way, the cheese and cream of Zagorje — and leave enough quiet around the table to taste it.",
+    "regionsLabel": "Three regions, one table",
+    "regions": {
+      "istra": {
+        "region": "Istria",
+        "dish": "Fuži, black truffle",
+        "body": "In autumn the truffle hunters of the Mirna valley send us whatever the dogs found that week. We shave it at the table, over pasta rolled by hand that morning.",
+        "alt": "Fuži pasta under shaved black truffle, candlelight behind"
+      },
+      "dalmacija": {
+        "region": "Dalmatia",
+        "dish": "Pašticada",
+        "body": "Two days in wine and vinegar, six hours in the pot with prošek and dried plums. The recipe came from a grandmother in Split; the patience is ours.",
+        "alt": "Slices of braised beef in a dark sauce with golden gnocchi on a stoneware plate"
+      },
+      "jadran": {
+        "region": "The Adriatic",
+        "dish": "Tuna, raw",
+        "body": "Line-caught off Vis and cut to order, dressed with little more than Istrian oil and a few capers picked from island walls.",
+        "alt": "Tuna tartare topped with radish, capers and borage flowers, rye crisps on the side"
+      }
+    },
+    "signatureLabel": "Signature",
+    "signatureNote": "On the menu since the first night. It will be on the menu on the last.",
+    "definitionWord": "tišina",
+    "definitionPron": "/ˈti.ʃi.na/",
+    "definitionKind": "noun, Croatian",
+    "definition1": "Silence; stillness.",
+    "definition2": "The pause at the table after the first bite, when nobody needs to say anything.",
+    "menuLabel": "The menu",
+    "menuTitle": "Short, seasonal, rewritten when the market changes.",
+    "menuBody": "Around twenty dishes, a six-course tasting menu and wines from small Croatian growers. Every allergen is listed.",
+    "menuCta": "See the full menu",
+    "roomLabel": "The room",
+    "roomTitle": "Twenty-eight seats, stone walls, candlelight.",
+    "roomBody": "A ground-floor room on Opatička Street, a few minutes’ walk from St Mark’s Square. Linen on the tables, one window onto the street, and no music loud enough to compete with conversation.",
+    "galleryLabel": "Evenings at Tišina",
+    "gallery": {
+      "candles": "Candles lit at half past six",
+      "window": "Afternoon light on the window table",
+      "wine": "Plavac mali from Pelješac",
+      "linen": "Linen, pressed every morning",
+      "dessert": "Panna cotta with wild berries from Medvednica",
+      "garden": "Tomatoes from the Neretva valley"
+    },
+    "visitLabel": "Find us",
+    "visitTitle": "In the Upper Town, between the Stone Gate and St Mark’s.",
+    "visitCta": "Directions & hours",
+    "bookLabel": "Reservations",
+    "bookTitle": "Reserve a table",
+    "bookBody": "Send us a request and we will confirm it personally, usually within a few hours."
+  },
+  "Story": {
+    "eyebrow": "Our story",
+    "title": "A restaurant named after the thing it values most.",
+    "lede": "Tišina began with a simple idea: that Croatia is several cuisines, not one, and that each deserves to be cooked with the patience of the place it comes from.",
+    "chapter1Title": "Region by region",
+    "chapter1Body": "Istria gives us truffles, olive oil and Malvazija. Dalmatia, slow braises and the sea. Kvarner, scampi sweet enough to eat raw. Zagorje and Slavonia, cream, cheese, flour and pork. The menu moves between them with the seasons, and the tasting menu walks through five of them in one evening.",
+    "chapter2Title": "The people who supply us",
+    "chapter2Body": "We buy from fishermen on Vis and Ugljan, cheesemakers on Pag, a truffle family in the Mirna valley and vegetable growers within an hour of Zagreb. When something is not good enough, it is not on the menu.",
+    "chapter3Title": "The quiet part",
+    "chapter3Body": "Twenty-eight seats means nobody is rushed. Courses arrive when you are ready for them. There is no second sitting, and the table is yours for the evening.",
+    "quote": "Good cooking needs time. So does good company. We try to give both.",
+    "quoteBy": "The Tišina kitchen",
+    "ctaMenu": "Read the menu",
+    "ctaBook": "Reserve a table",
+    "imageAlt1": "Burrata with heirloom tomatoes and basil on a speckled plate beside a window",
+    "imageAlt2": "Dessert plate with panna cotta and wild berries in a softly lit dining room"
+  },
+  "Menu": {
+    "eyebrow": "Menu",
+    "title": "The menu",
+    "lede": "Written each morning around what arrives from the coast and the farms. Prices in {currency}, service included.",
+    "jumpTo": "Jump to",
+    "signature": "Signature",
+    "seasonal": "Seasonal",
+    "unavailable": "Sold out today",
+    "marketPrice": "Market price",
+    "allergensLabel": "Contains",
+    "dietaryLabel": "Suitable for",
+    "legendTitle": "Allergens & dietary needs",
+    "legendBody": "Allergens follow EU Regulation 1169/2011. Our kitchen handles all fourteen, so traces cannot be ruled out. Please tell your waiter about any allergy or intolerance.",
+    "empty": "The menu is being rewritten. Please call us for today’s dishes.",
+    "ctaTitle": "Hungry yet?",
+    "ctaBook": "Reserve a table",
+    "allergens": {
+      "gluten": "Gluten",
+      "crustaceans": "Crustaceans",
+      "eggs": "Eggs",
+      "fish": "Fish",
+      "peanuts": "Peanuts",
+      "soy": "Soy",
+      "milk": "Milk",
+      "nuts": "Tree nuts",
+      "celery": "Celery",
+      "mustard": "Mustard",
+      "sesame": "Sesame",
+      "sulphites": "Sulphites",
+      "lupin": "Lupin",
+      "molluscs": "Molluscs"
+    },
+    "dietary": {
+      "vegetarian": "Vegetarian",
+      "vegan": "Vegan",
+      "gluten_free": "Gluten-free",
+      "dairy_free": "Dairy-free",
+      "pescatarian": "Pescatarian"
+    }
+  },
+  "Hours": {
+    "title": "Opening hours",
+    "closed": "Closed",
+    "today": "Today",
+    "special": "Special dates",
+    "specialClosed": "Closed",
+    "timezoneNote": "All times are local time in {city}.",
+    "services": {
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner",
+      "all_day": "All day",
+      "bar": "Bar"
+    }
+  },
+  "Visit": {
+    "eyebrow": "Visit",
+    "title": "Opatička 14, in the Upper Town.",
+    "lede": "A short climb from Jelačić Square, or two minutes from the top of the funicular.",
+    "addressTitle": "Address",
+    "directions": "Get directions",
+    "openInMaps": "Open in maps",
+    "contactTitle": "Contact",
+    "gettingHereTitle": "Getting here",
+    "gettingHere": "The Upper Town is mostly pedestrian. On foot, walk up Radićeva and through the Stone Gate, or take the funicular from Tomićeva and follow the Strossmayer promenade. By car, the nearest public garage is Tuškanac, a ten-minute walk away. Taxis can stop at the corner of Opatička and Mletačka.",
+    "faqTitle": "Questions we are often asked",
+    "faq": [
+      {
+        "q": "Do you take walk-ins?",
+        "a": "Yes, when we have room. Four seats at the bar are kept for guests without a booking. On Friday and Saturday evenings we recommend reserving."
+      },
+      {
+        "q": "Is there a dress code?",
+        "a": "No. Come as you are."
+      },
+      {
+        "q": "Can you cook for allergies and dietary requirements?",
+        "a": "Yes. The menu lists all fourteen EU allergens for every dish and marks vegetarian, vegan and gluten-free options. Mention any requirement when you book and the kitchen will plan for it."
+      },
+      {
+        "q": "How do I book for more than eight people?",
+        "a": "Write to us through the contact page or call. The whole room can be reserved for up to twenty-eight guests."
+      },
+      {
+        "q": "Is the restaurant accessible?",
+        "a": "The dining room and restroom are on the ground floor. There is one low step at the entrance, and we have a portable ramp — let us know and it will be ready."
+      },
+      {
+        "q": "How can I pay?",
+        "a": "We accept all major cards and cash in euros."
+      }
+    ]
+  },
+  "Booking": {
+    "eyebrow": "Reservations",
+    "title": "Reserve a table",
+    "lede": "Choose a date and time and tell us a little about your evening. This is a request: we confirm every reservation personally, usually within a few hours.",
+    "sideTitle": "Good to know",
+    "sideItems": [
+      "We hold tables for fifteen minutes.",
+      "For more than {max} guests, please write to us.",
+      "Lunch and dinner Tuesday to Saturday, lunch on Sunday."
+    ],
+    "sideCall": "Prefer to call?",
+    "stepWhen": "When",
+    "stepWho": "Who",
+    "date": "Date",
+    "time": "Time",
+    "guests": "Guests",
+    "guestsCount": "{count, plural, one {# guest} other {# guests}}",
+    "selectDateFirst": "Choose a date to see available times.",
+    "noTimes": "We are closed on this day, or fully past the last seating. Please choose another date.",
+    "closedDay": "Closed",
+    "name": "Full name",
+    "email": "Email",
+    "phone": "Phone",
+    "phoneHint": "With country code, e.g. +385 91 234 5678",
+    "occasion": "Occasion",
+    "occasionNone": "No particular occasion",
+    "occasions": {
+      "birthday": "Birthday",
+      "anniversary": "Anniversary",
+      "business": "Business",
+      "celebration": "Celebration",
+      "other": "Something else"
+    },
+    "seating": "Seating preference",
+    "seatings": {
+      "no_preference": "No preference",
+      "dining_room": "Dining room",
+      "chefs_counter": "Kitchen counter",
+      "terrace": "Terrace (in season)"
+    },
+    "message": "Anything we should know?",
+    "messageHint": "Allergies, a high chair, a surprise…",
+    "consent": "I agree that {name} may use these details to handle my request, as described in the <link>privacy notice</link>.",
+    "submit": "Send request",
+    "submitting": "Sending…",
+    "required": "Required",
+    "optional": "Optional",
+    "successTitle": "Thank you — your request is with us.",
+    "successBody": "We have received your request for {guests} on {date} at {time}. The restaurant will confirm your reservation shortly by email or phone.",
+    "successReference": "Reference",
+    "successNote": "Nothing is confirmed until you hear from us. If your plans change, simply reply to our email.",
+    "successAgain": "Make another request",
+    "errors": {
+      "invalid_name": "Please enter your name.",
+      "invalid_email": "Please enter a valid email address.",
+      "invalid_phone": "Please enter a phone number we can reach you on, with country code.",
+      "invalid_party_size": "Online requests are for 1 to {max} guests. For larger groups please write to us.",
+      "invalid_date": "Please choose a date.",
+      "invalid_time": "Please choose a time.",
+      "invalid_message": "Please keep your note under 1,000 characters.",
+      "consent": "Please confirm you agree to us using your details.",
+      "closed": "We are not taking bookings at that time. Please choose another slot.",
+      "too_soon": "That time is too soon for an online request — please call us instead.",
+      "too_far": "We take requests up to {days} days ahead.",
+      "booking_disabled": "Online booking is paused at the moment. Please call us.",
+      "rate_limited": "We received several requests from you just now. Please wait a few minutes.",
+      "generic": "Something went wrong and your request was not sent. Please try again or call us on {phone}.",
+      "summary": "Please check the highlighted fields."
+    }
+  },
+  "Contact": {
+    "eyebrow": "Contact",
+    "title": "Write to us",
+    "lede": "Private dining, events, press, or a question about the menu. We answer every message within one working day.",
+    "subject": "Subject",
+    "subjects": {
+      "general": "General question",
+      "private_dining": "Private dining",
+      "events": "Events",
+      "press": "Press",
+      "other": "Something else"
+    },
+    "name": "Full name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "successTitle": "Thank you. Your message has arrived.",
+    "successBody": "We will reply to {email} within one working day.",
+    "successAgain": "Send another message",
+    "direct": "Or reach us directly",
+    "errors": {
+      "invalid_name": "Please enter your name.",
+      "invalid_email": "Please enter a valid email address.",
+      "invalid_phone": "Please check the phone number.",
+      "invalid_message": "Please write at least a sentence (10–4,000 characters).",
+      "consent": "Please confirm you agree to us using your details.",
+      "rate_limited": "We received several messages from you just now. Please wait a few minutes.",
+      "generic": "Something went wrong and your message was not sent. Please try again or email {email}.",
+      "summary": "Please check the highlighted fields."
+    }
+  },
+  "Footer": {
+    "tagline": "Croatian regional cooking in Zagreb’s Upper Town.",
+    "visit": "Visit",
+    "hours": "Hours",
+    "follow": "Follow",
+    "explore": "Explore",
+    "privacy": "Privacy",
+    "rights": "© {year} {name}. All rights reserved.",
+    "madeBy": "Site by Kyro Studio"
+  },
+  "Privacy": {
+    "eyebrow": "Privacy",
+    "title": "Your details, handled with care.",
+    "updated": "Last updated {date}",
+    "sections": [
+      {
+        "title": "What we collect",
+        "body": "When you request a table or write to us, we receive your name, email address, phone number (if given) and anything you write in the message. We do not use tracking cookies or third-party analytics on this website."
+      },
+      {
+        "title": "Why we use it",
+        "body": "Only to answer your enquiry or confirm, change or cancel your reservation. The legal basis is taking steps at your request before entering into a contract (Art. 6(1)(b) GDPR)."
+      },
+      {
+        "title": "How long we keep it",
+        "body": "Reservation requests are kept for twelve months, messages for twenty-four months, then deleted."
+      },
+      {
+        "title": "Who processes it",
+        "body": "Our database (Supabase, hosted in the EU) and our email provider act as processors on our behalf. We never sell or share your details for marketing."
+      },
+      {
+        "title": "Your rights",
+        "body": "You may ask to see, correct or delete your data, or object to its use, by writing to {email}. You may also complain to the Croatian Personal Data Protection Agency (AZOP)."
+      }
+    ]
+  },
+  "NotFound": {
+    "title": "This page is not on the menu.",
+    "body": "It may have moved, or the link may be mistyped.",
+    "cta": "Back to the homepage"
+  },
+  "Error": {
+    "title": "Something went wrong in the kitchen.",
+    "body": "Please try again in a moment. If it keeps happening, call or email us — your table matters more than this page.",
+    "retry": "Try again"
+  },
+  "Common": {
+    "loading": "Loading…",
+    "call": "Call",
+    "email": "Email",
+    "instagram": "Instagram"
   }
 }
