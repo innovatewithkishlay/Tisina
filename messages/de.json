@@ -37,7 +37,7 @@
   },
   "Home": {
     "eyebrow": "Opatička 14 · Oberstadt · Zagreb",
-    "heroLine": "Ein stiller Speisesaal in der Oberstadt. Kroatien, Region für Region gekocht.",
+    "heroLine": "Ein stiller Speisesaal in der Zagreber Oberstadt. Kroatien, langsam gekocht — und über Feuer.",
     "heroImageAlt": "Handgerollte Fuži mit gehobeltem schwarzem Trüffel in einer dunklen Keramikschale, Kerzen und Weingläser auf einem Holztisch",
     "ctaBook": "Tisch reservieren",
     "ctaMenu": "Zur Speisekarte",
@@ -93,7 +93,39 @@
     "visitCta": "Anfahrt & Öffnungszeiten",
     "bookLabel": "Reservierungen",
     "bookTitle": "Tisch reservieren",
-    "bookBody": "Senden Sie uns eine Anfrage – wir bestätigen sie persönlich, meist innerhalb weniger Stunden."
+    "bookBody": "Senden Sie uns eine Anfrage – wir bestätigen sie persönlich, meist innerhalb weniger Stunden.",
+    "manifesto": "Wir kochen Kroatien [[dough]] langsam — Trüffel aus den istrischen Hügeln [[truffle]], Pašticada nach dalmatinischer Art, Brot und Pizza aus dem Holzofen [[fire]] — und lassen genug *Stille* am Tisch, um alles zu schmecken.",
+    "kitchenLabel": "In der Küche",
+    "kitchenTitle": "Feuer, Mehl, *Geduld*.",
+    "kitchen": {
+      "dough": {
+        "figure": "48 h",
+        "title": "Der Teig ruht",
+        "body": "Mehl aus slawonischen Mühlen, Wasser, Salz und ein wenig Sauerteig von gestern. Zwei Tage in der Kälte, bevor er den Ofen sieht.",
+        "alt": "Hände schneiden gegangene Teigkugeln in einer Wanne"
+      },
+      "fire": {
+        "figure": "450°",
+        "title": "Holz, niemals Gas",
+        "body": "Buche und Eiche aus dem Gorski kotar. Der Ofen wird mittags angefeuert und glüht noch, wenn der letzte Gast geht.",
+        "alt": "Ein glühender Holzofen, in dem Pizzen backen"
+      },
+      "hands": {
+        "figure": "90 s",
+        "title": "Aus dem Feuer",
+        "body": "Am Rand blasig, in der Mitte weich, am Pass vollendet mit dem, was der Morgen brachte — Burrata, Pršut, ein Hauch Trüffel.",
+        "alt": "Hände eines Kochs präsentieren eine fertige Pizza auf dem Tresen"
+      },
+      "chefs": {
+        "figure": "28",
+        "title": "Plätze, nicht mehr",
+        "body": "Ein kleiner Raum heißt: Die Küche kocht für jeden Tisch, nicht für eine Schlange. Nichts wird vorab angerichtet, nichts wartet unter der Lampe.",
+        "alt": "Zwei Köche arbeiten gemeinsam am Tresen einer offenen Küche"
+      }
+    },
+    "videoPause": "Video pausieren",
+    "videoPlay": "Video abspielen",
+    "menuRollHint": "Durch die Karte scrollen"
   },
   "Story": {
     "eyebrow": "Unsere Geschichte",
@@ -150,7 +182,13 @@
       "gluten_free": "Glutenfrei",
       "dairy_free": "Laktosefrei",
       "pescatarian": "Pescetarisch"
-    }
+    },
+    "filterLabel": "Nach Ernährung filtern",
+    "filterAll": "Alles",
+    "countOne": "# Gericht",
+    "countOther": "# Gerichte",
+    "noMatch": "Heute passt nichts auf der Karte — fragen Sie uns, die Küche kann viele Gerichte anpassen.",
+    "plateAlt": "Teller von der Karte"
   },
   "Hours": {
     "title": "Öffnungszeiten",
@@ -273,7 +311,12 @@
       "rate_limited": "Wir haben gerade mehrere Anfragen von Ihnen erhalten. Bitte warten Sie einige Minuten.",
       "generic": "Etwas ist schiefgelaufen und Ihre Anfrage wurde nicht gesendet. Bitte versuchen Sie es erneut oder rufen Sie uns an: {phone}.",
       "summary": "Bitte prüfen Sie die markierten Felder."
-    }
+    },
+    "invitation": "Ein Abend im {name}",
+    "stubTitle": "Ihr Tisch",
+    "stubStamp": "Angefragt",
+    "stubEmpty": "—",
+    "sideCallShort": "Oder rufen Sie an"
   },
   "Contact": {
     "eyebrow": "Kontakt",
@@ -316,7 +359,11 @@
     "explore": "Entdecken",
     "privacy": "Datenschutz",
     "rights": "© {year} {name}. Alle Rechte vorbehalten.",
-    "madeBy": "Website von Kyro Studio"
+    "madeBy": "Website von Kyro Studio",
+    "ctaTitle": "Ein Tisch <em>wartet</em>.",
+    "ctaBody": "Achtundzwanzig Plätze, eine Sitzung, keine Eile.",
+    "localTime": "Jetzt in {city}",
+    "directions": "Route"
   },
   "Privacy": {
     "eyebrow": "Datenschutz",

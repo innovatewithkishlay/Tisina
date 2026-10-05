@@ -14,7 +14,7 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
 
   return (
     <section className="wrap flex min-h-[80svh] flex-col justify-center pt-[var(--header-h)]" role="alert">
-      <p className="label label-rule text-muted">{error.digest ?? '500'}</p>
+      <p className="label text-muted">{error.digest ?? "500"}</p>
       <h1 className="font-display text-h1 mt-6 max-w-[18ch]">{t('title')}</h1>
       <p className="mt-6 max-w-[48ch] text-lede text-fg-2">{t('body')}</p>
       <div className="mt-10 flex flex-wrap items-center gap-8">

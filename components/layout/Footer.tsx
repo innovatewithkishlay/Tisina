@@ -1,11 +1,19 @@
 import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
-import type { Locale } from '@/config/locales';
+import { intlLocale, type Locale } from '@/config/locales';
 import { siteConfig } from '@/config/site';
 import { getHours, getRestaurant } from '@/lib/data/restaurant';
 import { formatTime, regionName, telHref, weekdayName } from '@/lib/format';
-import { weeklyTable } from '@/lib/hours';
+import { openStatus, weeklyTable } from '@/lib/hours';
+import { Logo } from '@/components/brand/Logo';
+import { OpenStatus } from './OpenStatus';
+import { LocalClock } from './LocalClock';
 
+/**
+ * Curtain footer: it sits under the page (sticky to the viewport bottom) and
+ * is uncovered as the last section scrolls away. Hours are set like a menu
+ * card; the wordmark closes the page at full width.
+ */
 export async function Footer() {
   const locale = (await getLocale()) as Locale;
   const [t, tNav, tHours, r, hours] = await Promise.all([
@@ -16,8 +24,13 @@ export async function Footer() {
     getHours(),
   ]);
   const year = new Date().getFullYear();
+  const now = new Intl.DateTimeFormat(intlLocale(locale), {
+    timeZone: r.timezone,
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  }).format(new Date());
 
-  // Compress consecutive days with identical hours: "Tue – Thu".
   const rows: { from: number; to: number; text: string }[] = [];
   for (const { day, periods } of weeklyTable(hours)) {
     const text = periods.length
@@ -27,59 +40,82 @@ export async function Footer() {
     if (prev && prev.text === text && prev.to === day - 1) prev.to = day;
     else rows.push({ from: day, to: day, text });
   }
+  const directions = r.geo ? `https://www.google.com/maps/dir/?api=1&destination=${r.geo.lat},${r.geo.lng}` : r.mapsUrl;
 
   return (
-    <footer className="night relative overflow-hidden pt-[var(--section)]">
+    <footer className="night sticky bottom-0 z-0 flex min-h-[100svh] flex-col justify-between overflow-hidden pt-[calc(var(--header-h)+3rem)]">
       <div className="wrap">
-        <div className="grid gap-14 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <p className="font-display text-h3 max-w-[18ch] text-fg">{t('tagline')}</p>
-            <Link
-              href="/book"
-              className="label mt-8 inline-flex min-h-12 items-center rounded-[var(--radius-pill)] border border-current px-7 transition-colors duration-[var(--dur-2)] hover:bg-fg hover:text-bg"
-            >
-              {tNav('bookLong')}
-            </Link>
+        <div className="flex flex-col gap-8 border-b hairline pb-12 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p
+              className="font-display text-[clamp(2.75rem,7vw,6.5rem)] leading-[0.95] tracking-[-0.02em] [&_em]:text-accent"
+              dangerouslySetInnerHTML={{ __html: t.raw('ctaTitle') as string }}
+            />
+            <p className="mt-4 text-lede text-fg-2">{t('ctaBody')}</p>
           </div>
+          <Link
+            href="/book"
+            className="btn-fill label inline-flex min-h-16 w-fit items-center gap-4 rounded-[var(--radius-pill)] bg-bone px-9 text-night transition-colors duration-[var(--dur-2)] [--btn-fill:var(--brand-ember-light)]"
+          >
+            {tNav('bookLong')}
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
 
-          <div className="md:col-span-3">
+        <div className="grid gap-10 py-12 text-fg-2 sm:grid-cols-2 lg:grid-cols-12">
+          <div className="lg:col-span-3">
             <h2 className="label text-muted">{t('visit')}</h2>
-            <address className="mt-5 not-italic text-fg-2">
+            <address className="mt-4 not-italic">
               {r.address.street}
               <br />
-              {r.address.postalCode} {r.address.city}
-              <br />
-              {regionName(r.address.countryCode, locale)}
+              {r.address.postalCode} {r.address.city}, {regionName(r.address.countryCode, locale)}
             </address>
-            <p className="mt-5 space-y-1 text-fg-2">
-              <a className="link-static block w-fit" href={telHref(r.phone)}>
-                {r.phone}
+            {directions ? (
+              <a href={directions} target="_blank" rel="noopener noreferrer" className="link-static mt-3 inline-block text-fg">
+                {t('directions')} ↗
               </a>
-              <a className="link-static block w-fit" href={`mailto:${r.email}`}>
-                {r.email}
-              </a>
-            </p>
+            ) : null}
           </div>
 
-          <div className="md:col-span-4">
+          <div className="lg:col-span-5">
             <h2 className="label text-muted">{t('hours')}</h2>
-            <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 text-fg-2">
+            <dl className="mt-4 space-y-1.5">
               {rows.map((row) => (
-                <div key={row.from} className="contents">
+                <div key={row.from} className="flex items-baseline">
                   <dt className="capitalize">
                     {weekdayName(row.from as 1, locale, 'short')}
                     {row.to !== row.from ? `–${weekdayName(row.to as 1, locale, 'short')}` : ''}
                   </dt>
+                  <span aria-hidden="true" className="leader" />
                   <dd className="tabular-nums">{row.text}</dd>
                 </div>
               ))}
             </dl>
           </div>
-        </div>
 
-        <div className="mt-16 flex flex-col gap-6 border-t hairline py-8 text-small text-muted md:flex-row md:items-center md:justify-between">
+          <div className="lg:col-span-3 lg:col-start-10">
+            <h2 className="label text-muted">{t('localTime', { city: r.address.city })}</h2>
+            <p className="font-display mt-3 text-[3.25rem] leading-none text-fg">
+              <LocalClock timeZone={r.timezone} initial={now} />
+            </p>
+            <OpenStatus hours={hours} timeZone={r.timezone} initial={openStatus(hours, r.timezone)} className="mt-4 text-muted" />
+            <p className="mt-4 space-y-1">
+              <a className="link-static block w-fit" href={telHref(r.phone)}>
+                {r.phone}
+              </a>
+              <a className="link-static block w-fit break-all" href={`mailto:${r.email}`}>
+                {r.email}
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="wrap">
+        <Logo className="w-full text-bone" title={r.name} />
+        <div className="flex flex-col gap-4 border-t hairline py-6 text-small text-muted md:flex-row md:items-center md:justify-between">
           <nav aria-label={t('explore')}>
-            <ul className="flex flex-wrap gap-x-7 gap-y-2">
+            <ul className="flex flex-wrap gap-x-6 gap-y-2">
               {siteConfig.nav.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="link-draw">
@@ -106,13 +142,6 @@ export async function Footer() {
           </p>
         </div>
       </div>
-
-      {/* Oversized wordmark bleeding off the bottom edge */}
-      <div
-        aria-hidden="true"
-        data-word={r.name}
-        className="ghost-word pointer-events-none -mb-[0.2em] select-none text-center text-[26vw]"
-      />
     </footer>
   );
 }

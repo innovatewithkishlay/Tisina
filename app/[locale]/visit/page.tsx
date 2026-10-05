@@ -13,7 +13,6 @@ import { OpenStatus } from '@/components/layout/OpenStatus';
 import { OpeningHours } from '@/components/visit/OpeningHours';
 import { Location } from '@/components/visit/Location';
 import { Faq } from '@/components/visit/Faq';
-import { BookingCta } from '@/components/home/BookingCta';
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/visit'>) {
   const { locale } = (await params) as { locale: Locale };
@@ -30,10 +29,9 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/visit'>)
 export default async function VisitPage({ params }: PageProps<'/[locale]/visit'>) {
   const { locale } = (await params) as { locale: Locale };
   setRequestLocale(locale);
-  const [t, tHours, tHome, r, hours] = await Promise.all([
+  const [t, tHours, r, hours] = await Promise.all([
     getTranslations('Visit'),
     getTranslations('Hours'),
-    getTranslations('Home'),
     getRestaurant(locale),
     getHours(),
   ]);
@@ -100,7 +98,6 @@ export default async function VisitPage({ params }: PageProps<'/[locale]/visit'>
         </div>
       </section>
 
-      <BookingCta label={tHome('bookLabel')} title={tHome('bookTitle')} body={tHome('bookBody')} />
     </>
   );
 }

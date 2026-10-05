@@ -9,11 +9,15 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "db:seed:generate": "node --experimental-strip-types --no-warnings scripts/generate-seed.ts",
-    "db:seed:chunks": "node --experimental-strip-types --no-warnings scripts/generate-seed.ts --chunks"
+    "db:seed:chunks": "node --experimental-strip-types --no-warnings scripts/generate-seed.ts --chunks",
+    "media:blur": "node --experimental-strip-types --no-warnings scripts/generate-blur.ts"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@supabase/supabase-js": "^2.117.2",
     "clsx": "^2.1.1",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26",
     "next": "16.3.8",
     "next-intl": "^4.14.9",
     "nodemailer": "^10.0.14",

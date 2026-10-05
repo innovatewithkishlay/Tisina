@@ -1,207 +1,251 @@
 'use client';
 
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/routing';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
-import { Wordmark } from '@/components/ui/Wordmark';
+import { Logo, Hacek } from '@/components/brand/Logo';
+import { Img } from '@/components/ui/Img';
+import { useLenis } from '@/components/motion/SmoothScroll';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
 interface NavbarProps {
   address: string;
   phone: string;
   phoneHref: string;
-  status?: React.ReactNode;
+  email: string;
+  instagram?: string;
+  status?: ReactNode;
+  /** Preview photo per nav entry, shown beside the links in the overlay. */
+  previews: Record<string, string>;
 }
 
-export function Navbar({ address, phone, phoneHref, status }: NavbarProps) {
+const ITEMS = [{ key: 'home', href: '/' } as const, ...siteConfig.nav];
+
+/**
+ * The header is a thin, fixed strip that never changes size or hides, so it
+ * cannot jitter while scrolling. `mix-blend-mode: difference` keeps it legible
+ * over video, photography, paper and night sections alike. Navigation lives
+ * in a full-screen overlay on every screen size.
+ */
+export function Navbar({ address, phone, phoneHref, email, instagram, status, previews }: NavbarProps) {
   const t = useTranslations('Navigation');
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
+  const lenis = useLenis();
   const [open, setOpen] = useState(false);
+  const [hover, setHover] = useState<string>(ITEMS[0].key);
+  const [heroMarkVisible, setHeroMarkVisible] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // Solid background after leaving the top; hide while scrolling down, show on the way up.
-  useEffect(() => {
-    let last = window.scrollY;
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        setScrolled(y > 24);
-        setHidden(y > 320 && y > last + 4);
-        if (y < last - 4) setHidden(false);
-        last = y;
-        ticking = false;
-      });
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const close = useCallback(() => {
-    setOpen(false);
-    toggleRef.current?.focus();
-  }, []);
-
-  // Close the mobile menu on navigation (state adjusted during render, no effect needed).
+  // Close on navigation (adjusting state during render; no effect needed).
   const [lastPath, setLastPath] = useState(pathname);
   if (pathname !== lastPath) {
     setLastPath(pathname);
     setOpen(false);
   }
 
-  // Mobile menu: lock scroll, trap focus, close on Escape.
+  // On the homepage the big hero wordmark is the logo; the small one appears once it scrolls away.
+  useEffect(() => {
+    const mark = document.getElementById('hero-mark');
+    if (!mark) {
+      const id = requestAnimationFrame(() => setHeroMarkVisible(false));
+      return () => cancelAnimationFrame(id);
+    }
+    const io = new IntersectionObserver(([e]) => setHeroMarkVisible(e.isIntersecting), { threshold: 0.05 });
+    io.observe(mark);
+    return () => io.disconnect();
+  }, [pathname]);
+
+  const close = useCallback(() => {
+    setOpen(false);
+    toggleRef.current?.focus();
+  }, []);
+
   useEffect(() => {
     if (!open) return;
-    const { overflow } = document.body.style;
-    document.body.style.overflow = 'hidden';
+    lenis?.stop();
+    const { overflow } = document.documentElement.style;
+    document.documentElement.style.overflow = 'hidden';
     const panel = panelRef.current;
-    const focusables = () =>
-      Array.from(panel?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []);
-    focusables()[0]?.focus();
+    const focusables = () => Array.from(panel?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []);
+    const first = window.setTimeout(() => focusables()[0]?.focus(), 350);
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close();
       if (e.key === 'Tab') {
         const els = [toggleRef.current!, ...focusables()];
-        const first = els[0];
-        const last = els[els.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
+        const a = els[0];
+        const z = els[els.length - 1];
+        if (e.shiftKey && document.activeElement === a) {
           e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
+          z.focus();
+        } else if (!e.shiftKey && document.activeElement === z) {
           e.preventDefault();
-          first.focus();
+          a.focus();
         }
       }
     };
     document.addEventListener('keydown', onKey);
     return () => {
-      document.body.style.overflow = overflow;
+      window.clearTimeout(first);
+      lenis?.start();
+      document.documentElement.style.overflow = overflow;
       document.removeEventListener('keydown', onKey);
     };
-  }, [open, close]);
+  }, [open, close, lenis]);
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`));
+  const showLogo = open || !heroMarkVisible;
 
   return (
-    <header
-      className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color,color] duration-[var(--dur-2)] ease-[var(--ease-out)]',
-        open ? 'night border-b border-transparent' : scrolled ? 'border-b hairline bg-bg/85 backdrop-blur-md' : 'border-b border-transparent',
-        hidden && !open && '-translate-y-full',
-      )}
-    >
-      <div className="wrap flex h-[var(--header-h)] items-center gap-6">
-        <Link href="/" className="relative z-10 -ml-1 flex min-h-11 items-center px-1" aria-label={siteConfig.brandName}>
-          <Wordmark />
-        </Link>
-
-        <nav aria-label={t('primary')} className="mx-auto hidden lg:block">
-          <ul className="flex items-center gap-9">
-            {siteConfig.nav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={isActive(item.href) ? 'page' : undefined}
-                  className="label link-draw inline-flex min-h-11 items-center"
-                >
-                  {t(item.key)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="ml-auto flex items-center gap-2 lg:ml-0 lg:gap-4">
-          <Suspense fallback={null}>
-            <LanguageSwitcher className="hidden md:block" />
-          </Suspense>
-          <Link
-            href="/book"
-            className={cn(
-              'label hidden min-h-10 items-center rounded-[var(--radius-pill)] border border-current px-5 transition-colors duration-[var(--dur-2)] hover:bg-fg hover:text-bg sm:inline-flex',
-              open && 'sm:hidden',
-            )}
-          >
-            {t('book')}
-          </Link>
+    <>
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-[70] text-white mix-blend-difference">
+        <div className="wrap grid h-[var(--header-h)] grid-cols-[1fr_auto_1fr] items-center">
           <button
             ref={toggleRef}
             type="button"
-            className="relative z-10 -mr-2 inline-flex min-h-11 min-w-11 items-center justify-center gap-3 px-2 lg:hidden"
+            className="group pointer-events-auto -ml-2 inline-flex min-h-11 items-center gap-3 justify-self-start px-2"
             aria-expanded={open}
-            aria-controls="mobile-menu"
-            aria-label={open ? t('closeMenu') : t('openMenu')}
+            aria-controls="site-menu"
             onClick={() => setOpen((v) => !v)}
           >
-            <span aria-hidden="true" className="relative block h-3 w-7">
+            <span aria-hidden="true" className="relative block h-2.5 w-7">
               <span
                 className={cn(
                   'absolute left-0 top-0 h-px w-7 bg-current transition-transform duration-[var(--dur-2)] ease-[var(--ease-out)]',
-                  open && 'translate-y-1.5 rotate-[20deg]',
+                  open ? 'translate-y-[5px] rotate-[24deg]' : 'group-hover:translate-x-1',
                 )}
               />
               <span
                 className={cn(
-                  'absolute bottom-0 left-0 h-px w-7 bg-current transition-transform duration-[var(--dur-2)] ease-[var(--ease-out)]',
-                  open ? '-translate-y-1.5 -rotate-[20deg]' : 'w-5',
+                  'absolute bottom-0 left-0 h-px bg-current transition-[transform,width] duration-[var(--dur-2)] ease-[var(--ease-out)]',
+                  open ? 'w-7 -translate-y-[4px] -rotate-[24deg]' : 'w-4 group-hover:w-7',
                 )}
               />
             </span>
+            <span className="label hidden sm:inline">{open ? t('closeMenu') : t('openMenu')}</span>
+            <span className="sr-only sm:hidden">{open ? t('closeMenu') : t('openMenu')}</span>
           </button>
-        </div>
-      </div>
 
-      {/* Mobile menu */}
-      <div
-        id="mobile-menu"
-        ref={panelRef}
-        hidden={!open}
-        className="night fixed inset-0 top-[var(--header-h)] flex h-[calc(100dvh-var(--header-h))] flex-col overflow-y-auto lg:hidden"
-      >
-        <nav aria-label={t('primary')} className="wrap flex flex-1 flex-col justify-center py-10">
-          <ul className="space-y-1">
-            {[{ key: 'home', href: '/' } as const, ...siteConfig.nav].map((item, i) => (
-              <li key={item.href} className="rise" style={{ ['--delay' as string]: 60 + i * 60 }}>
-                <Link
-                  href={item.href}
-                  aria-current={(item.href === '/' ? pathname === '/' : isActive(item.href)) ? 'page' : undefined}
-                  className="font-display flex min-h-14 items-baseline gap-4 text-[clamp(2.75rem,12vw,4.5rem)] leading-[1.05] aria-[current=page]:italic"
-                >
-                  <span className="label w-6 text-muted">{String(i + 1).padStart(2, '0')}</span>
-                  {t(item.key)}
-                </Link>
-              </li>
-            ))}
-          </ul>
           <Link
-            href="/book"
-            className="rise label mt-10 inline-flex min-h-13 items-center justify-center rounded-[var(--radius-pill)] bg-fg px-8 text-bg"
-            style={{ ['--delay' as string]: 420 }}
+            href="/"
+            aria-label={siteConfig.brandName}
+            className={cn(
+              'pointer-events-auto block transition-[opacity,transform] duration-[var(--dur-3)] ease-[var(--ease-out)]',
+              showLogo ? 'opacity-100' : 'pointer-events-none -translate-y-3 opacity-0',
+            )}
+            tabIndex={showLogo ? undefined : -1}
           >
-            {t('bookLong')}
+            <Logo className="w-[6.25rem] [--hacek:currentColor] sm:w-[7.25rem]" />
           </Link>
-        </nav>
-        <div className="wrap rise border-t hairline py-6 text-small text-muted" style={{ ['--delay' as string]: 480 }}>
-          <div className="flex flex-wrap items-center justify-between gap-4">
+
+          <div className="flex items-center gap-1 justify-self-end">
             <Suspense fallback={null}>
-              <LanguageSwitcher onNavigate={() => setOpen(false)} />
+              <LanguageSwitcher className="pointer-events-auto hidden md:block" />
             </Suspense>
-            {status}
+            <Link
+              href="/book"
+              className="label pointer-events-auto ml-2 inline-flex min-h-10 items-center rounded-[var(--radius-pill)] border border-current px-4 transition-colors duration-[var(--dur-2)] hover:bg-white hover:text-black sm:px-5"
+            >
+              {t('book')}
+            </Link>
           </div>
-          <p className="mt-4">{address}</p>
-          <a href={phoneHref} className="link-static mt-1 inline-block">
-            {phone}
-          </a>
+        </div>
+      </header>
+
+      {/* Full-screen menu */}
+      <div
+        id="site-menu"
+        ref={panelRef}
+        data-open={open}
+        inert={!open}
+        aria-hidden={!open}
+        className="night fixed inset-0 z-[65] flex flex-col overflow-y-auto [clip-path:inset(0_0_100%_0)] transition-[clip-path] duration-[900ms] ease-[var(--ease-in-out)] data-[open=true]:[clip-path:inset(0_0_0_0)]"
+        data-lenis-prevent
+      >
+        <div className="wrap grid flex-1 items-center gap-10 pb-8 pt-[calc(var(--header-h)+2rem)] lg:grid-cols-12">
+          <nav aria-label={t('primary')} className="lg:col-span-7">
+            <ul>
+              {ITEMS.map((item, i) => (
+                <li key={item.href} className="overflow-hidden">
+                  <Link
+                    href={item.href}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
+                    onPointerEnter={() => setHover(item.key)}
+                    onFocus={() => setHover(item.key)}
+                    className={cn(
+                      'group flex items-baseline gap-5 py-1 transition-[transform,opacity] duration-[900ms] ease-[var(--ease-out)]',
+                      open ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0',
+                    )}
+                    style={{ transitionDelay: open ? `${180 + i * 70}ms` : '0ms' }}
+                  >
+                    <span className="index w-10 shrink-0 text-[1.05rem] text-muted">({String(i + 1).padStart(2, '0')})</span>
+                    <span className="font-display text-[clamp(3rem,9.5vw,7.25rem)] leading-[0.98] tracking-[-0.02em] transition-[color,font-style] duration-[var(--dur-2)] group-hover:italic group-hover:text-accent group-aria-[current=page]:italic">
+                      {t(item.key)}
+                    </span>
+                    <Hacek className="h-[0.9rem] text-accent opacity-0 transition-opacity group-hover:opacity-100 group-aria-[current=page]:opacity-100" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div
+            className={cn(
+              'relative hidden aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] transition-[opacity,transform] duration-[1100ms] ease-[var(--ease-out)] lg:col-span-4 lg:col-start-9 lg:block',
+              open ? 'scale-100 opacity-100 delay-300' : 'scale-95 opacity-0',
+            )}
+            aria-hidden="true"
+          >
+            {ITEMS.map((item) => (
+              <Img
+                key={item.key}
+                src={previews[item.key]}
+                alt=""
+                fill
+                sizes="30vw"
+                className={cn(
+                  'object-cover transition-[opacity,transform] duration-[900ms] ease-[var(--ease-out)]',
+                  hover === item.key ? 'scale-100 opacity-100' : 'scale-110 opacity-0',
+                )}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div
+          className={cn(
+            'wrap grid gap-6 border-t hairline py-6 text-small text-muted transition-opacity duration-700 sm:grid-cols-2 lg:grid-cols-4',
+            open ? 'opacity-100 delay-500' : 'opacity-0',
+          )}
+        >
+          <Suspense fallback={null}>
+            <LanguageSwitcher onNavigate={() => setOpen(false)} className="-ml-2" />
+          </Suspense>
+          <div>{status}</div>
+          <p>
+            {address}
+            <br />
+            <a href={phoneHref} className="link-static">
+              {phone}
+            </a>
+          </p>
+          <p className="lg:text-right">
+            <a href={`mailto:${email}`} className="link-static break-all">
+              {email}
+            </a>
+            {instagram ? (
+              <>
+                <br />
+                <a href={instagram} target="_blank" rel="noopener noreferrer" className="link-static">
+                  Instagram
+                </a>
+              </>
+            ) : null}
+          </p>
         </div>
       </div>
-    </header>
+    </>
   );
 }

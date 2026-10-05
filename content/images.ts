@@ -7,6 +7,14 @@
  * (menu_items.image in Supabase / content/restaurant.ts).
  */
 export const images = {
+  /** Stills from the kitchen film (public/media), black and white. */
+  kitchen: {
+    poster: { src: '/images/kitchen/poster.jpg', width: 1920, height: 1080 },
+    chefs: { src: '/images/kitchen/chefs.jpg', width: 1920, height: 1080 },
+    dough: { src: '/images/kitchen/dough.jpg', width: 1920, height: 1080 },
+    fire: { src: '/images/kitchen/fire.jpg', width: 1920, height: 1080 },
+    hands: { src: '/images/kitchen/hands.jpg', width: 1920, height: 1080 },
+  },
   hero: { src: '/images/dishes/fuzi-truffle.jpg', width: 1024, height: 1024 },
   signature: { src: '/images/dishes/pasticada.jpg', width: 1024, height: 1024 },
   regions: {
@@ -30,4 +38,16 @@ export const images = {
   },
   visit: { src: '/images/atmosphere/stone-window.jpg', width: 900, height: 530 },
   booking: { src: '/images/atmosphere/white-wine.jpg', width: 768, height: 800 },
+} as const;
+
+/** Video. Re-encode with ffmpeg when replacing (see README → Media). */
+export const videos = {
+  hero: {
+    poster: '/images/kitchen/poster.jpg',
+    sources: [
+      { src: '/media/hero-540.mp4', media: '(max-width: 768px)' },
+      { src: '/media/hero-1080.mp4' },
+    ],
+  },
+  fire: { poster: '/images/kitchen/fire.jpg', src: '/media/fire-loop.mp4' },
 } as const;
