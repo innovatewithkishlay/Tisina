@@ -140,6 +140,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'sourdough-cultured-butter',
           price: 5,
+          image: '/images/photo/sourdough.jpg',
           allergens: ['gluten', 'milk'],
           dietary: ['vegetarian'],
           i18n: {
@@ -164,6 +165,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'ston-oysters',
           price: 4.5,
+          image: '/images/photo/oysters.jpg',
           seasonal: true,
           allergens: ['molluscs'],
           dietary: ['gluten_free', 'dairy_free', 'pescatarian'],
@@ -188,7 +190,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'adriatic-tuna-tartare',
           price: 19,
-          image: '/images/dishes/tuna-tartare.jpg',
+          image: '/images/photo/tuna-tartare.jpg',
           featured: true,
           allergens: ['fish', 'gluten', 'eggs'],
           dietary: ['pescatarian', 'dairy_free'],
@@ -202,7 +204,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'burrata-neretva-tomatoes',
           price: 16,
-          image: '/images/dishes/burrata.jpg',
+          image: '/images/photo/burrata.jpg',
           seasonal: true,
           allergens: ['milk', 'sulphites'],
           dietary: ['vegetarian', 'gluten_free'],
@@ -252,7 +254,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'fuzi-black-truffle',
           price: 26,
-          image: '/images/dishes/fuzi-truffle.jpg',
+          image: '/images/photo/truffle-pasta.jpg',
           featured: true,
           allergens: ['gluten', 'eggs', 'milk'],
           dietary: ['vegetarian'],
@@ -278,6 +280,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'pumpkin-gnocchi-sage',
           price: 18,
+          image: '/images/photo/gnocchi-sage.jpg',
           seasonal: true,
           allergens: ['gluten', 'eggs', 'milk', 'nuts'],
           dietary: ['vegetarian'],
@@ -362,6 +365,8 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'octopus-peka',
           price: 34,
+          image: '/images/photo/octopus.jpg',
+          featured: true,
           allergens: ['molluscs'],
           dietary: ['gluten_free', 'dairy_free'],
           i18n: {
@@ -397,7 +402,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'dalmatian-pasticada',
           price: 30,
-          image: '/images/dishes/pasticada.jpg',
+          image: '/images/photo/beef-stew.jpg',
           featured: true,
           allergens: ['gluten', 'eggs', 'celery', 'sulphites'],
           dietary: [],
@@ -482,7 +487,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'goat-milk-panna-cotta',
           price: 10,
-          image: '/images/dishes/panna-cotta.jpg',
+          image: '/images/photo/panna-cotta.jpg',
           featured: true,
           seasonal: true,
           allergens: ['milk'],
@@ -497,6 +502,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'rozata',
           price: 9,
+          image: '/images/photo/rozata.jpg',
           allergens: ['milk', 'eggs'],
           dietary: ['vegetarian', 'gluten_free'],
           i18n: {
@@ -509,6 +515,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'samobor-kremsnita',
           price: 8,
+          image: '/images/photo/kremsnita.jpg',
           allergens: ['gluten', 'milk', 'eggs'],
           dietary: ['vegetarian'],
           i18n: {

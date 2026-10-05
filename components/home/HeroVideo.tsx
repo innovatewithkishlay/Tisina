@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link } from '@/i18n/routing';
 import { Logo } from '@/components/brand/Logo';
 import { Img } from '@/components/ui/Img';
@@ -13,7 +13,7 @@ interface HeroVideoProps {
   line: string;
   ctaBook: string;
   ctaMenu: string;
-  scroll: string;
+  scroll?: string;
   pauseLabel: string;
   playLabel: string;
   status: ReactNode;
@@ -27,11 +27,32 @@ interface HeroVideoProps {
  * text-only; the video fades in over it. On scroll the frame closes into a
  * rounded card while the wordmark lifts away.
  */
-export function HeroVideo({ name, eyebrow, line, ctaBook, ctaMenu, scroll, pauseLabel, playLabel, status, poster, sources }: HeroVideoProps) {
+export function HeroVideo({ name, eyebrow, line, ctaBook, ctaMenu, pauseLabel, playLabel, status, poster, sources }: HeroVideoProps) {
   const root = useRef<HTMLElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(true);
   const [ready, setReady] = useState(false);
+  const [src, setSrc] = useState<string | null>(null);
+
+  // The poster is the first paint. Only once the page has finished loading do
+  // we pick the one file that suits this screen and start streaming it, so the
+  // film never competes with the poster, fonts or scripts for bandwidth.
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let timer = 0;
+    const start = () => {
+      timer = window.setTimeout(() => {
+        const pick = sources.find((x) => !x.media || window.matchMedia(x.media).matches) ?? sources[sources.length - 1];
+        setSrc(pick.src);
+      }, 250);
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
+    return () => {
+      window.removeEventListener('load', start);
+      window.clearTimeout(timer);
+    };
+  }, [sources]);
 
   useGSAP(
     () => {
@@ -53,7 +74,13 @@ export function HeroVideo({ name, eyebrow, line, ctaBook, ctaMenu, scroll, pause
 
   const toggle = () => {
     const v = video.current;
-    if (!v) return;
+    if (!v) {
+      // Reduced motion: the film was never loaded — start it only on request.
+      const pick = sources.find((x) => !x.media || window.matchMedia(x.media).matches) ?? sources[sources.length - 1];
+      setSrc(pick.src);
+      setPlaying(true);
+      return;
+    }
     if (v.paused) {
       void v.play();
       setPlaying(true);
@@ -68,22 +95,20 @@ export function HeroVideo({ name, eyebrow, line, ctaBook, ctaMenu, scroll, pause
       <div data-hero-frame className="absolute inset-0 overflow-hidden bg-night will-change-[clip-path]">
         <div data-hero-media className="absolute inset-0 will-change-transform">
           <Img src={poster} alt="" fill priority fetchPriority="high" sizes="100vw" className="object-cover" />
-          <video
-            ref={video}
-            className={cn('absolute inset-0 h-full w-full object-cover transition-opacity duration-1000', ready ? 'opacity-100' : 'opacity-0')}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            poster={poster}
-            onCanPlay={() => setReady(true)}
-            aria-hidden="true"
-          >
-            {sources.map((s) => (
-              <source key={s.src} src={s.src} media={s.media} type="video/mp4" />
-            ))}
-          </video>
+          {src ? (
+            <video
+              ref={video}
+              className={cn('absolute inset-0 h-full w-full object-cover transition-opacity duration-1000', ready ? 'opacity-100' : 'opacity-0')}
+              src={src}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              onCanPlay={() => setReady(true)}
+              aria-hidden="true"
+            />
+          ) : null}
         </div>
         <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/0.7)_0%,rgb(0_0_0/0.4)_50%,rgb(0_0_0/0.9)_100%)]" />
       </div>
@@ -96,8 +121,8 @@ export function HeroVideo({ name, eyebrow, line, ctaBook, ctaMenu, scroll, pause
 
         <div data-hero-copy className="mt-auto flex flex-col gap-8 pb-[clamp(1.25rem,3vw,2.5rem)] md:flex-row md:items-end md:justify-between">
           <p
-            className="rise font-display max-w-[19ch] text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.08] text-bone"
-            style={{ ['--delay' as string]: 650 }}
+            className="lift font-display max-w-[19ch] text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.08] text-bone"
+            style={{ ['--delay' as string]: 120 }}
           >
             {line}
           </p>
@@ -121,6 +146,17 @@ export function HeroVideo({ name, eyebrow, line, ctaBook, ctaMenu, scroll, pause
           <Logo animate title={name} className="w-full text-bone [--hacek:var(--brand-ember-light)]" />
         </div>
 
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={playing ? pauseLabel : playLabel}
+          title={playing ? pauseLabel : playLabel}
+          className="absolute bottom-4 right-[var(--gutter)] z-20 grid size-10 place-items-center rounded-full border border-bone/25 text-bone/70 backdrop-blur-sm transition-colors hover:border-bone hover:text-bone"
+        >
+          <svg viewBox="0 0 12 12" className="size-3" aria-hidden="true">
+            {playing ? <path d="M3 2v8M9 2v8" stroke="currentColor" strokeWidth="1.6" /> : <path d="M3 1.5v9l7.5-4.5z" fill="currentColor" />}
+          </svg>
+        </button>
 
       </div>
     </section>

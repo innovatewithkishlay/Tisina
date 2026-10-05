@@ -50,19 +50,19 @@
         "region": "Istrien",
         "dish": "Fuži, schwarzer Trüffel",
         "body": "Im Herbst schicken uns die Trüffelsucher aus dem Mirna-Tal, was ihre Hunde in dieser Woche gefunden haben. Wir hobeln ihn am Tisch über Pasta, die am selben Morgen von Hand gerollt wurde.",
-        "alt": "Fuži unter gehobeltem schwarzem Trüffel, Kerzenlicht im Hintergrund"
+        "alt": "Bänder frischer Pasta unter Scheiben schwarzer Trüffel auf dunklem Teller"
       },
       "dalmacija": {
         "region": "Dalmatien",
         "dish": "Pašticada",
         "body": "Zwei Tage in Wein und Essig, sechs Stunden im Topf mit Prošek und Dörrpflaumen. Das Rezept stammt von einer Großmutter aus Split, die Geduld ist unsere.",
-        "alt": "Scheiben von geschmortem Rind in dunkler Sauce mit goldenen Gnocchi auf einem Steingutteller"
+        "alt": "Mit Kartoffeln geschmortes Rind in dunkler Sauce, in einer dunklen Schale"
       },
       "jadran": {
         "region": "Die Adria",
         "dish": "Thunfisch, roh",
         "body": "Vor Vis mit der Leine gefangen und auf Bestellung geschnitten, angemacht mit kaum mehr als istrischem Öl und ein paar Kapern von den Inselmauern.",
-        "alt": "Thunfischtatar mit Radieschen, Kapern und Borretschblüten, daneben Roggen-Cracker"
+        "alt": "Thunfischtatar mit knusprigen Schalotten auf leichter Chilisauce"
       }
     },
     "signatureLabel": "Signature",
@@ -82,7 +82,7 @@
     "galleryLabel": "Abende im Tišina",
     "gallery": {
       "candles": "Die Kerzen brennen ab halb sieben",
-      "window": "Nachmittagslicht am Fenstertisch",
+      "window": "Der Speiseraum in der Dämmerung",
       "wine": "Plavac mali von Pelješac",
       "linen": "Leinen, jeden Morgen gebügelt",
       "dessert": "Panna cotta mit Waldbeeren vom Medvednica",
@@ -141,8 +141,8 @@
     "quoteBy": "Die Küche des Tišina",
     "ctaMenu": "Zur Speisekarte",
     "ctaBook": "Tisch reservieren",
-    "imageAlt1": "Burrata mit alten Tomatensorten und Basilikum auf einem Teller am Fenster",
-    "imageAlt2": "Panna cotta mit Waldbeeren in einem sanft beleuchteten Speisesaal"
+    "imageAlt1": "Ein Koch richtet ein Gericht von Hand an einer Holztheke an",
+    "imageAlt2": "Rotwein fließt aus einer Karaffe, daneben Trauben und Birnen"
   },
   "Menu": {
     "eyebrow": "Speisekarte",
@@ -363,7 +363,8 @@
     "ctaTitle": "Ein Tisch <em>wartet</em>.",
     "ctaBody": "Achtundzwanzig Plätze, eine Sitzung, keine Eile.",
     "localTime": "Jetzt in {city}",
-    "directions": "Route"
+    "directions": "Route",
+    "photoCredit": "Fotos: Freepik, Openverse (CC0)"
   },
   "Privacy": {
     "eyebrow": "Datenschutz",

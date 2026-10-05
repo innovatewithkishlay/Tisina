@@ -6,7 +6,6 @@ import { Link, usePathname } from '@/i18n/routing';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { Logo, Hacek } from '@/components/brand/Logo';
-import { Img } from '@/components/ui/Img';
 import { useLenis } from '@/components/motion/SmoothScroll';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
@@ -17,24 +16,23 @@ interface NavbarProps {
   email: string;
   instagram?: string;
   status?: ReactNode;
-  /** Preview photo per nav entry, shown beside the links in the overlay. */
-  previews: Record<string, string>;
 }
 
 const ITEMS = [{ key: 'home', href: '/' } as const, ...siteConfig.nav];
 
 /**
- * The header is a thin, fixed strip that never changes size or hides, so it
- * cannot jitter while scrolling. `mix-blend-mode: difference` keeps it legible
- * over video, photography, paper and night sections alike. Navigation lives
- * in a full-screen overlay on every screen size.
+ * The header is a fixed bar that never changes size or hides, so it cannot
+ * jitter while scrolling. It is transparent only over the home film; once the
+ * page moves it is a solid, blurred night bar that content slides beneath.
+ * Navigation lives in a side panel on every screen size.
  */
-export function Navbar({ address, phone, phoneHref, email, instagram, status, previews }: NavbarProps) {
+export function Navbar({ address, phone, phoneHref, email, instagram, status }: NavbarProps) {
   const t = useTranslations('Navigation');
   const pathname = usePathname();
   const lenis = useLenis();
   const [open, setOpen] = useState(false);
   const [heroMarkVisible, setHeroMarkVisible] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -56,6 +54,25 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status, pr
     io.observe(mark);
     return () => io.disconnect();
   }, [pathname]);
+
+  // One passive listener, read once per frame. The bar only changes colour —
+  // never size or position — so scrolling cannot make it jump.
+  useEffect(() => {
+    let raf = 0;
+    const read = () => {
+      raf = 0;
+      setScrolled(window.scrollY > 24);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(read);
+    };
+    read();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -96,10 +113,18 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status, pr
 
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`));
   const showLogo = open || !heroMarkVisible;
+  // Transparent only over the home film before scrolling; everywhere else a
+  // solid bar, so page content passes underneath instead of through it.
+  const solid = open || scrolled || pathname !== '/';
 
   return (
     <>
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-[70] text-white mix-blend-difference">
+      <header
+        className={cn(
+          'fixed inset-x-0 top-0 z-[70] text-bone transition-[background-color,border-color,backdrop-filter] duration-500',
+          solid ? 'border-b border-white/[0.07] bg-night/90 backdrop-blur-xl' : 'border-b border-transparent bg-transparent',
+        )}
+      >
         <div className="wrap grid h-[var(--header-h)] grid-cols-[1fr_auto_1fr] items-center">
           <button
             ref={toggleRef}
@@ -136,7 +161,7 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status, pr
             )}
             tabIndex={showLogo ? undefined : -1}
           >
-            <Logo className="w-[6.25rem] [--hacek:currentColor] sm:w-[7.25rem]" />
+            <Logo className="w-[6.25rem] [--hacek:var(--brand-ember-light)] sm:w-[7.25rem]" />
           </Link>
 
           <div className="flex items-center justify-self-end">
@@ -165,9 +190,9 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status, pr
         inert={!open}
         aria-hidden={!open}
         className={cn(
-          "fixed inset-y-0 right-0 z-[65] flex w-full lg:w-[480px] flex-col bg-night/95 backdrop-blur-2xl text-bone shadow-[-30px_0_60px_rgba(0,0,0,0.5)]",
+          "fixed inset-y-0 right-0 z-[65] flex w-full lg:w-[480px] flex-col bg-night/95 backdrop-blur-2xl text-bone",
           "transition-transform duration-[800ms] ease-[var(--ease-out)]",
-          open ? "translate-x-0" : "translate-x-full"
+          open ? "translate-x-0 shadow-[-30px_0_60px_rgba(0,0,0,0.5)]" : "invisible translate-x-full"
         )}
       >
         <div className="flex flex-col flex-1 px-10 pb-12 pt-[calc(var(--header-h)+2rem)]">
@@ -196,6 +221,7 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status, pr
 
           <div className="mt-auto pt-16">
             <div className="mb-8 h-px w-12 bg-white/20" />
+            {status ? <div className="mb-5 text-sm text-bone/80">{status}</div> : null}
             <p className="text-sm leading-relaxed text-muted">
               {address}
               <br />

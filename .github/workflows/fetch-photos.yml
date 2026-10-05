@@ -1,0 +1,27 @@
+# Fetches photography in CI (the dev container has no access to image hosts).
+# Edit .image-review/request.json and push to run it:
+#   mode "search": a labelled contact sheet of Unsplash candidates per query
+#   mode "fetch":  chosen Unsplash photos at full size into public/images
+name: Fetch photos
+on:
+  push:
+    paths: ['.image-review/request.json']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: sudo apt-get install -y imagemagick >/dev/null
+      - run: node scripts/fetch-photos.mjs
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A .image-review public/images
+          git commit -m "chore: fetched photos (CI)" || echo "nothing to commit"
+          git push

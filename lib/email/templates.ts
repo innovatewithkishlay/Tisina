@@ -23,6 +23,12 @@ const strings = {
     ackSubject: 'We received your request', ackTitle: 'Thank you — your request is with us.',
     ackBody: 'This is not yet a confirmation. We will confirm your table personally, usually within a few hours.',
     ackChange: 'If your plans change, simply reply to this email.', ackSign: 'See you soon,',
+    confirmedSubject: 'Your table is confirmed', confirmedTitle: 'Your table is confirmed.',
+    confirmedBody: 'We look forward to welcoming you. We hold tables for fifteen minutes.',
+    declinedSubject: 'About your reservation request', declinedTitle: 'We are sorry — we cannot seat you at that time.',
+    declinedBody: 'Unfortunately we are full for the time you asked for. We would be glad to welcome you on another day.',
+    cancelledSubject: 'Your reservation has been cancelled', cancelledTitle: 'Your reservation has been cancelled.',
+    cancelledBody: 'If this is unexpected, simply reply to this email and we will sort it out.', fromUs: 'A note from us',
   },
   hr: {
     newBooking: 'Novi upit za rezervaciju', newMessage: 'Nova poruka', status: 'Status',
@@ -32,6 +38,12 @@ const strings = {
     ackSubject: 'Zaprimili smo vaš upit', ackTitle: 'Hvala — vaš upit je kod nas.',
     ackBody: 'Ovo još nije potvrda. Stol ćemo osobno potvrditi, obično u roku od nekoliko sati.',
     ackChange: 'Ako vam se planovi promijene, samo odgovorite na ovu poruku.', ackSign: 'Vidimo se uskoro,',
+    confirmedSubject: 'Vaš stol je potvrđen', confirmedTitle: 'Vaš stol je potvrđen.',
+    confirmedBody: 'Veselimo se vašem dolasku. Stol držimo petnaest minuta.',
+    declinedSubject: 'O vašem upitu za rezervaciju', declinedTitle: 'Žao nam je — u to vrijeme nemamo slobodan stol.',
+    declinedBody: 'Nažalost, u traženom terminu smo popunjeni. Rado ćemo vas ugostiti nekog drugog dana.',
+    cancelledSubject: 'Vaša rezervacija je otkazana', cancelledTitle: 'Vaša rezervacija je otkazana.',
+    cancelledBody: 'Ako je ovo neočekivano, samo odgovorite na ovu poruku i riješit ćemo to.', fromUs: 'Poruka od nas',
   },
   de: {
     newBooking: 'Neue Reservierungsanfrage', newMessage: 'Neue Nachricht', status: 'Status',
@@ -41,6 +53,12 @@ const strings = {
     ackSubject: 'Wir haben Ihre Anfrage erhalten', ackTitle: 'Danke – Ihre Anfrage ist bei uns.',
     ackBody: 'Dies ist noch keine Bestätigung. Wir bestätigen Ihren Tisch persönlich, meist innerhalb weniger Stunden.',
     ackChange: 'Wenn sich Ihre Pläne ändern, antworten Sie einfach auf diese E-Mail.', ackSign: 'Bis bald,',
+    confirmedSubject: 'Ihr Tisch ist bestätigt', confirmedTitle: 'Ihr Tisch ist bestätigt.',
+    confirmedBody: 'Wir freuen uns auf Ihren Besuch. Wir halten Tische fünfzehn Minuten frei.',
+    declinedSubject: 'Zu Ihrer Reservierungsanfrage', declinedTitle: 'Es tut uns leid – zu dieser Zeit haben wir keinen Tisch frei.',
+    declinedBody: 'Leider sind wir zur gewünschten Zeit ausgebucht. Gern begrüßen wir Sie an einem anderen Tag.',
+    cancelledSubject: 'Ihre Reservierung wurde storniert', cancelledTitle: 'Ihre Reservierung wurde storniert.',
+    cancelledBody: 'Falls das unerwartet ist, antworten Sie einfach auf diese E-Mail.', fromUs: 'Eine Nachricht von uns',
   },
   hu: {
     newBooking: 'Új foglalási kérés', newMessage: 'Új üzenet', status: 'Állapot',
@@ -50,6 +68,12 @@ const strings = {
     ackSubject: 'Megkaptuk a kérését', ackTitle: 'Köszönjük — megkaptuk a kérését.',
     ackBody: 'Ez még nem megerősítés. Asztalát személyesen erősítjük meg, általában néhány órán belül.',
     ackChange: 'Ha változnak a tervei, egyszerűen válaszoljon erre az e-mailre.', ackSign: 'Hamarosan találkozunk,',
+    confirmedSubject: 'Asztalát megerősítettük', confirmedTitle: 'Asztalát megerősítettük.',
+    confirmedBody: 'Szeretettel várjuk. Az asztalokat tizenöt percig tartjuk.',
+    declinedSubject: 'Foglalási kérésével kapcsolatban', declinedTitle: 'Sajnáljuk — ebben az időpontban nincs szabad asztalunk.',
+    declinedBody: 'Sajnos a kért időpontra megteltünk. Szívesen látjuk egy másik napon.',
+    cancelledSubject: 'Foglalását töröltük', cancelledTitle: 'Foglalását töröltük.',
+    cancelledBody: 'Ha ez váratlan, egyszerűen válaszoljon erre az e-mailre.', fromUs: 'Üzenet tőlünk',
   },
 } satisfies Record<Locale, Record<string, string>>;
 
@@ -164,6 +188,30 @@ export function bookingAcknowledgement(r: Restaurant, d: BookingEmailData) {
       footerNote: `${s.ackChange}\n${s.ackSign} ${r.name}`,
     }),
     text: text(s.ackTitle, rows, [s.ackBody, s.ackChange, '', `${s.ackSign} ${r.name}`]),
+  };
+}
+
+export type BookingDecision = 'confirmed' | 'declined' | 'cancelled';
+
+/** Sent to the guest from the admin panel when the restaurant decides on a request. */
+export function bookingDecision(r: Restaurant, d: BookingEmailData, decision: BookingDecision, note?: string) {
+  const s = strings[d.locale] ?? strings.en;
+  const copy = {
+    confirmed: [s.confirmedSubject, s.confirmedTitle, s.confirmedBody],
+    declined: [s.declinedSubject, s.declinedTitle, s.declinedBody],
+    cancelled: [s.cancelledSubject, s.cancelledTitle, s.cancelledBody],
+  }[decision];
+  const rows: Row[] = [
+    [s.date, d.dateLabel],
+    [s.time, d.timeLabel],
+    [s.guests, String(d.guests)],
+    [s.fromUs, note],
+    [s.reference, d.reference],
+  ];
+  return {
+    subject: `${copy[0]} — ${r.name}`,
+    html: layout({ restaurant: r, preheader: copy[2], eyebrow: r.name, title: copy[1], intro: copy[2], rows, footerNote: `${s.ackChange}\n${s.ackSign} ${r.name}` }),
+    text: text(copy[1], rows, [copy[2], s.ackChange, '', `${s.ackSign} ${r.name}`]),
   };
 }
 

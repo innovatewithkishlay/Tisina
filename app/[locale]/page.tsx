@@ -1,7 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/config/locales';
 import { images, videos } from '@/content/images';
-import { getFeaturedDishes, getHours, getRestaurant } from '@/lib/data/restaurant';
+import { getFeaturedDishes, getHours, getMenu, getRestaurant } from '@/lib/data/restaurant';
 import { formatPrice } from '@/lib/format';
 import { openStatus } from '@/lib/hours';
 import { pageMetadata } from '@/lib/seo/metadata';
@@ -10,11 +10,10 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { OpenStatus } from '@/components/layout/OpenStatus';
 import { HeroVideo } from '@/components/home/HeroVideo';
 import { Manifesto } from '@/components/home/Manifesto';
-import { KitchenStack } from '@/components/home/KitchenStack';
+import { CraftHorizontal } from '@/components/home/CraftHorizontal';
 import { RegionsScroll } from '@/components/home/RegionsScroll';
 import { SignatureDish } from '@/components/home/SignatureDish';
-import { Definition } from '@/components/home/Definition';
-import { MenuRoll } from '@/components/home/MenuRoll';
+import { MenuGlance } from '@/components/home/MenuGlance';
 import { GalleryColumns } from '@/components/home/GalleryColumns';
 import { OpeningHours } from '@/components/visit/OpeningHours';
 import { Location } from '@/components/visit/Location';
@@ -37,19 +36,22 @@ const REGION_KEYS = ['istra', 'dalmacija', 'jadran'] as const;
 const KITCHEN_KEYS = ['dough', 'fire', 'hands', 'chefs'] as const;
 const GALLERY_KEYS = ['candles', 'wine', 'garden', 'window', 'linen', 'dessert'] as const;
 /** Which menu item the "Signature" section features (falls back to the first featured dish). */
-const SIGNATURE_SLUG = 'dalmatian-pasticada';
+const SIGNATURE_SLUG = 'octopus-peka';
 
 export default async function HomePage({ params }: PageProps<'/[locale]'>) {
   const { locale } = (await params) as { locale: Locale };
   setRequestLocale(locale);
 
-  const [t, tVisit, r, hours, featured] = await Promise.all([
+  const [t, tVisit, tMenu, r, hours, featured, menu] = await Promise.all([
     getTranslations('Home'),
     getTranslations('Visit'),
+    getTranslations('Menu'),
     getRestaurant(locale),
     getHours(),
     getFeaturedDishes(locale),
+    getMenu(locale),
   ]);
+  const dishCount = menu.reduce((n, c) => n + c.items.length, 0);
 
   const signature = featured.find((d) => d.slug === SIGNATURE_SLUG) ?? featured[0];
   const price = (p: number | null, currency: string) => (p === null ? '' : formatPrice(p, currency, locale));
@@ -80,10 +82,10 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         images={{ dough: images.kitchen.dough.src, truffle: images.hero.src, fire: images.kitchen.fire.src }}
       />
 
-      <KitchenStack
+      <CraftHorizontal
         label={t('kitchenLabel')}
         title={t('kitchenTitle')}
-        cards={KITCHEN_KEYS.map((key) => ({
+        panels={KITCHEN_KEYS.map((key) => ({
           key,
           figure: t(`kitchen.${key}.figure`),
           title: t(`kitchen.${key}.title`),
@@ -112,30 +114,17 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           description={signature.description}
           note={t('signatureNote')}
           price={price(signature.price, signature.currency)}
-          image={{ src: signature.image ?? images.signature.src, alt: t('regions.dalmacija.alt') }}
+          image={{ src: signature.image ?? images.signature.src, alt: signature.name }}
           cta={t('menuCta')}
         />
       ) : null}
 
-      <Definition
-        word={t('definitionWord')}
-        pron={t('definitionPron')}
-        kind={t('definitionKind')}
-        senses={[t('definition1'), t('definition2')]}
-      />
-
-      <MenuRoll
+      <MenuGlance
         label={t('menuLabel')}
         title={t('menuTitle')}
         cta={t('menuCta')}
-        dishes={featured.map((d) => ({
-          slug: d.slug,
-          name: d.name,
-          category: d.category,
-          description: d.description,
-          price: price(d.price, d.currency),
-          image: d.image ?? images.hero.src,
-        }))}
+        count={(dishCount === 1 ? tMenu('countOne') : tMenu('countOther')).replace('#', String(dishCount))}
+        courses={menu.map((c) => ({ slug: c.slug, name: c.name }))}
       />
 
       <GalleryColumns
