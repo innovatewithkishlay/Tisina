@@ -1,0 +1,28 @@
+{
+  "mode": "search",
+  "perQuery": 9,
+  "queries": {
+    "truffle-pasta": { "query": "truffle pasta" },
+    "beef-stew": { "query": "braised beef fine dining plate" },
+    "tuna-tartare": { "query": "tuna tartare" },
+    "burrata": { "query": "burrata tomatoes" },
+    "panna-cotta": { "query": "panna cotta" },
+    "oysters": { "query": "oysters on ice" },
+    "octopus": { "query": "grilled octopus" },
+    "sea-bass": { "query": "grilled fish plate fine dining" },
+    "lamb": { "query": "lamb chops plated" },
+    "bread": { "query": "sourdough bread butter" },
+    "gnocchi": { "query": "gnocchi" },
+    "scampi": { "query": "langoustine" },
+    "cheese": { "query": "cheese board honey" },
+    "prosciutto": { "query": "prosciutto" },
+    "beetroot": { "query": "beetroot salad" },
+    "cake": { "query": "cream cake slice" },
+    "wine": { "query": "red wine glass candlelight" },
+    "interior": { "query": "restaurant interior candlelight", "orientation": "landscape" },
+    "chef": { "query": "chef plating" },
+    "zagreb": { "query": "zagreb" },
+    "table": { "query": "dinner table wine glasses", "orientation": "landscape" },
+    "pizza": { "query": "wood fired pizza" }
+  }
+}
