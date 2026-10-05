@@ -1,8 +1,9 @@
 'use client';
 
 import { useRef } from 'react';
+import { m, useScroll, useTransform } from 'motion/react';
 import { Img } from '@/components/ui/Img';
-import { gsap, reducedMotion, useGSAP } from '@/components/motion/gsap';
+import { useCalm, useParallaxScale } from '@/lib/motion';
 
 /**
  * Menu opening: one large word, a short promise, and three plates that rise
@@ -21,20 +22,13 @@ export function MenuHero({
 }) {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
-      if (reducedMotion()) return;
-      gsap.from('[data-plate]', { yPercent: 30, opacity: 0, duration: 1.6, stagger: 0.14, ease: 'expo.out', delay: 0.15 });
-      [-14, 10, -22].forEach((y, i) =>
-        gsap.to(`[data-plate="${i}"]`, {
-          yPercent: y,
-          ease: 'none',
-          scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true },
-        }),
-      );
-    },
-    { scope: root },
-  );
+  const calm = useCalm();
+  const k = useParallaxScale();
+  const { scrollYProgress } = useScroll({ target: root, offset: ['start start', 'end start'] });
+  const y0 = useTransform(scrollYProgress, [0, 1], ['0%', `${-14 * k}%`]);
+  const y1 = useTransform(scrollYProgress, [0, 1], ['0%', `${10 * k}%`]);
+  const y2 = useTransform(scrollYProgress, [0, 1], ['0%', `${-22 * k}%`]);
+  const drift = [y0, y1, y2];
 
   return (
     <section ref={root} className="night relative overflow-hidden pb-[clamp(4rem,8vw,7rem)] pt-[calc(var(--header-h)+clamp(3rem,7vw,6rem))]">
@@ -52,14 +46,18 @@ export function MenuHero({
 
       <div className="wrap mt-[clamp(3rem,6vw,5rem)] grid grid-cols-3 items-start gap-3 sm:gap-6" aria-hidden="true">
         {plates.slice(0, 3).map((p, i) => (
-          <div
-            key={p.src}
-            data-plate={i}
-            className="relative overflow-hidden rounded-[clamp(12px,1.6vw,22px)]"
-            style={{ aspectRatio: i === 1 ? '4 / 5' : '3 / 4', marginTop: i === 1 ? 0 : 'clamp(2rem, 6vw, 6rem)' }}
-          >
-            <Img src={p.src} alt="" fill priority={i === 1} sizes="33vw" className="object-cover" />
-          </div>
+          <m.div key={p.src} style={calm ? undefined : { y: drift[i] }}>
+            <div
+              className="plate-rise relative overflow-hidden rounded-[clamp(12px,1.6vw,22px)]"
+              style={{
+                aspectRatio: i === 1 ? '4 / 5' : '3 / 4',
+                marginTop: i === 1 ? 0 : 'clamp(2rem, 6vw, 6rem)',
+                ['--delay' as string]: `${0.15 + i * 0.14}s`,
+              }}
+            >
+              <Img src={p.src} alt="" fill priority={i === 1} sizes="33vw" className="object-cover" />
+            </div>
+          </m.div>
         ))}
       </div>
     </section>

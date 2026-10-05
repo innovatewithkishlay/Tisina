@@ -37,7 +37,7 @@
   },
   "Home": {
     "eyebrow": "Opatička 14 · Upper Town · Zagreb",
-    "heroLine": "A quiet dining room in Zagreb’s Upper Town. Croatia, cooked slowly — and over fire.",
+    "heroLine": "A quiet dining room in Zagreb’s Upper Town. Croatia, cooked *slowly* — and *over fire*.",
     "heroImageAlt": "Hand-rolled fuži with shaved black truffle in a dark ceramic bowl, candles and wine glasses on a wooden table",
     "ctaBook": "Reserve a table",
     "ctaMenu": "See the menu",
@@ -50,23 +50,26 @@
         "region": "Istria",
         "dish": "Fuži, black truffle",
         "body": "In autumn the truffle hunters of the Mirna valley send us whatever the dogs found that week. We shave it at the table, over pasta rolled by hand that morning.",
-        "alt": "Ribbons of fresh pasta under slices of black truffle on a dark plate"
+        "alt": "Ribbons of fresh pasta under slices of black truffle on a dark plate",
+        "ring": "Istria · Fuži · Black truffle · Mirna valley · "
       },
       "dalmacija": {
         "region": "Dalmatia",
         "dish": "Pašticada",
         "body": "Two days in wine and vinegar, six hours in the pot with prošek and dried plums. The recipe came from a grandmother in Split; the patience is ours.",
-        "alt": "Beef braised with potatoes in a deep brown sauce, served in a dark dish"
+        "alt": "Beef braised with potatoes in a deep brown sauce, served in a dark dish",
+        "ring": "Dalmatia · Pašticada · Six hours · Split · "
       },
       "jadran": {
         "region": "The Adriatic",
         "dish": "Tuna, raw",
         "body": "Line-caught off Vis and cut to order, dressed with little more than Istrian oil and a few capers picked from island walls.",
-        "alt": "Tuna tartare with crisp shallots on a light chilli sauce"
+        "alt": "Tuna tartare with crisp shallots on a light chilli sauce",
+        "ring": "The Adriatic · Tuna · Line-caught off Vis · "
       }
     },
     "signatureLabel": "Signature",
-    "signatureNote": "On the menu since the first night. It will be on the menu on the last.",
+    "signatureNote": "On the menu since the first night. It will be on the menu on the *last*.",
     "definitionWord": "tišina",
     "definitionPron": "/ˈti.ʃi.na/",
     "definitionKind": "noun, Croatian",
@@ -125,7 +128,10 @@
     },
     "videoPause": "Pause video",
     "videoPlay": "Play video",
-    "menuRollHint": "Scroll the menu"
+    "menuRollHint": "Scroll the menu",
+    "signatureStamp": "Since the first night · Under the peka · For two · ",
+    "galleryClose": "Close",
+    "swipe": "Swipe"
   },
   "Story": {
     "eyebrow": "Our story",
@@ -408,6 +414,9 @@
     "loading": "Loading…",
     "call": "Call",
     "email": "Email",
-    "instagram": "Instagram"
+    "instagram": "Instagram",
+    "cursorView": "View",
+    "cursorDrag": "Drag",
+    "cursorReserve": "Reserve"
   }
 }

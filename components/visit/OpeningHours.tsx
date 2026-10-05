@@ -36,17 +36,23 @@ export async function OpeningHours({
   return (
     <div className={className}>
       <ul className="border-t hairline">
-        {weeklyTable(hours).map(({ day, periods }) => {
+        {weeklyTable(hours).map(({ day, periods }, row) => {
           const today = day === now.weekday;
           return (
             <li
               key={day}
+              data-reveal=""
+              style={{ ['--delay' as string]: row * 50 }}
               className={cn(
-                'grid grid-cols-[minmax(7.5rem,auto)_1fr] items-baseline gap-x-6 border-b hairline py-4',
+                'relative grid grid-cols-[minmax(7.5rem,auto)_1fr] items-baseline gap-x-6 border-b hairline py-4',
                 !periods.length && 'text-muted',
               )}
             >
-              <span className="font-display text-[1.375rem] capitalize leading-tight">
+              {/* Today: a soft bar draws in from the left behind the row. */}
+              {today ? (
+                <span aria-hidden="true" className="today-bar absolute inset-y-1 -left-3 -right-3 -z-0 rounded-[10px] bg-[color-mix(in_srgb,var(--accent)_9%,transparent)]" />
+              ) : null}
+              <span className="relative font-display text-[1.375rem] capitalize leading-tight">
                 {weekdayName(day, locale)}
                 {today ? (
                   <span className="label ml-3 inline-flex translate-y-[-0.2em] items-center gap-1.5 align-middle text-accent">
@@ -55,7 +61,7 @@ export async function OpeningHours({
                   </span>
                 ) : null}
               </span>
-              <span className="flex flex-col gap-1 text-right sm:flex-row sm:flex-wrap sm:justify-end sm:gap-x-6">
+              <span className="relative flex flex-col gap-1 text-right sm:flex-row sm:flex-wrap sm:justify-end sm:gap-x-6">
                 {periods.length ? (
                   periods.map((p) => (
                     <span key={p.opens} className="whitespace-nowrap">

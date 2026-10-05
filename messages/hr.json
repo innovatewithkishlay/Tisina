@@ -37,7 +37,7 @@
   },
   "Home": {
     "eyebrow": "Opatička 14 · Gornji grad · Zagreb",
-    "heroLine": "Tiha blagovaonica u zagrebačkom Gornjem gradu. Hrvatska, kuhana polako — i na vatri.",
+    "heroLine": "Tiha blagovaonica u zagrebačkom Gornjem gradu. Hrvatska, kuhana *polako* — i *na vatri*.",
     "heroImageAlt": "Ručno rađeni fuži s ribanim crnim tartufom u tamnoj keramičkoj zdjeli, svijeće i čaše vina na drvenom stolu",
     "ctaBook": "Rezervirajte stol",
     "ctaMenu": "Pogledajte jelovnik",
@@ -50,23 +50,26 @@
         "region": "Istra",
         "dish": "Fuži, crni tartuf",
         "body": "U jesen nam tartufari iz doline Mirne šalju ono što su psi pronašli tog tjedna. Ribamo ga za stolom, preko tjestenine koju smo ručno uvaljali istog jutra.",
-        "alt": "Vrpce svježe tjestenine pod listićima crnog tartufa na tamnom tanjuru"
+        "alt": "Vrpce svježe tjestenine pod listićima crnog tartufa na tamnom tanjuru",
+        "ring": "Istra · Fuži · Crni tartuf · Dolina Mirne · "
       },
       "dalmacija": {
         "region": "Dalmacija",
         "dish": "Pašticada",
         "body": "Dva dana u vinu i octu, šest sati u loncu s prošekom i suhim šljivama. Recept je od jedne splitske bake; strpljenje je naše.",
-        "alt": "Govedina pirjana s krumpirom u gustom smeđem umaku, u tamnoj zdjeli"
+        "alt": "Govedina pirjana s krumpirom u gustom smeđem umaku, u tamnoj zdjeli",
+        "ring": "Dalmacija · Pašticada · Šest sati · Split · "
       },
       "jadran": {
         "region": "Jadran",
         "dish": "Tuna, sirova",
         "body": "Ulovljena udicom kod Visa i rezana po narudžbi, začinjena tek istarskim uljem i pokojim kaparom ubranim s otočnih zidova.",
-        "alt": "Tatarski od tune s hrskavim ljutikom na laganom umaku od čilija"
+        "alt": "Tatarski od tune s hrskavim ljutikom na laganom umaku od čilija",
+        "ring": "Jadran · Tuna · Ulovljena udicom kod Visa · "
       }
     },
     "signatureLabel": "Potpis kuće",
-    "signatureNote": "Na jelovniku od prve večeri. Bit će i na posljednjoj.",
+    "signatureNote": "Na jelovniku od prve večeri. Bit će i na *posljednjoj*.",
     "definitionWord": "tišina",
     "definitionPron": "/ˈti.ʃi.na/",
     "definitionKind": "imenica, ženski rod",
@@ -125,7 +128,10 @@
     },
     "videoPause": "Pauziraj video",
     "videoPlay": "Pokreni video",
-    "menuRollHint": "Listajte jelovnik"
+    "menuRollHint": "Listajte jelovnik",
+    "signatureStamp": "Od prve večeri · Ispod peke · Za dvoje · ",
+    "galleryClose": "Zatvori",
+    "swipe": "Povucite"
   },
   "Story": {
     "eyebrow": "Naša priča",
@@ -408,6 +414,9 @@
     "loading": "Učitavanje…",
     "call": "Nazovite",
     "email": "E-pošta",
-    "instagram": "Instagram"
+    "instagram": "Instagram",
+    "cursorView": "Pogledaj",
+    "cursorDrag": "Povuci",
+    "cursorReserve": "Rezerviraj"
   }
 }

@@ -1,81 +1,79 @@
 'use client';
 
 import { useRef } from 'react';
+import { useMotionValueEvent, useScroll } from 'motion/react';
 import { Img } from '@/components/ui/Img';
 import { Kicker } from '@/components/ui/Kicker';
-import { gsap, reducedMotion, useGSAP } from '@/components/motion/gsap';
+import { useCalm, useDesktop } from '@/lib/motion';
 
 /**
- * A large statement that "reads itself": words darken from stone to ink as it
- * scrolls through, and small photographs open inside the sentence itself.
+ * A statement that reads itself. As it scrolls through, each word lights from
+ * 15% to full ink — scrubbed, so it dims again on the way back — and the
+ * small photographs open inside the sentence at the exact moment the word
+ * before them lights, turning upright as they widen. Phones use a shorter
+ * window so the sentence completes within about a screen and a bit.
+ *
  * Markup: `[[key]]` inserts the image `images[key]`, `*word*` sets italic.
  */
-type Token = { kind: 'img'; key: string } | { kind: 'word'; w: string; em: boolean };
+type Token = { kind: 'img'; key: string; i: number } | { kind: 'word'; w: string; em: boolean; i: number };
 
 export function Manifesto({ label, text, images }: { label: string; text: string; images: Record<string, string> }) {
-  const root = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLParagraphElement>(null);
+  const calm = useCalm();
+  const desktop = useDesktop();
   const plain = text.replace(/\[\[\w+\]\]\s?/g, '').replace(/\*/g, '');
+
+  let n = 0;
   const tokens = text.split(/(\[\[\w+\]\])/).flatMap((part): Token[] => {
     const img = part.match(/^\[\[(\w+)\]\]$/);
-    if (img) return [{ kind: 'img', key: img[1] }];
+    // A picture opens with the word just before it.
+    if (img) return [{ kind: 'img', key: img[1], i: Math.max(n - 1, 0) }];
     return part
       .split(/(\*[^*]+\*)/)
-      .flatMap((seg): Token[] =>
-        seg.startsWith('*')
-          ? seg.slice(1, -1).split(/\s+/).map((w) => ({ kind: 'word' as const, w, em: true }))
-          : seg.split(/\s+/).filter(Boolean).map((w) => ({ kind: 'word' as const, w, em: false })),
-      );
+      .flatMap((seg): Token[] => {
+        const em = seg.startsWith('*');
+        return (em ? seg.slice(1, -1) : seg)
+          .split(/\s+/)
+          .filter(Boolean)
+          .map((w) => ({ kind: 'word', w, em, i: n++ }));
+      });
   });
 
-  useGSAP(
-    () => {
-      if (reducedMotion()) return;
-      gsap.fromTo(
-        '[data-mw]',
-        { color: 'var(--muted)' },
-        {
-          color: 'var(--fg)',
-          stagger: 0.08,
-          ease: 'none',
-          scrollTrigger: { trigger: '[data-mtext]', start: 'top 78%', end: 'bottom 45%', scrub: true },
-        },
-      );
-      gsap.fromTo(
-        '[data-mimg]',
-        { scale: 0, rotate: -8 },
-        {
-          scale: 1,
-          rotate: 0,
-          ease: 'back.out(1.6)',
-          stagger: 0.25,
-          scrollTrigger: { trigger: '[data-mtext]', start: 'top 75%', end: 'center 50%', scrub: 0.6 },
-        },
-      );
-    },
-    { scope: root },
-  );
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: desktop ? ['start 80%', 'end 45%'] : ['start 88%', 'end 62%'],
+  });
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    if (!calm) ref.current?.style.setProperty('--p', v.toFixed(4));
+  });
 
   return (
-    <section ref={root} className="paper section">
+    <section className="paper section">
       <div className="wrap">
         <Kicker>{label}</Kicker>
-        <p data-mtext className="font-display text-statement mt-10 max-w-[22ch] sm:max-w-none lg:w-[88%]">
+        <p
+          ref={ref}
+          className="manifesto font-display text-statement mt-10 max-w-[22ch] sm:max-w-none lg:w-[88%]"
+          style={{ ['--n' as string]: n }}
+        >
           <span className="sr-only">{plain}</span>
           <span aria-hidden="true">
-            {tokens.map((t, i) =>
+            {tokens.map((t, k) =>
               t.kind === 'img' ? (
                 images[t.key] ? (
                   <span
-                    key={i}
-                    data-mimg
-                    className="relative mx-[0.12em] inline-block h-[0.82em] w-[1.75em] translate-y-[0.08em] overflow-hidden rounded-full align-baseline"
+                    key={k}
+                    className="mf-pill relative mx-[0.12em] inline-block h-[0.82em] w-[1.75em] overflow-hidden rounded-full align-baseline"
+                    style={{ ['--i' as string]: t.i }}
                   >
-                    <Img src={images[t.key]} alt="" fill sizes="160px" className="object-cover" />
+                    <span className="mf-pill-img absolute inset-0">
+                      <Img src={images[t.key]} alt="" fill sizes="160px" className="object-cover" />
+                    </span>
                   </span>
                 ) : null
               ) : (
-                <span key={i}>
-                  <span data-mw={t.em ? undefined : true} className={t.em ? 'italic text-accent' : undefined}>
+                <span key={k}>
+                  <span className={t.em ? 'mf-word italic text-accent' : 'mf-word'} style={{ ['--i' as string]: t.i }}>
                     {t.w}
                   </span>{' '}
                 </span>

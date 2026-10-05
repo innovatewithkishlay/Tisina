@@ -1,44 +1,45 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 import Lenis from 'lenis';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const LenisContext = createContext<Lenis | null>(null);
 
-/** Access the smooth-scroll instance (null with reduced motion or before mount). */
+/** The smooth-scroll instance — null on touch devices, with reduced motion, or before mount. */
 export function useLenis() {
   return useContext(LenisContext);
 }
 
 /**
- * Inertial smooth scrolling (Lenis) driven by GSAP's ticker, so every
- * ScrollTrigger animation reads the same, already-smoothed scroll position.
- * Disabled for prefers-reduced-motion — the page then scrolls natively.
+ * Heavy, inertial scrolling for mouse and trackpad (Lenis, lerp 0.08). Touch
+ * screens keep their native scrolling — nothing is ever scroll-jacked on a
+ * phone — and so does anyone who prefers reduced motion. Motion's useScroll
+ * reads the same native scroll position, so every scroll-linked effect stays
+ * in step with the smoothing.
  */
 export function SmoothScroll({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!fine || calm) return;
 
-    const instance = new Lenis({ lerp: 0.11, wheelMultiplier: 0.9, touchMultiplier: 1.4 });
-    instance.on('scroll', ScrollTrigger.update);
-    const raf = (time: number) => instance.raf(time * 1000);
-    gsap.ticker.add(raf);
-    gsap.ticker.lagSmoothing(0);
+    const instance = new Lenis({ lerp: 0.08, wheelMultiplier: 0.85, syncTouch: false, autoRaf: true, anchors: true });
     // eslint-disable-next-line react-hooks/set-state-in-effect -- exposing an external instance
     setLenis(instance);
-
     return () => {
-      gsap.ticker.remove(raf);
       instance.destroy();
       setLenis(null);
     };
   }, []);
+
+  // A new page starts at the top, without gliding there.
+  useEffect(() => {
+    if (!window.location.hash) lenis?.scrollTo(0, { immediate: true, force: true });
+  }, [pathname, lenis]);
 
   return <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>;
 }

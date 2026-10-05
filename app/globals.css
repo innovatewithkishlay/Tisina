@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* `js:` — start states that only apply once JavaScript runs (see layout). */
+@custom-variant js (&:where(.js *));
+
 /* =============================================================================
    Tišina design system
    -----------------------------------------------------------------------------
@@ -42,7 +45,7 @@
   --error: var(--brand-error);
   --success: var(--brand-moss);
   --focus: var(--brand-ember);
-  --grain-opacity: 0.06;
+  --grain-opacity: 0.045;
 
   --gutter: clamp(1.25rem, 4.2vw, 3.75rem);
   --section: clamp(6rem, 14vw, 12rem);
@@ -175,6 +178,10 @@
     opacity: var(--grain-opacity);
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
     mix-blend-mode: multiply;
+  }
+  /* The grain only shimmers for mouse users; phones keep it still. */
+  @media (min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    body::after { animation: grain 0.9s steps(5) infinite; }
   }
   ::selection { background: var(--accent); color: var(--on-accent); }
   :focus-visible {
@@ -319,8 +326,11 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 /* =============================================================================
-   Motion (CSS part). Scroll choreography lives in components/motion (GSAP).
-   Everything collapses under reduced motion.
+   Motion (CSS part). Scroll-linked choreography lives in components/motion
+   (Motion + Lenis); reveals that only need to play once are CSS transitions
+   switched by a data attribute. Start states only apply under `.js`, so the
+   page reads complete without JavaScript. Everything collapses under
+   reduced motion.
    ============================================================================= */
 @layer utilities {
   .js [data-reveal] {
@@ -365,7 +375,7 @@ html.lenis, html.lenis body { height: auto; }
   }
   .rise {
     animation: rise var(--dur-4) var(--ease-out) both;
-    animation-delay: calc(var(--delay, 0) * 1ms);
+    animation-delay: calc(var(--intro, 0s) + var(--enter, 0s) + var(--delay, 0) * 1ms);
   }
   .hacek-draw {
     stroke-dasharray: 1;
@@ -426,3 +436,262 @@ html.lenis, html.lenis body { height: auto; }
 /* Display: Bodoni Moda, optical size tracking the font size so hairlines stay
    fine on headlines. Italic is the accent voice. */
 .font-display, .font-serif { font-family: var(--font-display); font-optical-sizing: auto; font-weight: 400; letter-spacing: -0.012em; }
+
+
+/* =============================================================================
+   Motion primitives (see components/motion/*). Tokens mirror lib/motion.ts.
+   ============================================================================= */
+@keyframes grain {
+  0% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(-4%, 3%, 0); }
+  40% { transform: translate3d(3%, -5%, 0); }
+  60% { transform: translate3d(-6%, -2%, 0); }
+  80% { transform: translate3d(5%, 4%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* SplitReveal ---------------------------------------------------------------- */
+.split-mask {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: top;
+  /* room for descenders and italic overhang inside the mask */
+  padding: 0 0.08em 0.14em 0.02em;
+  margin: 0 -0.08em -0.14em -0.02em;
+}
+.split-word { display: inline-block; white-space: nowrap; }
+.split-unit { display: inline-block; }
+
+.js .split-trigger.split-rise .split-unit {
+  transform: translate3d(0, 110%, 0);
+  transition: transform 1.15s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--enter, 0s) + var(--delay, 0s) + var(--i) * var(--st) + var(--x, 0s));
+}
+.js .split-trigger.split-light .split-unit {
+  opacity: 0.15;
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--enter, 0s) + var(--delay, 0s) + var(--i) * var(--st) + var(--x, 0s));
+}
+.js .split-trigger[data-in] .split-unit { transform: none; opacity: 1; }
+
+.split-load .split-unit {
+  animation: split-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--intro, 0s) + var(--enter, 0s) + var(--delay, 0s) + var(--i) * var(--st) + var(--x, 0s));
+}
+@keyframes split-rise { from { transform: translate3d(0, 110%, 0); } }
+
+/* Scrub: the container carries --p (0–1); each unit lights over a window of --w units. */
+.split-scrub { --p: 1; --w: 5; }
+.js .split-scrub { --p: 0; }
+.split-scrub .split-unit {
+  --u: clamp(0, calc((var(--p) * (var(--n) + var(--w)) - var(--i)) / var(--w)), 1);
+}
+.split-scrub.split-rise .split-unit {
+  transform: translate3d(0, calc((1 - var(--u)) * 105%), 0);
+  opacity: calc(0.1 + var(--u) * 0.9);
+}
+.split-scrub.split-light .split-unit { opacity: calc(0.15 + var(--u) * 0.85); }
+
+/* ClipReveal ----------------------------------------------------------------- */
+/* Base box in the components layer, so utilities (absolute, inset-0…) win. */
+@layer components {
+  .clip-reveal { position: relative; overflow: hidden; }
+}
+.js .clip-reveal .clip-reveal-mask {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.4s cubic-bezier(0.76, 0, 0.24, 1);
+  transition-delay: calc(var(--enter, 0s) + var(--delay, 0s));
+}
+.js .clip-reveal .clip-reveal-inner {
+  transform: scale(1.25);
+  transition: transform 1.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--enter, 0s) + var(--delay, 0s));
+}
+.js .clip-reveal[data-in] .clip-reveal-mask { clip-path: inset(0 0 0 0); }
+.js .clip-reveal[data-in] .clip-reveal-inner { transform: none; }
+
+/* Counter (odometer) ------------------------------------------------------- */
+.odo { display: inline-flex; align-items: baseline; font-variant-numeric: lining-nums tabular-nums; }
+.odo-reel { position: relative; display: inline-block; overflow: hidden; }
+.odo-strip {
+  position: absolute;
+  inset: 0 0 auto 0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  transform: translate3d(0, var(--t), 0);
+  transition: transform 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--delay, 0s);
+}
+.js .odo:not([data-in]) .odo-strip { transform: translate3d(0, 0, 0); }
+
+/* Intro overture (components/motion/Intro.tsx) ------------------------------ */
+.intro-veil { display: none; }
+html.intro { --intro: 1.3s; }
+/* Entrances that start after the overture has settled no longer wait for it. */
+html.intro.intro-done { --intro: 0s; }
+html.intro:not(.intro-done) .intro-veil { display: block; position: fixed; inset: 0; z-index: 100; pointer-events: none; }
+.intro-curtain {
+  position: absolute;
+  inset: 0;
+  /* A hair short of opaque, so the page beneath is painted (and counted)
+     from the first frame instead of waiting for the curtain to lift. */
+  background-color: rgb(15 28 22 / 0.985);
+  clip-path: inset(0 0 0 0);
+  animation: intro-lift 0.7s cubic-bezier(0.76, 0, 0.24, 1) 1.1s forwards;
+}
+.intro-mark { animation: intro-mark-out 0.55s cubic-bezier(0.76, 0, 0.24, 1) 1.05s forwards; }
+.intro-veil .logo-letter {
+  transform: translate3d(0, 105%, 0);
+  animation: intro-letter 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(0.1s + var(--i) * 0.05s);
+}
+.intro-veil .logo-hacek {
+  opacity: 0;
+  transform: translate3d(0, -14%, 0);
+  animation: intro-hacek 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.68s forwards;
+}
+@keyframes intro-letter { to { transform: none; } }
+@keyframes intro-hacek { to { opacity: 1; transform: none; } }
+@keyframes intro-lift { to { clip-path: inset(0 0 100% 0); } }
+@keyframes intro-mark-out { to { opacity: 0; transform: translate3d(0, -5vh, 0); } }
+
+/* Wordmark letters rising when their parent is revealed (footer). */
+.js .letters-rise .logo-letter {
+  transform: translate3d(0, 105%, 0);
+  transition: transform 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--i) * 0.07s);
+}
+.js .letters-rise .logo-hacek {
+  opacity: 0;
+  transform: translate3d(0, -14%, 0);
+  transition: opacity 0.6s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.6s;
+}
+.js .letters-rise[data-in] .logo-letter, .js .letters-rise[data-in] .logo-hacek { transform: none; opacity: 1; }
+
+/* Hero ------------------------------------------------------------------------ */
+.ken-burns { animation: ken-burns 2.4s cubic-bezier(0.16, 1, 0.3, 1) backwards; animation-delay: calc(var(--intro, 0s) - 0.4s); }
+@keyframes ken-burns { from { transform: scale(1.15); } }
+.scroll-cue-dot { animation: scroll-cue 2.4s cubic-bezier(0.76, 0, 0.24, 1) infinite; }
+@keyframes scroll-cue {
+  0% { transform: translate3d(0, -100%, 0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translate3d(0, 3.5rem, 0); opacity: 0; }
+}
+.breathe { animation: breathe 3.6s ease-in-out infinite; }
+@keyframes breathe { 50% { opacity: 0.45; } }
+
+/* Candlelight: an irregular, barely-there flicker. */
+.candle-flicker { animation: flicker 6.2s linear infinite; }
+@keyframes flicker {
+  0%, 100% { filter: brightness(1); }
+  9% { filter: brightness(1.025); }
+  13% { filter: brightness(0.985); }
+  27% { filter: brightness(1.03); }
+  31% { filter: brightness(0.975); }
+  48% { filter: brightness(1.01); }
+  57% { filter: brightness(0.97); }
+  63% { filter: brightness(1.02); }
+  79% { filter: brightness(0.99); }
+  86% { filter: brightness(1.03); }
+}
+
+/* Heat shimmer over the peka — desktop only. */
+.steam { display: none; }
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .steam { display: block; }
+  .steam span {
+    position: absolute;
+    bottom: -10%;
+    width: 18vw;
+    height: 40vh;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(240 235 224 / 0.07), transparent);
+    filter: blur(18px);
+    animation: steam 9s ease-in infinite;
+    animation-delay: calc(var(--i) * -2.2s);
+  }
+}
+@keyframes steam {
+  0% { transform: translate3d(0, 0, 0) scale(0.8); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translate3d(2vw, -70vh, 0) scale(1.4); opacity: 0; }
+}
+
+/* Footer CTA: "waiting" breathes on its letter-spacing — done with transforms. */
+@property --ls { syntax: "<length>"; inherits: true; initial-value: 0em; }
+.breathe-ls { animation: breathe-ls 4s ease-in-out infinite alternate; }
+.breathe-ls .ls-char { transform: translate3d(calc(var(--ls) * var(--c)), 0, 0); }
+@keyframes breathe-ls { to { --ls: 0.02em; } }
+
+/* Button: fill rises from the bottom, the arrow leaves right and returns from the left. */
+.btn-arrow { display: inline-block; overflow: hidden; }
+.btn-arrow > span { display: inline-block; }
+.group:hover .btn-arrow > span, .group:focus-visible .btn-arrow > span { animation: arrow-loop 0.7s cubic-bezier(0.76, 0, 0.24, 1); }
+@keyframes arrow-loop {
+  45% { transform: translate3d(120%, 0, 0); }
+  46% { transform: translate3d(-120%, 0, 0); }
+  100% { transform: none; }
+}
+
+/* Marquee item: italic swap and an underline drawn from the left. */
+.marquee-link { position: relative; }
+.marquee-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.08em;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.marquee-link:hover::after, .marquee-link:focus-visible::after { transform: scaleX(1); }
+
+/* Highlight bar for "today" in the hours list. */
+.today-bar { transform: scaleX(0); transform-origin: left; transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s; }
+[data-in] .today-bar, html:not(.js) .today-bar { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .split-unit, .clip-reveal-mask, .clip-reveal-inner, .odo-strip, .logo-letter, .logo-hacek {
+    transform: none !important;
+    opacity: 1 !important;
+    clip-path: none !important;
+    transition: opacity 0.3s !important;
+    animation: none !important;
+  }
+  .split-scrub { --p: 1 !important; }
+  .ken-burns, .scroll-cue-dot, .breathe, .candle-flicker, .breathe-ls { animation: none !important; }
+  .today-bar { transform: scaleX(1) !important; }
+}
+
+/* Manifesto: words light, pictures open with their neighbour (scrubbed by --p). */
+.manifesto { --p: 1; --w: 3; }
+.js .manifesto { --p: 0; }
+.manifesto .mf-word, .manifesto .mf-pill {
+  --u: clamp(0, calc((var(--p) * (var(--n) + var(--w)) - var(--i)) / var(--w)), 1);
+}
+.manifesto .mf-word { opacity: calc(0.15 + var(--u) * 0.85); }
+.manifesto .mf-pill {
+  clip-path: inset(0 calc((1 - var(--u)) * 50%) 0 calc((1 - var(--u)) * 50%) round 999px);
+  transform: translate3d(0, 0.08em, 0) rotate(calc((1 - var(--u)) * -4deg));
+}
+.manifesto .mf-pill-img { transform: translate3d(0, calc((var(--p) - 0.5) * -18%), 0) scale(1.3); }
+@media (prefers-reduced-motion: reduce) { .manifesto { --p: 1 !important; } }
+
+/* Menu hero plates rise into place on load (CSS, no JS wait). */
+.plate-rise { animation: plate-rise 1.6s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(var(--enter, 0s) + var(--delay, 0s)); }
+@keyframes plate-rise { from { transform: translate3d(0, 30%, 0); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .plate-rise { animation: none; } }
+
+/* CircularText idle turn — compositor-only. */
+.ring-spin { animation: ring-spin var(--period, 36s) linear infinite; }
+.ring-reverse { animation-direction: reverse; }
+.ring-paused { animation-play-state: paused; }
+@keyframes ring-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .ring-spin { animation: none; } }

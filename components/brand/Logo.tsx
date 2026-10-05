@@ -57,3 +57,39 @@ export function Hacek({ className, draw = false }: { className?: string; draw?: 
     </svg>
   );
 }
+
+/** The wordmark's six letters as separate paths (T, I, S, I, N, A), left to right. */
+export const LETTER_PATHS: string[] = (() => {
+  const bounds = [140, 240, 370, 470, 640, Infinity];
+  const groups: string[][] = bounds.map(() => []);
+  for (const part of LETTERS.split(/(?=M)/)) {
+    const x = Number.parseFloat(part.slice(1));
+    groups[bounds.findIndex((b) => x < b)].push(part.trim());
+  }
+  return groups.map((g) => g.join(' '));
+})();
+
+/**
+ * The wordmark with each letter in its own mask, for letter-by-letter
+ * entrances. Every letter is its own small <svg> inside an HTML mask, so the
+ * entrance is a plain transform the compositor can run — no SVG repaints.
+ * Letters carry `.logo-letter` (with `--i`), the háček `.logo-hacek`; the
+ * parent decides when they move (see globals.css).
+ */
+export function LogoLetters({ className, title = "Tišina" }: { className?: string; title?: string }) {
+  return (
+    <div role="img" aria-label={title} className={cn("logo-letters relative block", className)} style={{ aspectRatio: "801 / 200" }}>
+      {LETTER_PATHS.map((d, i) => (
+        // Mask: the letters' band (y −158…+8 of the 200-unit box).
+        <div key={i} aria-hidden="true" className="absolute inset-x-0 bottom-0 top-[20%] overflow-hidden">
+          <svg viewBox={LOGO_VIEWBOX} className="logo-letter absolute inset-x-0 bottom-0 h-[125%] w-full" style={{ ["--i" as string]: i }}>
+            <path d={d} fill="currentColor" />
+          </svg>
+        </div>
+      ))}
+      <svg viewBox={LOGO_VIEWBOX} aria-hidden="true" className="logo-hacek absolute inset-0 h-full w-full overflow-visible">
+        <path d={HACEK_PATH} fill="none" stroke="var(--hacek, var(--accent))" strokeWidth={HACEK_STROKE} strokeLinecap="square" strokeLinejoin="miter" />
+      </svg>
+    </div>
+  );
+}

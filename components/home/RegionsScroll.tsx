@@ -1,9 +1,12 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { m, useInView, useScroll, useTransform } from 'motion/react';
 import { Img } from '@/components/ui/Img';
 import { Kicker } from '@/components/ui/Kicker';
-import { ScrollTrigger, reducedMotion, useGSAP } from '@/components/motion/gsap';
+import { CircularText } from '@/components/motion/CircularText';
+import { SplitReveal } from '@/components/motion/SplitReveal';
+import { useCalm, useMedia, useParallaxScale } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
 export interface RegionStory {
@@ -13,93 +16,121 @@ export interface RegionStory {
   body: string;
   alt: string;
   image: string;
+  /** Words around the ring, e.g. "Istria · Fuži · Black truffle · ". */
+  ring: string;
 }
 
 /**
- * Sticky storytelling, scrolling vertically: on large screens one framed
- * photograph stays in place and changes as each region's text passes the
- * middle of the screen. On phones every region carries its own image.
+ * Three regions, one table. One framed photograph holds still (left on
+ * desktop, along the top on phones) while the regions scroll past; as each
+ * one crosses the middle of the screen the new dish wipes up over the old
+ * and settles from 1.08×. A ring of words turns around the frame and
+ * changes with it. Behind each region a huge outlined numeral drifts slowly.
  */
 export function RegionsScroll({ label, items }: { label: string; items: RegionStory[] }) {
-  const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
 
-  useGSAP(
-    () => {
-      const blocks = root.current?.querySelectorAll<HTMLElement>('[data-region]') ?? [];
-      blocks.forEach((el, i) =>
-        ScrollTrigger.create({
-          trigger: el,
-          start: 'top 55%',
-          end: 'bottom 55%',
-          onToggle: (self) => self.isActive && setActive(i),
-        }),
-      );
-      if (reducedMotion()) return;
-    },
-    { scope: root },
-  );
-
   return (
-    <section ref={root} className="paper section" aria-labelledby="regions-label">
-      <div className="wrap grid gap-12 lg:grid-cols-12">
-        <div className="lg:col-span-12">
-          <Kicker as="h2" className="!text-muted">
-            <span id="regions-label">{label}</span>
-          </Kicker>
-        </div>
+    <section className="paper section" aria-labelledby="regions-label">
+      <div className="wrap">
+        <Kicker as="h2" className="!text-muted">
+          <span id="regions-label">{label}</span>
+        </Kicker>
 
-        {/* Sticky frame (desktop) */}
-        <div className="hidden lg:col-span-6 lg:block">
-          <div className="sticky top-[calc(var(--header-h)+1.5rem)] aspect-[4/5] max-h-[calc(100svh-var(--header-h)-3rem)] w-full overflow-hidden rounded-[var(--radius-card)] bg-bg-2">
-            {items.map((it, i) => (
-              <div
-                key={it.key}
-                className={cn(
-                  'absolute inset-0 transition-[clip-path,transform] duration-[1200ms] ease-[var(--ease-in-out)]',
-                  i === active ? '[clip-path:inset(0_0_0_0)]' : i < active ? '[clip-path:inset(0_0_100%_0)]' : '[clip-path:inset(100%_0_0_0)]',
-                )}
-                style={{ zIndex: i === active ? 2 : 1 }}
-              >
-                <Img
-                  src={it.image}
-                  alt={it.alt}
-                  fill
-                  sizes="45vw"
-                  className={cn('object-cover transition-transform duration-[1600ms] ease-[var(--ease-out)]', i === active ? 'scale-100' : 'scale-125')}
-                />
+        <div className="mt-10 grid gap-x-12 lg:mt-12 lg:grid-cols-12">
+          {/* The still frame: sticky on every screen size. */}
+          <div className="sticky top-[var(--header-h)] z-10 self-start bg-bg pb-5 pt-2 lg:col-span-6 lg:top-[calc(var(--header-h)+1.5rem)] lg:bg-transparent lg:p-0">
+            <div className="relative">
+              <div className="relative h-[45svh] w-full overflow-hidden rounded-[var(--radius-card)] bg-bg-2 lg:aspect-[4/5] lg:h-auto lg:max-h-[calc(100svh-var(--header-h)-3rem)]">
+                {items.map((it, i) => (
+                  <div
+                    key={it.key}
+                    className={cn(
+                      'absolute inset-0 transition-[clip-path] duration-[1300ms] ease-[var(--ease-in-out)] motion-reduce:transition-opacity',
+                      i <= active ? '[clip-path:inset(0_0_0_0)]' : '[clip-path:inset(100%_0_0_0)]',
+                    )}
+                    style={{ zIndex: i }}
+                    aria-hidden={i !== active}
+                  >
+                    <Img
+                      src={it.image}
+                      alt={it.alt}
+                      fill
+                      sizes="(min-width: 1024px) 45vw, 100vw"
+                      className={cn(
+                        'object-cover transition-transform duration-[1600ms] ease-[var(--ease-out)]',
+                        i === active ? 'scale-100' : 'scale-[1.08]',
+                      )}
+                    />
+                  </div>
+                ))}
+                <p className="label absolute bottom-4 left-4 z-10 rounded-[var(--radius-pill)] bg-night/60 px-3 py-2 text-bone backdrop-blur lg:bottom-5 lg:left-5">
+                  {items[active]?.dish}
+                </p>
               </div>
-            ))}
-            <p className="label absolute bottom-5 left-5 z-10 rounded-[var(--radius-pill)] bg-night/60 px-3 py-2 text-bone backdrop-blur">
-              {items[active]?.dish}
-            </p>
+              {/* The ring sits over the frame's lower corner and keeps turning. */}
+              <CircularText
+                texts={items.map((it) => it.ring)}
+                active={active}
+                className="absolute -right-1 -top-5 size-[96px] rounded-full bg-bg p-1 text-fg shadow-[0_10px_30px_-12px_rgb(15_28_22/0.35)] sm:size-[120px] lg:-bottom-14 lg:-right-14 lg:top-auto lg:size-[176px] lg:p-2"
+                textClassName="[font-size:7.6px]"
+              >
+                <span className="grid size-10 place-items-center rounded-full bg-[var(--brand-night)] text-[var(--brand-ember-light)] lg:size-14">
+                  <span className="font-display text-[1.15rem] italic lg:text-[1.6rem]">{String(active + 1).padStart(2, '0')}</span>
+                </span>
+              </CircularText>
+            </div>
           </div>
-        </div>
 
-        <div className="lg:col-span-5 lg:col-start-8">
-          {items.map((it, i) => (
-            <article
-              key={it.key}
-              data-region
-              className="flex flex-col justify-center border-t hairline py-14 first:border-t-0 lg:min-h-[85svh] lg:py-0"
-            >
-              <div className="relative mb-8 aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] lg:hidden">
-                <Img src={it.image} alt={it.alt} fill sizes="100vw" className="object-cover" />
-              </div>
-              <h3
-                className={cn(
-                  'font-display text-display mt-3 transition-[color,font-style] duration-700',
-                  i === active ? 'italic text-fg' : 'text-muted lg:text-muted',
-                )}
-              >
-                {it.region}
-              </h3>
-              <p className="label mt-6 text-accent">{it.dish}</p>
-              <p className="mt-4 max-w-[38ch] text-lede text-fg-2">{it.body}</p>
-            </article>
-          ))}
+          <div className="relative lg:col-span-5 lg:col-start-8">
+            {items.map((it, i) => (
+              <Region key={it.key} item={it} index={i} active={i === active} onEnter={() => setActive(i)} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function Region({ item, index, active, onEnter }: { item: RegionStory; index: number; active: boolean; onEnter: () => void }) {
+  const ref = useRef<HTMLElement>(null);
+  const calm = useCalm();
+  const k = useParallaxScale();
+  // "Crossing the middle": a hairline band across the centre of the screen —
+  // lower on phones, where the top half belongs to the sticky photograph.
+  const wide = useMedia('(min-width: 1024px)');
+  const centred = useInView(ref, { margin: wide ? '-50% 0px -50% 0px' : '-74% 0px -26% 0px' });
+  useEffect(() => {
+    if (centred) onEnter();
+  }, [centred, onEnter]);
+
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const numeralY = useTransform(scrollYProgress, [0, 1], [`${40 * k}%`, `${-40 * k}%`]);
+
+  return (
+    <article
+      ref={ref}
+      className="relative flex min-h-[62svh] flex-col justify-start border-t hairline pb-14 pt-10 first:border-t-0 lg:min-h-[85svh] lg:justify-center lg:py-0"
+    >
+      <m.span
+        aria-hidden="true"
+        className="outline-text font-display pointer-events-none absolute -right-2 top-1/2 opacity-50 -z-0 -translate-y-1/2 select-none text-[clamp(10rem,28vw,24rem)] leading-none [-webkit-text-stroke-width:1px]"
+        style={calm ? undefined : { y: numeralY }}
+      >
+        {String(index + 1).padStart(2, '0')}
+      </m.span>
+      <div className="relative">
+        <SplitReveal
+          as="h3"
+          by="char"
+          text={item.region}
+          stagger={0.035}
+          className={cn('font-display text-display mt-3 transition-[color] duration-700', active ? 'italic text-fg' : 'text-muted')}
+        />
+        <SplitReveal as="p" text={item.dish} delay={0.15} className="label mt-6 text-accent" />
+        <p className="mt-4 max-w-[38ch] text-lede text-fg-2">{item.body}</p>
+      </div>
+    </article>
   );
 }

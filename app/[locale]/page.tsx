@@ -19,7 +19,11 @@ import { OpeningHours } from '@/components/visit/OpeningHours';
 import { Location } from '@/components/visit/Location';
 import { Kicker } from '@/components/ui/Kicker';
 import { Img } from '@/components/ui/Img';
-import { Reveal } from '@/components/ui/Reveal';
+import { SplitReveal } from '@/components/motion/SplitReveal';
+import { ClipReveal } from '@/components/motion/ClipReveal';
+import { Parallax } from '@/components/motion/Parallax';
+import { LocalClock } from '@/components/layout/LocalClock';
+import { intlLocale } from '@/config/locales';
 import { ButtonLink } from '@/components/ui/Button';
 
 export async function generateMetadata({ params }: PageProps<'/[locale]'>) {
@@ -38,13 +42,19 @@ const GALLERY_KEYS = ['candles', 'wine', 'garden', 'window', 'linen', 'dessert']
 /** Which menu item the "Signature" section features (falls back to the first featured dish). */
 const SIGNATURE_SLUG = 'octopus-peka';
 
+/** Restaurant-local "HH:MM" for the first paint of the clock. */
+const nowAt = (timeZone: string, locale: Locale) =>
+  new Intl.DateTimeFormat(intlLocale(locale), { timeZone, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date());
+
 export default async function HomePage({ params }: PageProps<'/[locale]'>) {
   const { locale } = (await params) as { locale: Locale };
   setRequestLocale(locale);
 
-  const [t, tVisit, r, hours, featured, menu] = await Promise.all([
+  const [t, tVisit, tCommon, tFooter, r, hours, featured, menu] = await Promise.all([
     getTranslations('Home'),
     getTranslations('Visit'),
+    getTranslations('Common'),
+    getTranslations('Footer'),
         getRestaurant(locale),
     getHours(),
     getFeaturedDishes(locale),
@@ -67,6 +77,8 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         ctaBook={t('ctaBook')}
         ctaMenu={t('ctaMenu')}
         scroll={t('scroll')}
+        badge={`${t('ctaBook')} · ${r.address.street} · ${r.address.city} · `}
+        cursorReserve={tCommon('cursorReserve')}
         pauseLabel={t('videoPause')}
         playLabel={t('videoPlay')}
         status={status}
@@ -83,6 +95,8 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
       <CraftHorizontal
         label={t('kitchenLabel')}
         title={t('kitchenTitle')}
+        drag={tCommon('cursorDrag')}
+        swipe={t('swipe')}
         panels={KITCHEN_KEYS.map((key) => ({
           key,
           figure: t(`kitchen.${key}.figure`),
@@ -102,6 +116,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           body: t(`regions.${key}.body`),
           alt: t(`regions.${key}.alt`),
           image: images.regions[key].src,
+          ring: t(`regions.${key}.ring`),
         }))}
       />
 
@@ -111,6 +126,8 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           name={signature.name}
           description={signature.description}
           note={t('signatureNote')}
+          stamp={t('signatureStamp')}
+          cursorView={tCommon('cursorView')}
           price={price(signature.price, signature.currency)}
           image={{ src: signature.image ?? images.signature.src, alt: signature.name }}
           cta={t('menuCta')}
@@ -129,18 +146,26 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         title={t('roomTitle')}
         body={t('roomBody')}
         items={GALLERY_KEYS.map((key) => ({ key, src: images.gallery[key].src, caption: t(`gallery.${key}`) }))}
+        view={tCommon('cursorView')}
+        close={t('galleryClose')}
       />
 
       <section className="section bg-bg-2" aria-labelledby="visit-title">
         <div className="wrap grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Kicker>{t('visitLabel')}</Kicker>
-            <h2 id="visit-title" className="font-display text-h1 mt-6">
-              {t('visitTitle')}
-            </h2>
-            <Reveal kind="mask" className="relative mt-10 aspect-[16/10] overflow-hidden rounded-[var(--radius-card)]">
-              <Img src={images.visit.src} alt="" fill sizes="(min-width: 1024px) 38vw, 100vw" className="object-cover" />
-            </Reveal>
+            <SplitReveal as="h2" id="visit-title" by="line" text={t('visitTitle')} className="font-display text-h1 mt-6" />
+            <ClipReveal className="mt-10 aspect-[16/10] rounded-[var(--radius-card)]">
+              <Parallax speed={-0.25} className="absolute inset-0">
+                <Img src={images.visit.src} alt="" fill sizes="(min-width: 1024px) 38vw, 100vw" className="object-cover" />
+              </Parallax>
+            </ClipReveal>
+            <div className="mt-10 flex items-end justify-between gap-6 border-t hairline pt-6">
+              <p className="label text-muted">{tFooter('localTime', { city: r.address.city })}</p>
+              <p className="font-display text-[clamp(2.75rem,5vw,4rem)] leading-none">
+                <LocalClock timeZone={r.timezone} initial={nowAt(r.timezone, locale)} />
+              </p>
+            </div>
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
             <Location
