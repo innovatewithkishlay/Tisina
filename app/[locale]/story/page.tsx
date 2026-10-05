@@ -66,7 +66,7 @@ export default async function StoryPage({ params }: PageProps<'/[locale]/story'>
         <Reveal className="wrap grid md:grid-cols-12">
           <figure className="md:col-span-10 md:col-start-2">
             <blockquote className="font-display text-statement italic">“{t('quote')}”</blockquote>
-            <figcaption className="label label-rule mt-10 text-muted">{t('quoteBy')}</figcaption>
+            <figcaption className="label kicker mt-10 text-muted">{t('quoteBy')}</figcaption>
           </figure>
         </Reveal>
       </section>

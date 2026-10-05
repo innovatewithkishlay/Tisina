@@ -1,7 +1,6 @@
-import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/config/locales';
-import { images } from '@/content/images';
+import { images, videos } from '@/content/images';
 import { getFeaturedDishes, getHours, getRestaurant } from '@/lib/data/restaurant';
 import { formatPrice } from '@/lib/format';
 import { openStatus } from '@/lib/hours';
@@ -9,34 +8,34 @@ import { pageMetadata } from '@/lib/seo/metadata';
 import { restaurantJsonLd, websiteJsonLd } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { OpenStatus } from '@/components/layout/OpenStatus';
-import { Hero } from '@/components/home/Hero';
-import { Statement } from '@/components/home/Statement';
-import { Regions } from '@/components/home/Regions';
+import { HeroVideo } from '@/components/home/HeroVideo';
+import { Manifesto } from '@/components/home/Manifesto';
+import { KitchenStack } from '@/components/home/KitchenStack';
+import { RegionsScroll } from '@/components/home/RegionsScroll';
 import { SignatureDish } from '@/components/home/SignatureDish';
 import { Definition } from '@/components/home/Definition';
-import { MenuPreview } from '@/components/home/MenuPreview';
-import { RoomGallery } from '@/components/home/RoomGallery';
-import { BookingCta } from '@/components/home/BookingCta';
+import { MenuRoll } from '@/components/home/MenuRoll';
+import { GalleryColumns } from '@/components/home/GalleryColumns';
 import { OpeningHours } from '@/components/visit/OpeningHours';
 import { Location } from '@/components/visit/Location';
+import { Kicker } from '@/components/ui/Kicker';
+import { Img } from '@/components/ui/Img';
+import { Reveal } from '@/components/ui/Reveal';
 import { ButtonLink } from '@/components/ui/Button';
-import { Reveal, Words } from '@/components/ui/Reveal';
 
 export async function generateMetadata({ params }: PageProps<'/[locale]'>) {
   const { locale } = (await params) as { locale: Locale };
   const r = await getRestaurant(locale);
-  return pageMetadata({
-    locale,
-    path: '',
-    title: r.metaTitle,
-    description: r.metaDescription,
-    restaurant: r,
-    absoluteTitle: true,
-  });
+  return pageMetadata({ locale, path: '', title: r.metaTitle, description: r.metaDescription, restaurant: r, absoluteTitle: true });
 }
 
+/*
+ * The three constants below tie the editorial copy (messages/*.json → Home)
+ * to imagery and menu data. Adjust them when forking for another restaurant.
+ */
 const REGION_KEYS = ['istra', 'dalmacija', 'jadran'] as const;
-const GALLERY_KEYS = ['candles', 'wine', 'window', 'linen', 'dessert', 'garden'] as const;
+const KITCHEN_KEYS = ['dough', 'fire', 'hands', 'chefs'] as const;
+const GALLERY_KEYS = ['candles', 'wine', 'garden', 'window', 'linen', 'dessert'] as const;
 /** Which menu item the "Signature" section features (falls back to the first featured dish). */
 const SIGNATURE_SLUG = 'dalmatian-pasticada';
 
@@ -54,26 +53,47 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
 
   const signature = featured.find((d) => d.slug === SIGNATURE_SLUG) ?? featured[0];
   const price = (p: number | null, currency: string) => (p === null ? '' : formatPrice(p, currency, locale));
+  const status = <OpenStatus hours={hours} timeZone={r.timezone} initial={openStatus(hours, r.timezone)} />;
 
   return (
     <>
-      <JsonLd data={restaurantJsonLd(r, hours, locale, [images.hero.src, images.signature.src, images.room.src])} />
+      <JsonLd data={restaurantJsonLd(r, hours, locale, [images.kitchen.poster.src, images.signature.src, images.hero.src])} />
       <JsonLd data={websiteJsonLd(r, locale)} />
 
-      <Hero
+      <HeroVideo
         name={r.name}
         eyebrow={t('eyebrow')}
         line={t('heroLine')}
-        imageAlt={t('heroImageAlt')}
         ctaBook={t('ctaBook')}
         ctaMenu={t('ctaMenu')}
         scroll={t('scroll')}
-        status={<OpenStatus hours={hours} timeZone={r.timezone} initial={openStatus(hours, r.timezone)} />}
+        pauseLabel={t('videoPause')}
+        playLabel={t('videoPlay')}
+        status={status}
+        poster={videos.hero.poster}
+        sources={videos.hero.sources}
       />
 
-      <Statement label={t('introLabel')} text={t('intro')} />
+      <Manifesto
+        label={t('introLabel')}
+        text={t('manifesto')}
+        images={{ dough: images.kitchen.dough.src, truffle: images.hero.src, fire: images.kitchen.fire.src }}
+      />
 
-      <Regions
+      <KitchenStack
+        label={t('kitchenLabel')}
+        title={t('kitchenTitle')}
+        cards={KITCHEN_KEYS.map((key) => ({
+          key,
+          figure: t(`kitchen.${key}.figure`),
+          title: t(`kitchen.${key}.title`),
+          body: t(`kitchen.${key}.body`),
+          alt: t(`kitchen.${key}.alt`),
+          image: images.kitchen[key].src,
+        }))}
+      />
+
+      <RegionsScroll
         label={t('regionsLabel')}
         items={REGION_KEYS.map((key) => ({
           key,
@@ -81,7 +101,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           dish: t(`regions.${key}.dish`),
           body: t(`regions.${key}.body`),
           alt: t(`regions.${key}.alt`),
-          image: images.regions[key],
+          image: images.regions[key].src,
         }))}
       />
 
@@ -104,10 +124,9 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         senses={[t('definition1'), t('definition2')]}
       />
 
-      <MenuPreview
+      <MenuRoll
         label={t('menuLabel')}
         title={t('menuTitle')}
-        body={t('menuBody')}
         cta={t('menuCta')}
         dishes={featured.map((d) => ({
           slug: d.slug,
@@ -115,54 +134,43 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           category: d.category,
           description: d.description,
           price: price(d.price, d.currency),
-          image: d.image,
+          image: d.image ?? images.hero.src,
         }))}
       />
 
-      <RoomGallery
-        label={t('roomLabel')}
+      <GalleryColumns
+        label={t('galleryLabel')}
         title={t('roomTitle')}
         body={t('roomBody')}
-        galleryLabel={t('galleryLabel')}
-        items={GALLERY_KEYS.map((key) => ({ key, ...images.gallery[key], caption: t(`gallery.${key}`) }))}
+        items={GALLERY_KEYS.map((key) => ({ key, src: images.gallery[key].src, caption: t(`gallery.${key}`) }))}
       />
 
-      <section className="section" aria-labelledby="visit-title">
+      <section className="section bg-bg-2" aria-labelledby="visit-title">
         <div className="wrap grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <Reveal>
-              <p className="label label-rule text-muted">{t('visitLabel')}</p>
-            </Reveal>
-            <Words as="h2" id="visit-title" text={t('visitTitle')} className="font-display text-h2 mt-6 block" />
-            <Reveal kind="mask" className="parallax-img relative mt-10 aspect-[16/10] overflow-hidden">
-              <Image src={images.visit.src} alt="" fill sizes="(min-width: 1024px) 38vw, 100vw" className="object-cover" />
+            <Kicker>{t('visitLabel')}</Kicker>
+            <h2 id="visit-title" className="font-display text-h1 mt-6">
+              {t('visitTitle')}
+            </h2>
+            <Reveal kind="mask" className="relative mt-10 aspect-[16/10] overflow-hidden rounded-[var(--radius-card)]">
+              <Img src={images.visit.src} alt="" fill sizes="(min-width: 1024px) 38vw, 100vw" className="object-cover" />
             </Reveal>
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
-            <Reveal>
-              <Location
-                restaurant={r}
-                locale={locale}
-                labels={{ address: tVisit('addressTitle'), contact: tVisit('contactTitle'), directions: tVisit('directions') }}
-              />
-            </Reveal>
-            <Reveal delay={120} className="mt-14">
-              <OpeningHours
-                hours={hours}
-                locale={locale}
-                timeZone={r.timezone}
-                defaultLocale={r.defaultLocale}
-                city={r.address.city}
-              />
+            <Location
+              restaurant={r}
+              locale={locale}
+              labels={{ address: tVisit('addressTitle'), contact: tVisit('contactTitle'), directions: tVisit('directions') }}
+            />
+            <div className="mt-14">
+              <OpeningHours hours={hours} locale={locale} timeZone={r.timezone} defaultLocale={r.defaultLocale} city={r.address.city} />
               <ButtonLink href="/visit" variant="text" arrow className="mt-6">
                 {t('visitCta')}
               </ButtonLink>
-            </Reveal>
+            </div>
           </div>
         </div>
       </section>
-
-      <BookingCta label={t('bookLabel')} title={t('bookTitle')} body={t('bookBody')} />
     </>
   );
 }

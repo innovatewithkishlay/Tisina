@@ -291,6 +291,54 @@ export const restaurant: RestaurantSeed = {
       ],
     },
     {
+      slug: 'from-the-oven',
+      i18n: {
+        hr: { name: 'Iz krušne peći', description: 'Tijesto odmara 48 sati, peče se na bukvi i hrastu.' },
+        en: { name: 'From the wood oven', description: 'Dough rested for 48 hours, baked over beech and oak.' },
+        de: { name: 'Aus dem Holzofen', description: '48 Stunden gereifter Teig, gebacken über Buche und Eiche.' },
+        hu: { name: 'A fatüzelésű kemencéből', description: '48 órát pihentetett tészta, bükkön és tölgyön sütve.' },
+      },
+      items: [
+        {
+          slug: 'white-istrian-truffle',
+          price: 22,
+          image: '/images/kitchen/hands.jpg',
+          featured: true,
+          allergens: ['gluten', 'milk'],
+          dietary: ['vegetarian'],
+          i18n: {
+            hr: { name: 'Bijela s istarskim tartufom', description: 'Vrhnje, odležani istarski sir, crni tartuf ribani na pultu.' },
+            en: { name: 'White, Istrian truffle', description: 'Cream, aged Istrian cheese, black truffle shaved at the pass.' },
+            de: { name: 'Weiß, istrischer Trüffel', description: 'Rahm, gereifter istrischer Käse, schwarzer Trüffel am Pass gehobelt.' },
+            hu: { name: 'Fehér, isztriai szarvasgombával', description: 'Tejszín, érlelt isztriai sajt, a pultnál reszelt fekete szarvasgomba.' },
+          },
+        },
+        {
+          slug: 'prsut-rocket',
+          price: 19,
+          allergens: ['gluten', 'milk'],
+          i18n: {
+            hr: { name: 'Pršut i rikola', description: 'Rajčica, fior di latte, dalmatinski pršut, rikola.' },
+            en: { name: 'Pršut and rocket', description: 'Tomato, fior di latte, Dalmatian pršut, rocket.' },
+            de: { name: 'Pršut und Rucola', description: 'Tomate, Fior di Latte, dalmatinischer Pršut, Rucola.' },
+            hu: { name: 'Pršut és rukkola', description: 'Paradicsom, fior di latte, dalmát pršut, rukkola.' },
+          },
+        },
+        {
+          slug: 'burrata-basil',
+          price: 18,
+          allergens: ['gluten', 'milk'],
+          dietary: ['vegetarian'],
+          i18n: {
+            hr: { name: 'Burrata i bosiljak', description: 'Rajčica, burrata dodana nakon pečenja, bosiljak, ulje iz Bala.' },
+            en: { name: 'Burrata and basil', description: 'Tomato, burrata added after baking, basil, olive oil from Bale.' },
+            de: { name: 'Burrata und Basilikum', description: 'Tomate, Burrata nach dem Backen, Basilikum, Olivenöl aus Bale.' },
+            hu: { name: 'Burrata és bazsalikom', description: 'Paradicsom, sütés után hozzáadott burrata, bazsalikom, bale-i olívaolaj.' },
+          },
+        },
+      ],
+    },
+    {
       slug: 'from-the-sea',
       i18n: {
         hr: { name: 'Iz mora', description: 'Ono što je jutros stiglo s otoka.' },

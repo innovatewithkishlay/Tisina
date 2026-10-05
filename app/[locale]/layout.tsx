@@ -14,6 +14,8 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { OpenStatus } from '@/components/layout/OpenStatus';
 import { RevealObserver } from '@/components/motion/RevealObserver';
+import { SmoothScroll } from '@/components/motion/SmoothScroll';
+import { images } from '@/content/images';
 import '../globals.css';
 
 /*
@@ -43,8 +45,8 @@ export function generateStaticParams() {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#efe9df',
-  colorScheme: 'light',
+  themeColor: '#0f0d0b',
+  colorScheme: 'light dark',
 };
 
 export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Promise<Metadata> {
@@ -65,6 +67,14 @@ export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Pr
  * own (Booking, Contact, Hours) with a nested provider — see components/i18n.
  */
 const CLIENT_NAMESPACES = ['Navigation', 'Status', 'Error', 'Common'] as const;
+
+const NAV_PREVIEWS: Record<string, string> = {
+  home: images.kitchen.fire.src,
+  menu: images.hero.src,
+  story: images.kitchen.chefs.src,
+  visit: images.gallery.window.src,
+  contact: images.kitchen.hands.src,
+};
 
 export default async function LocaleLayout({ children, params }: LayoutProps<'/[locale]'>) {
   const { locale } = await params;
@@ -88,25 +98,35 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
       </head>
       <body>
         <NextIntlClientProvider locale={locale} messages={clientMessages}>
-          <a
-            href="#main"
-            className="label fixed left-4 top-4 z-[70] -translate-y-24 rounded-[var(--radius-pill)] bg-fg px-5 py-3 text-bg transition-transform focus:translate-y-0"
-          >
-            {t('skipToContent')}
-          </a>
-          <Navbar
-            address={`${r.address.street}, ${r.address.postalCode} ${r.address.city}`}
-            phone={r.phone}
-            phoneHref={telHref(r.phone)}
-            status={status}
-          />
-          <ViewTransition>
-            <main id="main" tabIndex={-1} className="outline-none">
-              {children}
-            </main>
-          </ViewTransition>
-          <Footer />
-          <RevealObserver />
+          <SmoothScroll>
+            <a
+              href="#main"
+              className="label fixed left-4 top-4 z-[90] -translate-y-24 rounded-[var(--radius-pill)] bg-bone px-5 py-3 text-night transition-transform focus:translate-y-0"
+            >
+              {t('skipToContent')}
+            </a>
+            <Navbar
+              address={`${r.address.street}, ${r.address.postalCode} ${r.address.city}`}
+              phone={r.phone}
+              phoneHref={telHref(r.phone)}
+              email={r.email}
+              instagram={r.instagram}
+              status={status}
+              previews={NAV_PREVIEWS}
+            />
+            <ViewTransition>
+              {/* Lifts off the curtain footer underneath as you reach the end. */}
+              <main
+                id="main"
+                tabIndex={-1}
+                className="paper relative z-10 overflow-clip rounded-b-[var(--radius-card)] shadow-[0_40px_80px_-20px_rgb(0_0_0/0.6)] outline-none"
+              >
+                {children}
+              </main>
+            </ViewTransition>
+            <Footer />
+            <RevealObserver />
+          </SmoothScroll>
         </NextIntlClientProvider>
       </body>
     </html>

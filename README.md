@@ -54,23 +54,23 @@ Adriatic konoba (HR/EN/DE) or a Budapest bistro (HU/EN, HUF).
 | Data | Supabase (Postgres + RLS + RPC), with bundled content as an offline fallback |
 | Email | SMTP via Nodemailer (any provider) |
 | Validation | Zod on the server, re-validated inside Postgres |
-| Motion | CSS scroll-driven animations, one IntersectionObserver and the React `<ViewTransition>`. No animation library. |
+| Motion | GSAP + ScrollTrigger for scroll choreography, Lenis for smooth scrolling, CSS for load reveals and the React `<ViewTransition>`. Everything is switched off under `prefers-reduced-motion`. |
 
 Pages: **Home**, **Menu**, **Story**, **Visit** (location, hours, FAQ), **Reserve**, **Contact** and
 **Privacy**. There is also a localized 404, an error boundary, a sitemap, robots.txt, llms.txt, a
 web manifest and per-locale Open Graph images.
 
-Measured with Lighthouse (mobile, simulated slow 4G) on a production build:
+Measured with Lighthouse (mobile, simulated slow 4G) on a production build, after the motion
+redesign. Scores vary by a few points between runs:
 
 | Page | Performance | Accessibility | Best practices | SEO |
 |---|---|---|---|---|
-| `/en` | 91 | 100 | 100 | 100 |
-| `/en/menu` | 91 | 100 | 100 | 100 |
-| `/en/book` | 94 | 100 | 100 | 100 |
-| `/en/story` | 93 | 100 | 100 | 100 |
-| `/hr/visit` | 93 | 100 | 100 | 100 |
-| `/hu/contact` | 96 | 100 | 100 | 100 |
+| `/en` | 84 | 100 | 100 | 100 |
+| `/en/menu` | 84 | 100 | 100 | 100 |
+| `/en/book` | 88–91 | 100 | 100 | 100 |
 
+The home page streams a 1.2 MB (phones) or 3.8 MB (desktop) film. Its poster and every photograph
+paint first with a blurred placeholder, so the page is never text-only while media loads.
 CLS is 0 on every page.
 
 ## 2. Architecture
@@ -85,16 +85,18 @@ app/
     not-found.tsx error.tsx [...rest]/
   sitemap.ts robots.ts manifest.ts llms.txt/route.ts icon.svg
 components/
-  layout/              Navbar (+ mobile menu), LanguageSwitcher, OpenStatus, Footer
-  home/                Hero, Statement, Regions, SignatureDish, Definition,
-                       MenuPreview(+List), RoomGallery, BookingCta
-  menu/                MenuNav, MenuCategory, MenuItem
+  brand/Logo.tsx       the wordmark as SVG paths, with the háček (ˇ) as a separate stroke
+  layout/              Navbar (blend-mode bar + full-screen menu), LanguageSwitcher,
+                       OpenStatus, LocalClock, Footer (curtain reveal)
+  home/                HeroVideo, Manifesto, KitchenStack, RegionsScroll, SignatureDish,
+                       Definition, MenuRoll, GalleryColumns
+  menu/                MenuHero, MenuBoard (pinned photo, outline titles, diet filter dock)
   visit/               OpeningHours, Location, Faq
-  booking/ contact/    BookingForm, ContactForm (client)
-  ui/                  Button, Field, Reveal/Words, PageHeader, Wordmark
-  motion/              RevealObserver (the only scroll JS)
+  booking/ contact/    BookingForm (+ live ticket stub), FireFilm, ContactForm
+  ui/                  Button, Field, Img (blur placeholders), Kicker, Reveal/Words, PageHeader
+  motion/              SmoothScroll (Lenis), gsap.ts, RevealObserver
 config/
-  site.ts              ← brand name, logo, enabled locales, nav, revalidation
+  site.ts              ← brand name, enabled locales, nav, revalidation
   locales.ts           every language the starter knows
 content/
   restaurant.ts        ← facts, translations, hours, menu (seed + fallback)
@@ -119,8 +121,8 @@ The rules that keep it forkable:
 - **Components never hold restaurant facts.** Facts come from Supabase or `content/`, copy comes
   from `messages/`, photos come from `content/images.ts`.
 - **One implementation per page.** Language is a route segment, not a copy of the page.
-- **Server Components by default.** Client JS is limited to the navbar, the open-now status, the
-  menu-preview hover, the menu index, the two forms and one IntersectionObserver.
+- **Server Components by default.** Pages fetch and translate on the server; client components
+  receive plain props and only animate or handle input (navbar, scroll sections, menu board, forms).
 - **Never blank.** If Supabase is not configured or can't be reached, the site renders the bundled
   `content/restaurant.ts` and logs a warning.
 
@@ -292,13 +294,37 @@ Routes, switcher, hreflang, sitemap and OG images pick up the new language autom
 | What | Where |
 |---|---|
 | Name / wordmark | `config/site.ts → brandName` |
-| Official logo | put the SVG in `/public`, set `config/site.ts → logo` |
 | Colours | `app/globals.css → :root` (`--brand-*`). Dark sections use `.night`. |
 | Typefaces | `app/[locale]/layout.tsx` (`next/font/google`). Keep the `latin-ext` coverage for Croatian and Hungarian. Also update the TTFs in `assets/fonts/` used by the OG image. |
 | Type scale, spacing, motion timing | `app/globals.css → @theme` and `:root` |
 | Favicon / touch icon | `app/icon.svg`, `app/apple-icon.png` |
 | Photography | `content/images.ts` (by role) and `menu_items.image` |
 | Editorial copy | `messages/<locale>.json → Home`, `Story`, `Visit.faq`… |
+| Wordmark | `components/brand/Logo.tsx`. The letters are SVG paths (converted from the display font), and the háček is a separate stroke that draws in on load and takes the accent colour. For another name, export the new wordmark as one path and replace `LETTERS`. To drop the háček, remove `HACEK_PATH`. Section labels (`Kicker`) reuse the same chevron. |
+
+### Media pipeline
+
+Video lives in `public/media`, declared in `content/images.ts → videos`. Re-encode a new source
+before committing it. Never ship the camera original:
+
+```bash
+# hero: 1080p and 540p, no audio, fast start, ~4 MB / ~1.2 MB
+ffmpeg -i source.mp4 -an -vf "scale=-2:1080,format=yuv420p" -c:v libx264 -crf 26 -preset slow -movflags +faststart public/media/hero-1080.mp4
+ffmpeg -i source.mp4 -an -vf "scale=-2:540,format=yuv420p"  -c:v libx264 -crf 28 -preset slow -movflags +faststart public/media/hero-540.mp4
+# poster still (also used as the first paint)
+ffmpeg -ss 2 -i source.mp4 -frames:v 1 -q:v 3 public/images/kitchen/poster.jpg
+```
+
+After adding or replacing any image in `public/images`, run `npm run media:blur`. It regenerates
+`content/blur.ts` with a tiny blurred preview of every photo, and `<Img>` uses it automatically.
+
+### Motion
+
+Scroll choreography uses GSAP ScrollTrigger inside `useGSAP` (scoped and cleaned up on
+navigation). Lenis smooths the scroll and drives ScrollTrigger from GSAP's ticker
+(`components/motion/SmoothScroll.tsx`). With `prefers-reduced-motion`, Lenis is not started, every
+GSAP block returns early, CSS animations collapse and the hero video stays on its poster. All
+movement is vertical: sticky stacks, pinned frames and parallax columns. Nothing scrolls sideways.
 
 ## 13. How to change the menu
 
@@ -449,8 +475,7 @@ This is the whole process. Steps 1–8 cover a typical fork, for example **Budap
 3. **Set identity** in `config/site.ts`:
    ```ts
    restaurantSlug: 'bistro-budapest',
-   brandName: 'Kert',                    // the real name
-   logo: { src: '/logo.svg', width: 120, height: 32 },   // or null for the text wordmark
+   brandName: 'Kert',                    // the real name (then redraw components/brand/Logo.tsx)
    locales: ['hu', 'en'],
    defaultLocale: 'hu',
    ```
@@ -469,8 +494,9 @@ This is the whole process. Steps 1–8 cover a typical fork, for example **Budap
 5. **Write the copy** in `messages/hu.json` and `messages/en.json`. Delete the files for languages
    you don't use. Rewrite `Home`, `Story`, `Visit` (including `faq` and `gettingHere`),
    `Privacy` (supervisory authority, e.g. NAIH for Hungary) and `Footer.tagline`. In
-   `app/[locale]/page.tsx`, adjust `REGION_KEYS`, `GALLERY_KEYS` and `SIGNATURE_SLUG` to match
-   the new story.
+   `app/[locale]/page.tsx`, adjust `REGION_KEYS`, `KITCHEN_KEYS`, `GALLERY_KEYS` and
+   `SIGNATURE_SLUG` to match the new story. In `app/[locale]/menu/page.tsx`, map course slugs to
+   photos in `COURSE_IMAGES` and pick three `HERO_PLATES`.
 
 6. **Swap photography**: put files in `public/images/…`, update `content/images.ts` and the menu
    item `image` paths. Prefer real photos of the restaurant, in landscape and portrait crops.
@@ -487,7 +513,7 @@ This is the whole process. Steps 1–8 cover a typical fork, for example **Budap
    sender, then deploy (§20) and run the test checklist (§21).
 
 What you should **not** need to touch: anything in `components/`, `lib/`, the page files (apart
-from the three constants in step 5) and the database functions. If you find yourself editing
+from the constants in step 5) and the database functions. If you find yourself editing
 them for restaurant-specific reasons, that is a sign to add a config option instead.
 
 Quick reference for the planned forks:

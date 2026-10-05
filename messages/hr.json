@@ -37,7 +37,7 @@
   },
   "Home": {
     "eyebrow": "Opatička 14 · Gornji grad · Zagreb",
-    "heroLine": "Tiha blagovaonica u Gornjem gradu. Hrvatska, kuhana regiju po regiju.",
+    "heroLine": "Tiha blagovaonica u zagrebačkom Gornjem gradu. Hrvatska, kuhana polako — i na vatri.",
     "heroImageAlt": "Ručno rađeni fuži s ribanim crnim tartufom u tamnoj keramičkoj zdjeli, svijeće i čaše vina na drvenom stolu",
     "ctaBook": "Rezervirajte stol",
     "ctaMenu": "Pogledajte jelovnik",
@@ -93,7 +93,39 @@
     "visitCta": "Upute i radno vrijeme",
     "bookLabel": "Rezervacije",
     "bookTitle": "Rezervirajte stol",
-    "bookBody": "Pošaljite nam upit i osobno ćemo ga potvrditi, obično u roku od nekoliko sati."
+    "bookBody": "Pošaljite nam upit i osobno ćemo ga potvrditi, obično u roku od nekoliko sati.",
+    "manifesto": "Kuhamo Hrvatsku [[dough]] polako — tartuf s istarskih brežuljaka [[truffle]], pašticadu na dalmatinski način, kruh i pizzu iz krušne peći [[fire]] — i ostavljamo dovoljno *tišine* oko stola da se sve to može okusiti.",
+    "kitchenLabel": "U kuhinji",
+    "kitchenTitle": "Vatra, brašno, *strpljenje*.",
+    "kitchen": {
+      "dough": {
+        "figure": "48 h",
+        "title": "Tijesto odmara",
+        "body": "Brašno iz slavonskih mlinova, voda, sol i malo jučerašnjeg kvasa. Dva dana na hladnom prije nego što uopće vidi peć.",
+        "alt": "Ruke režu nadignute kuglice tijesta u posudi"
+      },
+      "fire": {
+        "figure": "450°",
+        "title": "Drvo, nikad plin",
+        "body": "Bukva i hrast iz Gorskog kotara. Peć palimo u podne i još žari kad ode posljednji gost.",
+        "alt": "Krušna peć na drva u kojoj se peku pizze"
+      },
+      "hands": {
+        "figure": "90 s",
+        "title": "Iz vatre",
+        "body": "Hrskav rub, mekana sredina, dovršeno na pultu onim što je jutro donijelo — burrata, pršut, listić tartufa.",
+        "alt": "Ruke kuhara poslužuju gotovu pizzu na pultu"
+      },
+      "chefs": {
+        "figure": "28",
+        "title": "Mjesta, i ni jedno više",
+        "body": "Mala blagovaonica znači da kuhinja kuha za svaki stol, a ne za red. Ništa se ne priprema unaprijed; ništa ne čeka pod lampom.",
+        "alt": "Dvojica kuhara zajedno rade za pultom otvorene kuhinje"
+      }
+    },
+    "videoPause": "Pauziraj video",
+    "videoPlay": "Pokreni video",
+    "menuRollHint": "Listajte jelovnik"
   },
   "Story": {
     "eyebrow": "Naša priča",
@@ -150,7 +182,13 @@
       "gluten_free": "Bez glutena",
       "dairy_free": "Bez mliječnih proizvoda",
       "pescatarian": "Peskatarijansko"
-    }
+    },
+    "filterLabel": "Filtriraj prema prehrani",
+    "filterAll": "Sve",
+    "countOne": "# jelo",
+    "countOther": "# jela",
+    "noMatch": "Ništa na današnjem jelovniku ne odgovara — pitajte nas, kuhinja često može prilagoditi jelo.",
+    "plateAlt": "Jela s jelovnika"
   },
   "Hours": {
     "title": "Radno vrijeme",
@@ -273,7 +311,12 @@
       "rate_limited": "Upravo smo primili nekoliko vaših upita. Pričekajte nekoliko minuta.",
       "generic": "Nešto je pošlo po zlu i upit nije poslan. Pokušajte ponovno ili nas nazovite na {phone}.",
       "summary": "Provjerite označena polja."
-    }
+    },
+    "invitation": "Večer u restoranu {name}",
+    "stubTitle": "Vaš stol",
+    "stubStamp": "Zatraženo",
+    "stubEmpty": "—",
+    "sideCallShort": "Ili nazovite"
   },
   "Contact": {
     "eyebrow": "Kontakt",
@@ -316,7 +359,11 @@
     "explore": "Istražite",
     "privacy": "Privatnost",
     "rights": "© {year} {name}. Sva prava pridržana.",
-    "madeBy": "Stranicu izradio Kyro Studio"
+    "madeBy": "Stranicu izradio Kyro Studio",
+    "ctaTitle": "Stol vas <em>čeka</em>.",
+    "ctaBody": "Dvadeset i osam mjesta, jedna smjena, bez žurbe.",
+    "localTime": "Lokalno vrijeme · {city}",
+    "directions": "Upute"
   },
   "Privacy": {
     "eyebrow": "Privatnost",

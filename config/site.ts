@@ -12,10 +12,8 @@ export const siteConfig = {
   /** Must match `restaurants.slug` in Supabase. */
   restaurantSlug: 'tisina',
 
-  /** Wordmark text. Swap `logo` in when an official logo file exists. */
+  /** Brand name (text). The drawn wordmark lives in components/brand/Logo.tsx. */
   brandName: 'Tišina',
-  /** Optional official logo (SVG in /public). When null the text wordmark is used. */
-  logo: null as null | { src: string; width: number; height: number },
 
   /** Enabled languages, in switcher order. The first one is not special. */
   locales: ['hr', 'en', 'de', 'hu'] as const satisfies readonly Locale[],

@@ -33,15 +33,19 @@ export function LanguageSwitcher({ className, onNavigate }: { className?: string
                 hrefLang={knownLocales[locale].hreflang}
                 lang={knownLocales[locale].hreflang}
                 aria-current={active ? 'true' : undefined}
-                aria-label={`${knownLocales[locale].label}${active ? ` — ${t('currentLanguage', { language: knownLocales[locale].label })}` : ''}`}
                 onClick={onNavigate}
                 scroll={false}
                 className={cn(
-                  'label inline-flex min-h-10 min-w-10 items-center justify-center rounded-[var(--radius-pill)] px-2 transition-colors duration-[var(--dur-1)]',
-                  active ? 'text-fg' : 'text-muted hover:text-fg',
+                  'label inline-flex min-h-10 min-w-10 items-center justify-center rounded-[var(--radius-pill)] px-2 transition-opacity duration-[var(--dur-1)]',
+                  active ? 'opacity-100' : 'opacity-55 hover:opacity-100',
                 )}
               >
-                <span className={cn(active && 'border-b border-current pb-0.5')}>{knownLocales[locale].short}</span>
+                <span aria-hidden="true" className={cn(active && 'border-b border-current pb-0.5')}>
+                  {knownLocales[locale].short}
+                </span>
+                <span className="sr-only">
+                  {active ? t('currentLanguage', { language: knownLocales[locale].label }) : knownLocales[locale].label}
+                </span>
               </Link>
             </li>
           );

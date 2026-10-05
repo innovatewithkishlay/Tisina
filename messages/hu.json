@@ -37,7 +37,7 @@
   },
   "Home": {
     "eyebrow": "Opatička 14 · Felsőváros · Zágráb",
-    "heroLine": "Csendes étterem a Felsővárosban. Horvátország, tájegységről tájegységre főzve.",
+    "heroLine": "Csendes étterem Zágráb Felsővárosában. Horvátország, lassan főzve — és tűzön.",
     "heroImageAlt": "Kézzel sodort fuži reszelt fekete szarvasgombával sötét kerámiatálban, gyertyák és borospoharak egy fa asztalon",
     "ctaBook": "Asztalfoglalás",
     "ctaMenu": "Az étlap",
@@ -93,7 +93,39 @@
     "visitCta": "Útvonal és nyitvatartás",
     "bookLabel": "Foglalás",
     "bookTitle": "Asztalfoglalás",
-    "bookBody": "Küldjön nekünk egy kérést, és személyesen erősítjük meg, általában néhány órán belül."
+    "bookBody": "Küldjön nekünk egy kérést, és személyesen erősítjük meg, általában néhány órán belül.",
+    "manifesto": "Horvátországot [[dough]] lassan főzzük — szarvasgomba az isztriai dombokról [[truffle]], dalmát módra párolt pašticada, kenyér és pizza fatüzelésű kemencéből [[fire]] — és elég *csendet* hagyunk az asztal körül, hogy mindezt meg lehessen ízlelni.",
+    "kitchenLabel": "A konyhában",
+    "kitchenTitle": "Tűz, liszt, *türelem*.",
+    "kitchen": {
+      "dough": {
+        "figure": "48 h",
+        "title": "A tészta pihen",
+        "body": "Szlavón malmok lisztje, víz, só és egy kevés a tegnapi kovászból. Két nap a hidegben, mielőtt a kemencébe kerül.",
+        "alt": "Kezek kelt tésztagolyókat vágnak egy tálcában"
+      },
+      "fire": {
+        "figure": "450°",
+        "title": "Fa, soha gáz",
+        "body": "Bükk és tölgy a Gorski kotarból. A kemencét délben gyújtjuk be, és még izzik, amikor az utolsó vendég távozik.",
+        "alt": "Izzó fatüzelésű kemence, benne pizzák sülnek"
+      },
+      "hands": {
+        "figure": "90 s",
+        "title": "A tűzből",
+        "body": "A széle hólyagos, a közepe puha, a pultnál fejezzük be azzal, amit a reggel hozott — burrata, pršut, egy szelet szarvasgomba.",
+        "alt": "Szakács kezei egy kész pizzát tálalnak a pulton"
+      },
+      "chefs": {
+        "figure": "28",
+        "title": "Hely, és nem több",
+        "body": "A kis terem azt jelenti, hogy a konyha minden asztalnak főz, nem egy sornak. Semmit sem tálalunk előre, semmi sem vár a lámpa alatt.",
+        "alt": "Két szakács együtt dolgozik a nyitott konyha pultjánál"
+      }
+    },
+    "videoPause": "Videó szüneteltetése",
+    "videoPlay": "Videó lejátszása",
+    "menuRollHint": "Görgessen az étlapon"
   },
   "Story": {
     "eyebrow": "Történetünk",
@@ -150,7 +182,13 @@
       "gluten_free": "Gluténmentes",
       "dairy_free": "Tejmentes",
       "pescatarian": "Peszkateriánus"
-    }
+    },
+    "filterLabel": "Szűrés étrend szerint",
+    "filterAll": "Minden",
+    "countOne": "# fogás",
+    "countOther": "# fogás",
+    "noMatch": "A mai étlapon semmi sem felel meg — kérdezzen minket, a konyha sok fogást tud igazítani.",
+    "plateAlt": "Fogások az étlapról"
   },
   "Hours": {
     "title": "Nyitvatartás",
@@ -273,7 +311,12 @@
       "rate_limited": "Az imént több kérést is kaptunk Öntől. Kérjük, várjon néhány percet.",
       "generic": "Hiba történt, és a kérést nem küldtük el. Kérjük, próbálja újra, vagy hívjon minket: {phone}.",
       "summary": "Kérjük, ellenőrizze a megjelölt mezőket."
-    }
+    },
+    "invitation": "Egy este a {name} étteremben",
+    "stubTitle": "Az Ön asztala",
+    "stubStamp": "Elküldve",
+    "stubEmpty": "—",
+    "sideCallShort": "Vagy hívjon"
   },
   "Contact": {
     "eyebrow": "Kapcsolat",
@@ -316,7 +359,11 @@
     "explore": "Felfedezés",
     "privacy": "Adatvédelem",
     "rights": "© {year} {name}. Minden jog fenntartva.",
-    "madeBy": "A weboldalt a Kyro Studio készítette"
+    "madeBy": "A weboldalt a Kyro Studio készítette",
+    "ctaTitle": "Egy asztal <em>várja</em>.",
+    "ctaBody": "Huszonnyolc hely, egy turnus, sietség nélkül.",
+    "localTime": "Helyi idő · {city}",
+    "directions": "Útvonal"
   },
   "Privacy": {
     "eyebrow": "Adatvédelem",

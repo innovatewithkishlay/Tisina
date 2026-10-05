@@ -12,6 +12,7 @@ import { addDays, bookingSlots, scheduleFor, zonedNow } from '@/lib/hours';
 import type { BookingSettings, Hours } from '@/types/restaurant';
 import { Field, Honeypot, Select, Spinner, inputClass } from '@/components/ui/Field';
 import { Arrow } from '@/components/ui/Button';
+import { Logo } from '@/components/brand/Logo';
 import { cn } from '@/lib/utils';
 
 interface BookingFormProps {
@@ -92,9 +93,17 @@ export function BookingForm({ hours, booking, timeZone, restaurantName, phone, p
   if (state.status === 'success' && state.result) {
     const r = state.result;
     return (
-      <div className="border-t hairline pt-10" role="status">
-        <p className="label text-accent">{t('successReference')} · {r.reference}</p>
-        <h2 ref={successRef} tabIndex={-1} className="font-display text-h2 mt-6 max-w-[16ch] outline-none">
+      <div role="status">
+        <TicketStub
+          title={t('stubTitle')}
+          date={formatDate(r.date, locale, { weekday: 'long', day: 'numeric', month: 'long' })}
+          time={formatTime(r.time, locale)}
+          guests={r.guests}
+          labels={{ date: t('date'), time: t('time'), guests: t('guests') }}
+          reference={`${t('successReference')} · ${r.reference}`}
+          stamp={t('stubStamp')}
+        />
+        <h2 ref={successRef} tabIndex={-1} className="font-display text-h2 mt-14 max-w-[16ch] outline-none">
           {t('successTitle')}
         </h2>
         <p className="mt-8 max-w-[48ch] text-lede text-fg-2">
@@ -124,13 +133,22 @@ export function BookingForm({ hours, booking, timeZone, restaurantName, phone, p
       <input type="hidden" name="locale" value={locale} />
       <Honeypot />
 
+      <TicketStub
+        title={t('stubTitle')}
+        date={date ? formatDate(date, locale, { weekday: 'long', day: 'numeric', month: 'long' }) : ''}
+        time={selectedTime ? formatTime(selectedTime, locale) : ''}
+        guests={Number(guests)}
+        labels={{ date: t('date'), time: t('time'), guests: t('guests') }}
+        className="mb-14"
+      />
+
       {hasErrors ? (
         <div
           id="booking-summary"
           ref={summaryRef}
           tabIndex={-1}
           role="alert"
-          className="mb-10 border-l-2 border-error bg-error/5 px-5 py-4 text-error outline-none"
+          className="mb-10 rounded-2xl border border-error/40 bg-error/5 px-5 py-4 text-error outline-none"
         >
           {state.formError
             ? t(`errors.${state.formError}` as 'errors.generic', { max: booking.maxParty, days: booking.windowDays, phone })
@@ -140,10 +158,9 @@ export function BookingForm({ hours, booking, timeZone, restaurantName, phone, p
 
       {/* ——— When ——— */}
       <fieldset className="min-w-0">
-        <legend className="label flex w-full items-center gap-4 text-muted">
-          <span className="tabular-nums">01</span>
-          <span>{t('stepWhen')}</span>
-          <span aria-hidden="true" className="h-px flex-1 bg-line" />
+        <legend className="flex w-full items-baseline gap-4">
+          <span className="index text-lede text-muted">(01)</span>
+          <span className="font-display text-h3 italic">{t('stepWhen')}</span>
         </legend>
 
         <div className="mt-8 grid gap-8 sm:grid-cols-[1fr_auto]">
@@ -188,7 +205,7 @@ export function BookingForm({ hours, booking, timeZone, restaurantName, phone, p
                     aria-pressed={selected}
                     onClick={() => setDate(d.date)}
                     className={cn(
-                      'flex w-16 flex-col items-center gap-1 rounded-[var(--radius-xs)] border py-3 transition-colors duration-[var(--dur-1)]',
+                      'flex w-16 flex-col items-center gap-1 rounded-2xl border py-3 transition-[color,background-color,border-color,transform] duration-[var(--dur-1)] active:scale-95',
                       selected ? 'border-fg bg-fg text-bg' : 'border-line hover:border-fg',
                       d.closed && 'cursor-not-allowed border-dashed opacity-45 hover:border-line',
                     )}
@@ -246,10 +263,9 @@ export function BookingForm({ hours, booking, timeZone, restaurantName, phone, p
 
       {/* ——— Who ——— */}
       <fieldset className="mt-16 min-w-0">
-        <legend className="label flex w-full items-center gap-4 text-muted">
-          <span className="tabular-nums">02</span>
-          <span>{t('stepWho')}</span>
-          <span aria-hidden="true" className="h-px flex-1 bg-line" />
+        <legend className="flex w-full items-baseline gap-4">
+          <span className="index text-lede text-muted">(02)</span>
+          <span className="font-display text-h3 italic">{t('stepWho')}</span>
         </legend>
 
         <div className="mt-8 grid gap-8 sm:grid-cols-2">
@@ -327,7 +343,7 @@ export function BookingForm({ hours, booking, timeZone, restaurantName, phone, p
         <button
           type="submit"
           disabled={pending}
-          className="group label inline-flex min-h-14 items-center gap-4 rounded-[var(--radius-pill)] bg-fg px-9 text-bg transition-colors duration-[var(--dur-2)] hover:bg-accent hover:text-on-accent disabled:opacity-70"
+          className="btn-fill group label inline-flex min-h-14 items-center gap-4 rounded-[var(--radius-pill)] bg-fg px-9 text-bg disabled:opacity-70"
         >
           {pending ? <Spinner /> : null}
           {pending ? t('submitting') : t('submit')}
@@ -344,5 +360,58 @@ export function BookingForm({ hours, booking, timeZone, restaurantName, phone, p
         {pending ? t('submitting') : ''}
       </p>
     </form>
+  );
+}
+
+/**
+ * The reservation as a ticket: fills in live while the guest chooses, and gets
+ * its reference and a stamp once the request is sent.
+ */
+function TicketStub({
+  title,
+  date,
+  time,
+  guests,
+  labels,
+  reference,
+  stamp,
+  className,
+}: {
+  title: string;
+  date: string;
+  time: string;
+  guests: number;
+  labels: { date: string; time: string; guests: string };
+  reference?: string;
+  stamp?: string;
+  className?: string;
+}) {
+  return (
+    <div className={cn('stub shadow-[0_30px_60px_-30px_rgb(15_13_11/0.45)]', className)} aria-hidden={reference ? undefined : true}>
+      <div className="stub-perf" />
+      <div className="grid grid-cols-[72%_28%]">
+        <div className="min-w-0 p-6 sm:p-8">
+          <div className="flex items-center justify-between gap-4">
+            <Logo className="w-24 text-bone" />
+            <span className="label text-[0.6875rem] text-bone/60">{reference ?? title}</span>
+          </div>
+          <p className="label mt-8 text-[0.6875rem] text-bone/60">{labels.date}</p>
+          <p className="font-display mt-1 min-h-[1.15em] text-[clamp(1.5rem,2.6vw,2.25rem)] leading-[1.1] first-letter:uppercase">
+            {date || <span className="text-bone/55">— — —</span>}
+          </p>
+          <p className="label mt-5 text-[0.6875rem] text-bone/60">{labels.time}</p>
+          <p className="font-display mt-1 min-h-[1.15em] text-[clamp(1.5rem,2.6vw,2.25rem)] tabular-nums leading-[1.1]">
+            {time || <span className="text-bone/55">— : —</span>}
+          </p>
+        </div>
+        <div className="relative flex flex-col items-center justify-center p-4 text-center">
+          <span key={guests} className="font-display rise text-[clamp(3.5rem,7vw,5.5rem)] italic leading-none">
+            {guests}
+          </span>
+          <span className="label mt-2 text-[0.6875rem] text-bone/60">{labels.guests}</span>
+          {stamp ? <span className="stamp label absolute bottom-5 text-[0.625rem] text-[var(--brand-ember-light)]">{stamp}</span> : null}
+        </div>
+      </div>
+    </div>
   );
 }

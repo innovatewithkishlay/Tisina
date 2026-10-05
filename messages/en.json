@@ -37,7 +37,7 @@
   },
   "Home": {
     "eyebrow": "Opatička 14 · Upper Town · Zagreb",
-    "heroLine": "A quiet dining room in the Upper Town. Croatia, cooked one region at a time.",
+    "heroLine": "A quiet dining room in Zagreb’s Upper Town. Croatia, cooked slowly — and over fire.",
     "heroImageAlt": "Hand-rolled fuži with shaved black truffle in a dark ceramic bowl, candles and wine glasses on a wooden table",
     "ctaBook": "Reserve a table",
     "ctaMenu": "See the menu",
@@ -93,7 +93,39 @@
     "visitCta": "Directions & hours",
     "bookLabel": "Reservations",
     "bookTitle": "Reserve a table",
-    "bookBody": "Send us a request and we will confirm it personally, usually within a few hours."
+    "bookBody": "Send us a request and we will confirm it personally, usually within a few hours.",
+    "manifesto": "We cook Croatia [[dough]] slowly — truffle from the Istrian hills [[truffle]], pašticada braised the Dalmatian way, bread and pizza from a wood fire [[fire]] — and leave enough *quiet* around the table to taste it.",
+    "kitchenLabel": "Inside the kitchen",
+    "kitchenTitle": "Fire, flour, *patience*.",
+    "kitchen": {
+      "dough": {
+        "figure": "48 h",
+        "title": "The dough rests",
+        "body": "Flour from Slavonian mills, water, salt and a little of yesterday’s starter. Two days in the cold before it ever sees the oven.",
+        "alt": "Hands cutting proofed dough balls in a tray"
+      },
+      "fire": {
+        "figure": "450°",
+        "title": "Wood, never gas",
+        "body": "Beech and oak from Gorski kotar. The oven is lit at noon and still glowing when the last guest leaves.",
+        "alt": "A wood-fired oven glowing, pizzas baking inside"
+      },
+      "hands": {
+        "figure": "90 s",
+        "title": "Out of the fire",
+        "body": "Blistered at the edge, soft in the middle, finished at the pass with what the morning brought — burrata, pršut, a shaving of truffle.",
+        "alt": "A chef’s hands presenting a finished pizza on the counter"
+      },
+      "chefs": {
+        "figure": "28",
+        "title": "Seats, and no more",
+        "body": "A small room means the kitchen cooks for each table, not for a queue. Nothing is plated ahead; nothing waits under a lamp.",
+        "alt": "Two chefs working together at the counter of an open kitchen"
+      }
+    },
+    "videoPause": "Pause video",
+    "videoPlay": "Play video",
+    "menuRollHint": "Scroll the menu"
   },
   "Story": {
     "eyebrow": "Our story",
@@ -150,7 +182,13 @@
       "gluten_free": "Gluten-free",
       "dairy_free": "Dairy-free",
       "pescatarian": "Pescatarian"
-    }
+    },
+    "filterLabel": "Filter by diet",
+    "filterAll": "Everything",
+    "countOne": "# dish",
+    "countOther": "# dishes",
+    "noMatch": "Nothing on today’s menu matches — ask us, the kitchen can often adapt a dish.",
+    "plateAlt": "Plates from the menu"
   },
   "Hours": {
     "title": "Opening hours",
@@ -273,7 +311,12 @@
       "rate_limited": "We received several requests from you just now. Please wait a few minutes.",
       "generic": "Something went wrong and your request was not sent. Please try again or call us on {phone}.",
       "summary": "Please check the highlighted fields."
-    }
+    },
+    "invitation": "An evening at {name}",
+    "stubTitle": "Your table",
+    "stubStamp": "Requested",
+    "stubEmpty": "—",
+    "sideCallShort": "Or call"
   },
   "Contact": {
     "eyebrow": "Contact",
@@ -316,7 +359,11 @@
     "explore": "Explore",
     "privacy": "Privacy",
     "rights": "© {year} {name}. All rights reserved.",
-    "madeBy": "Site by Kyro Studio"
+    "madeBy": "Site by Kyro Studio",
+    "ctaTitle": "A table is <em>waiting</em>.",
+    "ctaBody": "Twenty-eight seats, one sitting, no hurry.",
+    "localTime": "Now in {city}",
+    "directions": "Directions"
   },
   "Privacy": {
     "eyebrow": "Privacy",
