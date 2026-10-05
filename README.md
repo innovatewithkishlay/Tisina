@@ -54,7 +54,7 @@ Adriatic konoba (HR/EN/DE) or a Budapest bistro (HU/EN, HUF).
 | Data | Supabase (Postgres + RLS + RPC), with bundled content as an offline fallback |
 | Email | SMTP via Nodemailer (any provider) |
 | Validation | Zod on the server, re-validated inside Postgres |
-| Motion | GSAP + ScrollTrigger for scroll choreography, Lenis for smooth scrolling, CSS for load reveals and the React `<ViewTransition>`. Everything is switched off under `prefers-reduced-motion`. |
+| Motion | GSAP + ScrollTrigger for scroll choreography, Framer Motion (`motion`) for interaction — cursor, magnetic buttons, page curtain, spring tilt, ticket roll — Lenis for smooth scrolling, CSS for load reveals and the React `<ViewTransition>`. Everything is switched off under `prefers-reduced-motion`. |
 
 Pages: **Home**, **Menu**, **Story**, **Visit** (location, hours, FAQ), **Reserve**, **Contact** and
 **Privacy**. There is also a localized 404, an error boundary, a sitemap, robots.txt, llms.txt, a
@@ -359,6 +359,15 @@ After adding or replacing any image in `public/images`, run `npm run media:blur`
 `content/blur.ts` with a tiny blurred preview of every photo, and `<Img>` uses it automatically.
 
 ### Motion
+
+Two libraries, two jobs. **GSAP** owns everything tied to scroll position (pins, scrubbed
+reveals, horizontal sections). **Framer Motion** (`motion/react`, loaded through `LazyMotion` in
+`components/motion/MotionProvider.tsx`) owns interaction: the spring cursor (`Cursor.tsx`, mouse
+only), magnetic call-to-action buttons (`Magnetic.tsx`), the page curtain on in-site navigation
+(`app/[locale]/template.tsx`, never on first load), the spring tilt on menu photos and the
+rolling values on the booking ticket. `MotionConfig reducedMotion="user"` turns it off for
+visitors who ask for less motion.
+
 
 Scroll choreography uses GSAP ScrollTrigger inside `useGSAP` (scoped and cleaned up on
 navigation). Lenis smooths the scroll and drives ScrollTrigger from GSAP's ticker

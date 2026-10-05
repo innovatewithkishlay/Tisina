@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useRef, useState } from 'react';
+import { m, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { Img } from '@/components/ui/Img';
 import { Hacek } from '@/components/brand/Logo';
 import { useLenis } from '@/components/motion/SmoothScroll';
@@ -60,6 +61,7 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
   const lenis = useLenis();
   const [filter, setFilter] = useState<Filter>('all');
   const [activeCat, setActiveCat] = useState(0);
+  const [filtered, setFiltered] = useState(false);
 
   const tags = useMemo(() => {
     const seen = new Set<DietaryTag>();
@@ -163,7 +165,10 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
                 key={f}
                 type="button"
                 aria-pressed={filter === f}
-                onClick={() => setFilter(f)}
+                onClick={() => {
+                  setFiltered(true);
+                  setFilter(f);
+                }}
                 className={cn(
                   'label min-h-11 shrink-0 border-b-[1.5px] transition-colors duration-300',
                   filter === f ? 'border-accent text-accent' : 'border-transparent text-fg-2 hover:text-fg',
@@ -180,6 +185,7 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
         {(count === 1 ? labels.countOne : labels.countOther).replace('#', String(count))}
       </p>
 
+      <m.div key={filter} initial={filter === 'all' && !filtered ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}>
       {visible.map((c, ci) => {
         if (c.items.length === 0) return null;
         const sideways = direction.get(c.slug) ?? false;
@@ -240,6 +246,7 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
           </section>
         );
       })}
+      </m.div>
       {count === 0 ? <p className="wrap pt-24 text-lede text-fg-2">{labels.noMatch}</p> : null}
 
       <nav
@@ -310,38 +317,57 @@ function Badges({ item, labels, className }: { item: BoardItem; labels: BoardLab
 }
 
 /**
- * Photo frame that leans towards the pointer in 3D, with a soft highlight
- * following it. Pure CSS variables — no re-renders while the mouse moves.
+ * Photo frame that leans towards the pointer in 3D on a spring (Framer
+ * Motion), while the photo inside drifts the other way for depth. Settles back
+ * smoothly on leave. Mouse only; reduced motion is handled by MotionConfig.
  */
 function TiltFrame({ className, children }: { className?: string; children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const move = (e: React.PointerEvent) => {
-    const el = ref.current;
-    if (!el || e.pointerType !== 'mouse' || reducedMotion()) return;
-    const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    el.style.setProperty('--rx', `${(-y * 9).toFixed(2)}deg`);
-    el.style.setProperty('--ry', `${(x * 11).toFixed(2)}deg`);
-    el.style.setProperty('--gx', `${((x + 0.5) * 100).toFixed(1)}%`);
-    el.style.setProperty('--gy', `${((y + 0.5) * 100).toFixed(1)}%`);
+  // Plain markup until the first mouse hover: dozens of cards on the page should
+  // not each spin up springs during load.
+  const [live, setLive] = useState(false);
+  if (!live) {
+    return (
+      <div className={className} onPointerEnter={(e) => e.pointerType === 'mouse' && setLive(true)}>
+        <div className="absolute -inset-4">{children}</div>
+      </div>
+    );
+  }
+  return <LiveTilt className={className}>{children}</LiveTilt>;
+}
+
+function LiveTilt({ className, children }: { className?: string; children: React.ReactNode }) {
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const spring = { stiffness: 180, damping: 18, mass: 0.5 };
+  const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-9, 9]), spring);
+  const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [7, -7]), spring);
+  const shiftX = useSpring(useTransform(px, [-0.5, 0.5], [12, -12]), spring);
+  const shiftY = useSpring(useTransform(py, [-0.5, 0.5], [10, -10]), spring);
+  const glow = useMotionTemplate`radial-gradient(circle at ${useTransform(px, [-0.5, 0.5], [0, 100])}% ${useTransform(py, [-0.5, 0.5], [0, 100])}%, rgb(255 255 255 / 0.16), transparent 55%)`;
+
+  const move = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== 'mouse') return;
+    const r = e.currentTarget.getBoundingClientRect();
+    px.set((e.clientX - r.left) / r.width - 0.5);
+    py.set((e.clientY - r.top) / r.height - 0.5);
   };
   const leave = () => {
-    ref.current?.style.setProperty('--rx', '0deg');
-    ref.current?.style.setProperty('--ry', '0deg');
+    px.set(0);
+    py.set(0);
   };
+
   return (
-    <div
-      ref={ref}
+    <m.div
       onPointerMove={move}
       onPointerLeave={leave}
-      className={cn(
-        className,
-        'transition-transform duration-500 ease-[var(--ease-out)] [transform:rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))] [transform-style:preserve-3d]',
-        "after:pointer-events-none after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_var(--gx,50%)_var(--gy,50%),rgb(255_255_255/0.18),transparent_55%)] after:opacity-0 after:transition-opacity after:duration-500 hover:after:opacity-100",
-      )}
+      whileHover={{ scale: 1.015 }}
+      style={{ rotateX, rotateY, transformPerspective: 1000 }}
+      className={cn(className, 'group/tilt')}
     >
-      {children}
-    </div>
+      <m.div className="absolute -inset-4" style={{ x: shiftX, y: shiftY }}>
+        {children}
+      </m.div>
+      <m.div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/tilt:opacity-100" style={{ backgroundImage: glow }} />
+    </m.div>
   );
 }

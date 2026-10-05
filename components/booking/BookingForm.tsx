@@ -13,6 +13,7 @@ import type { BookingSettings, Hours } from '@/types/restaurant';
 import { Field, Honeypot, Select, Spinner, inputClass } from '@/components/ui/Field';
 import { Arrow } from '@/components/ui/Button';
 import { Logo } from '@/components/brand/Logo';
+import { AnimatePresence, m } from 'motion/react';
 import { cn } from '@/lib/utils';
 
 interface BookingFormProps {
@@ -395,16 +396,53 @@ function TicketStub({
           </div>
           <p className="label mt-8 text-[0.6875rem] text-bone/60">{labels.date}</p>
           <p className="font-display mt-1 min-h-[1.15em] text-[clamp(1.5rem,2.6vw,2.25rem)] leading-[1.1] first-letter:uppercase">
-            {date || <span className="text-bone/55">— — —</span>}
+            <span className="relative block overflow-hidden">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <m.span
+                key={date || 'empty'}
+                className="block"
+                initial={{ y: '100%', opacity: 0 }}
+                animate={{ y: '0%', opacity: 1 }}
+                exit={{ y: '-100%', opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+              >
+                {date || <span className="font-sans text-bone/45">— — —</span>}
+              </m.span>
+            </AnimatePresence>
+          </span>
           </p>
           <p className="label mt-5 text-[0.6875rem] text-bone/60">{labels.time}</p>
           <p className="font-display mt-1 min-h-[1.15em] text-[clamp(1.5rem,2.6vw,2.25rem)] tabular-nums leading-[1.1]">
-            {time || <span className="text-bone/55">— : —</span>}
+            <span className="relative block overflow-hidden">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <m.span
+                key={time || 'empty'}
+                className="block"
+                initial={{ y: '100%', opacity: 0 }}
+                animate={{ y: '0%', opacity: 1 }}
+                exit={{ y: '-100%', opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+              >
+                {time || <span className="font-sans text-bone/45">— : —</span>}
+              </m.span>
+            </AnimatePresence>
+          </span>
           </p>
         </div>
         <div className="relative flex flex-col items-center justify-center p-4 text-center">
-          <span key={guests} className="font-display rise text-[clamp(3.5rem,7vw,5.5rem)] italic leading-none">
-            {guests}
+          <span className="relative block overflow-hidden">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <m.span
+                key={guests}
+                className="font-display block text-[clamp(3.5rem,7vw,5.5rem)] italic leading-none"
+                initial={{ y: '100%', opacity: 0 }}
+                animate={{ y: '0%', opacity: 1 }}
+                exit={{ y: '-100%', opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+              >
+                {guests}
+              </m.span>
+            </AnimatePresence>
           </span>
           <span className="label mt-2 text-[0.6875rem] text-bone/60">{labels.guests}</span>
           {stamp ? <span className="stamp label absolute bottom-5 text-[0.625rem] text-[var(--brand-ember-light)]">{stamp}</span> : null}

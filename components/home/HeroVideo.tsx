@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link } from '@/i18n/routing';
 import { Logo } from '@/components/brand/Logo';
+import { Magnetic } from '@/components/motion/Magnetic';
 import { Img } from '@/components/ui/Img';
 import { gsap, reducedMotion, useGSAP } from '@/components/motion/gsap';
 import { cn } from '@/lib/utils';
@@ -127,18 +128,22 @@ export function HeroVideo({ name, eyebrow, line, ctaBook, ctaMenu, pauseLabel, p
             {line}
           </p>
           <div className="rise flex flex-wrap items-center gap-3" style={{ ['--delay' as string]: 800 }}>
+            <Magnetic>
             <Link
               href="/book"
               className="btn-fill label inline-flex min-h-13 items-center rounded-[var(--radius-pill)] bg-bone px-7 text-night [--btn-fill:var(--brand-ember-light)]"
             >
               {ctaBook}
             </Link>
+            </Magnetic>
+            <Magnetic>
             <Link
               href="/menu"
               className="label inline-flex min-h-13 items-center rounded-[var(--radius-pill)] border border-bone/50 px-7 text-bone backdrop-blur-sm transition-colors duration-[var(--dur-2)] hover:border-bone hover:bg-bone/10"
             >
               {ctaMenu}
             </Link>
+            </Magnetic>
           </div>
         </div>
 

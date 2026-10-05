@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { Link } from '@/i18n/routing';
 import { Kicker } from '@/components/ui/Kicker';
+import { Magnetic } from '@/components/motion/Magnetic';
 import { gsap, reducedMotion, useGSAP } from '@/components/motion/gsap';
 
 /**
@@ -66,12 +67,14 @@ export function MenuGlance({
       </nav>
 
       <div className="wrap mt-16">
+        <Magnetic>
         <Link
           href="/menu"
           className="btn-fill label inline-flex min-h-14 items-center gap-4 rounded-[var(--radius-pill)] bg-fg px-8 text-bg [--btn-fill:var(--accent)]"
         >
           {cta} <span aria-hidden="true">→</span>
         </Link>
+        </Magnetic>
       </div>
     </section>
   );
