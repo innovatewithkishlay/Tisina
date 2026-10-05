@@ -1,69 +1,81 @@
-import { MenuItem as MenuItemType } from '@/lib/restaurant/mock-menu';
-import { useLocale } from 'next-intl';
 import Image from 'next/image';
+import type { Locale } from '@/config/locales';
+import { formatPrice } from '@/lib/format';
+import type { MenuItem as MenuItemType } from '@/types/restaurant';
+import { cn } from '@/lib/utils';
 
-export function MenuItem({ item }: { item: MenuItemType }) {
-  const locale = useLocale();
-  const name = item.name[locale] || item.name.en;
-  const description = item.description[locale] || item.description.en;
+export interface MenuItemLabels {
+  signature: string;
+  seasonal: string;
+  unavailable: string;
+  marketPrice: string;
+  allergensLabel: string;
+  dietaryLabel: string;
+  allergens: Record<string, string>;
+  dietary: Record<string, string>;
+}
 
-  // Format currency
-  const priceFormatted = new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency: item.currency,
-  }).format(item.price);
+export function MenuItem({ item, locale, labels }: { item: MenuItemType; locale: Locale; labels: MenuItemLabels }) {
+  const price = item.price === null ? labels.marketPrice : formatPrice(item.price, item.currency, locale);
 
   return (
-    <div className="flex flex-col gap-6 py-12 md:py-20 border-b border-border/40 last:border-0 group">
-      {item.image_url && (
-        <div className="w-full aspect-[4/3] md:aspect-[21/9] relative overflow-hidden rounded-xl bg-muted">
-          <Image
-            src={item.image_url}
-            alt={name}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            sizes="(max-width: 1200px) 100vw, 1200px"
-          />
-        </div>
-      )}
-      
-      <div className="flex flex-col md:flex-row justify-between items-start gap-6 mt-4">
-        <div className="flex-1">
-          <div className="flex items-start gap-4 mb-3">
-            <h4 className="text-2xl md:text-4xl font-bold tracking-tight text-foreground group-hover:text-foreground/80 transition-colors">
-              {name}
-              {item.is_featured && (
-                <span className="ml-4 inline-block px-3 py-1 text-sm font-semibold bg-accent text-accent-foreground rounded-full align-middle">
-                  Featured
-                </span>
-              )}
-            </h4>
+    <article
+      id={item.slug}
+      className={cn('group grid scroll-mt-40 gap-5 border-b hairline py-8 sm:grid-cols-[1fr_auto]', !item.available && 'opacity-55')}
+    >
+      <div className="flex gap-5">
+        {item.image ? (
+          <div className="relative size-24 shrink-0 overflow-hidden bg-bg-2 sm:size-28">
+            <Image
+              src={item.image}
+              alt={item.name}
+              fill
+              sizes="112px"
+              className="object-cover transition-transform duration-[var(--dur-3)] ease-[var(--ease-out)] group-hover:scale-[1.06]"
+            />
           </div>
-          
-          <p className="text-muted-foreground text-lg md:text-xl leading-relaxed max-w-3xl">
-            {description}
-          </p>
-
-          {(item.dietary_info.length > 0 || item.allergens.length > 0) && (
-            <div className="mt-6 flex flex-wrap gap-3 text-sm">
-              {item.dietary_info.map((diet) => (
-                <span key={diet} className="text-emerald-700 dark:text-emerald-400 font-semibold px-3 py-1.5 bg-emerald-500/10 rounded-md">
-                  {diet}
-                </span>
-              ))}
-              {item.allergens.length > 0 && (
-                <span className="text-muted-foreground/80 px-3 py-1.5 border border-border/80 rounded-md font-medium">
-                  Contains: {item.allergens.join(', ')}
-                </span>
-              )}
-            </div>
-          )}
-        </div>
-        
-        <div className="mt-2 md:mt-0">
-          <span className="text-3xl md:text-4xl font-light whitespace-nowrap">{priceFormatted}</span>
+        ) : null}
+        <div className="min-w-0">
+          <h3 className="font-display text-[1.75rem] leading-[1.15]">
+            {item.name}
+            {!item.available ? <span className="label ml-3 align-middle text-accent">{labels.unavailable}</span> : null}
+          </h3>
+          {item.featured || item.seasonal ? (
+            <p className="mt-2 flex flex-wrap gap-2">
+              {item.featured ? <Tag>{labels.signature}</Tag> : null}
+              {item.seasonal ? <Tag>{labels.seasonal}</Tag> : null}
+            </p>
+          ) : null}
+          {item.description ? <p className="mt-2 max-w-[52ch] text-fg-2">{item.description}</p> : null}
+          {item.dietary.length || item.allergens.length ? (
+            <dl className="mt-3 space-y-0.5 text-small text-muted">
+              {item.dietary.length ? (
+                <div className="flex flex-wrap gap-x-2">
+                  <dt className="sr-only">{labels.dietaryLabel}</dt>
+                  <dd>{item.dietary.map((d) => labels.dietary[d] ?? d).join(' · ')}</dd>
+                </div>
+              ) : null}
+              {item.allergens.length ? (
+                <div className="flex flex-wrap gap-x-2">
+                  <dt>{labels.allergensLabel}:</dt>
+                  <dd>{item.allergens.map((a) => labels.allergens[a] ?? a).join(', ')}</dd>
+                </div>
+              ) : null}
+            </dl>
+          ) : null}
         </div>
       </div>
-    </div>
+      <p className={cn('font-display whitespace-nowrap text-[1.5rem] tabular-nums sm:text-right', item.price === null && 'text-[1.125rem] italic text-fg-2')}>
+        {price}
+      </p>
+    </article>
+  );
+}
+
+function Tag({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="label inline-flex items-center rounded-[var(--radius-pill)] border border-current px-2.5 py-1 text-[0.6875rem] text-accent">
+      {children}
+    </span>
   );
 }

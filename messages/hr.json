@@ -1,13 +1,364 @@
 {
-  "Index": {
-    "title": "Dobrodošli u Maison Example",
-    "description": "Moderno europsko blagovanje u srcu Zagreba."
+  "Meta": {
+    "skipToContent": "Preskoči na sadržaj",
+    "homeTitle": "{name} — restoran u Gornjem gradu, Zagreb",
+    "menuTitle": "Jelovnik",
+    "menuDescription": "Aktualni jelovnik restorana {name} u Zagrebu: jela hrvatskih regija, degustacijski meni od šest sljedova i vina na čašu. Cijene u {currency}, s popisom alergena.",
+    "storyTitle": "Naša priča",
+    "storyDescription": "Zašto {name} kuha Hrvatsku regiju po regiju i tko stoji iza kuhinje.",
+    "visitTitle": "Posjet",
+    "visitDescription": "Adresa, radno vrijeme, upute za dolazak i česta pitanja za {name} u Opatičkoj ulici u Zagrebu.",
+    "bookTitle": "Rezervirajte stol",
+    "bookDescription": "Pošaljite upit za stol u restoranu {name}, Zagreb. Svaku rezervaciju osobno potvrđujemo.",
+    "contactTitle": "Kontakt",
+    "contactDescription": "Pišite restoranu {name} o privatnim večerama, događanjima, medijima ili bilo čemu drugom.",
+    "privacyTitle": "Privatnost",
+    "privacyDescription": "Kako {name} postupa s osobnim podacima koje šaljete putem ove stranice."
   },
   "Navigation": {
     "home": "Početna",
     "menu": "Jelovnik",
-    "about": "O nama",
-    "location": "Lokacija",
-    "book": "Rezerviraj Stol"
+    "story": "Priča",
+    "visit": "Posjet",
+    "contact": "Kontakt",
+    "book": "Rezervacija",
+    "bookLong": "Rezervirajte stol",
+    "openMenu": "Otvori izbornik",
+    "closeMenu": "Zatvori izbornik",
+    "primary": "Glavna navigacija",
+    "language": "Jezik",
+    "currentLanguage": "Trenutni jezik: {language}"
+  },
+  "Status": {
+    "open": "Otvoreno · do {time}",
+    "laterToday": "Danas od {time}",
+    "closedNext": "Zatvoreno · otvaramo {day} u {time}",
+    "closed": "Danas zatvoreno"
+  },
+  "Home": {
+    "eyebrow": "Opatička 14 · Gornji grad · Zagreb",
+    "heroLine": "Tiha blagovaonica u Gornjem gradu. Hrvatska, kuhana regiju po regiju.",
+    "heroImageAlt": "Ručno rađeni fuži s ribanim crnim tartufom u tamnoj keramičkoj zdjeli, svijeće i čaše vina na drvenom stolu",
+    "ctaBook": "Rezervirajte stol",
+    "ctaMenu": "Pogledajte jelovnik",
+    "scroll": "Dolje",
+    "introLabel": "Kuhinja",
+    "intro": "Kuhamo zemlju polako — tartuf s istarskih brežuljaka, pašticadu na dalmatinski način, sir i vrhnje Zagorja — i ostavljamo dovoljno tišine oko stola da se sve to može okusiti.",
+    "regionsLabel": "Tri regije, jedan stol",
+    "regions": {
+      "istra": {
+        "region": "Istra",
+        "dish": "Fuži, crni tartuf",
+        "body": "U jesen nam tartufari iz doline Mirne šalju ono što su psi pronašli tog tjedna. Ribamo ga za stolom, preko tjestenine koju smo ručno uvaljali istog jutra.",
+        "alt": "Fuži ispod ribanog crnog tartufa, svjetlo svijeća u pozadini"
+      },
+      "dalmacija": {
+        "region": "Dalmacija",
+        "dish": "Pašticada",
+        "body": "Dva dana u vinu i octu, šest sati u loncu s prošekom i suhim šljivama. Recept je od jedne splitske bake; strpljenje je naše.",
+        "alt": "Narezana pirjana govedina u tamnom umaku sa zlatnim njokima na keramičkom tanjuru"
+      },
+      "jadran": {
+        "region": "Jadran",
+        "dish": "Tuna, sirova",
+        "body": "Ulovljena udicom kod Visa i rezana po narudžbi, začinjena tek istarskim uljem i pokojim kaparom ubranim s otočnih zidova.",
+        "alt": "Tartar od tune s rotkvicom, kaparima i cvjetovima boražine, uz raženi kruh"
+      }
+    },
+    "signatureLabel": "Potpis kuće",
+    "signatureNote": "Na jelovniku od prve večeri. Bit će i na posljednjoj.",
+    "definitionWord": "tišina",
+    "definitionPron": "/ˈti.ʃi.na/",
+    "definitionKind": "imenica, ženski rod",
+    "definition1": "Odsutnost zvuka; mir.",
+    "definition2": "Stanka za stolom nakon prvog zalogaja, kad nitko ne mora ništa reći.",
+    "menuLabel": "Jelovnik",
+    "menuTitle": "Kratak, sezonski, mijenja se kad se promijeni tržnica.",
+    "menuBody": "Dvadesetak jela, degustacijski meni od šest sljedova i vina malih hrvatskih vinara. Svi alergeni su navedeni.",
+    "menuCta": "Cijeli jelovnik",
+    "roomLabel": "Prostor",
+    "roomTitle": "Dvadeset i osam mjesta, kameni zidovi, svjetlo svijeća.",
+    "roomBody": "Prizemlje u Opatičkoj ulici, nekoliko minuta hoda od Markova trga. Lan na stolovima, jedan prozor na ulicu i glazba nikad glasnija od razgovora.",
+    "galleryLabel": "Večeri u Tišini",
+    "gallery": {
+      "candles": "Svijeće palimo u pola sedam",
+      "window": "Popodnevno svjetlo na stolu uz prozor",
+      "wine": "Plavac mali s Pelješca",
+      "linen": "Lan, glačan svako jutro",
+      "dessert": "Panna cotta sa šumskim voćem s Medvednice",
+      "garden": "Rajčice iz doline Neretve"
+    },
+    "visitLabel": "Gdje smo",
+    "visitTitle": "U Gornjem gradu, između Kamenitih vrata i Markova trga.",
+    "visitCta": "Upute i radno vrijeme",
+    "bookLabel": "Rezervacije",
+    "bookTitle": "Rezervirajte stol",
+    "bookBody": "Pošaljite nam upit i osobno ćemo ga potvrditi, obično u roku od nekoliko sati."
+  },
+  "Story": {
+    "eyebrow": "Naša priča",
+    "title": "Restoran nazvan po onome što najviše cijeni.",
+    "lede": "Tišina je počela jednostavnom idejom: Hrvatska nije jedna kuhinja nego nekoliko njih, i svaka zaslužuje da je kuhamo sa strpljenjem kraja iz kojeg dolazi.",
+    "chapter1Title": "Regiju po regiju",
+    "chapter1Body": "Istra nam daje tartufe, maslinovo ulje i malvaziju. Dalmacija spora pirjanja i more. Kvarner škampe dovoljno slatke da se jedu sirovi. Zagorje i Slavonija vrhnje, sir, brašno i svinjetinu. Jelovnik se kreće između njih sa sezonama, a degustacijski meni u jednoj večeri prolazi kroz pet regija.",
+    "chapter2Title": "Ljudi koji nas opskrbljuju",
+    "chapter2Body": "Kupujemo od ribara na Visu i Ugljanu, sirara na Pagu, obitelji tartufara u dolini Mirne i povrtlara udaljenih manje od sat vremena od Zagreba. Kad nešto nije dovoljno dobro, nije na jelovniku.",
+    "chapter3Title": "Tihi dio",
+    "chapter3Body": "Dvadeset i osam mjesta znači da nitko ne žuri. Jela stižu kad ste spremni za njih. Nema druge smjene — stol je vaš cijelu večer.",
+    "quote": "Dobra kuhinja traži vremena. Dobro društvo također. Trudimo se dati oboje.",
+    "quoteBy": "Kuhinja Tišine",
+    "ctaMenu": "Pročitajte jelovnik",
+    "ctaBook": "Rezervirajte stol",
+    "imageAlt1": "Burrata s domaćim rajčicama i bosiljkom na tanjuru pokraj prozora",
+    "imageAlt2": "Panna cotta sa šumskim voćem u blago osvijetljenoj blagovaonici"
+  },
+  "Menu": {
+    "eyebrow": "Jelovnik",
+    "title": "Jelovnik",
+    "lede": "Pišemo ga svako jutro prema onome što stigne s obale i s farmi. Cijene u {currency}, usluga uključena.",
+    "jumpTo": "Idi na",
+    "signature": "Potpis kuće",
+    "seasonal": "Sezonsko",
+    "unavailable": "Danas rasprodano",
+    "marketPrice": "Prema dnevnoj cijeni",
+    "allergensLabel": "Sadrži",
+    "dietaryLabel": "Prikladno za",
+    "legendTitle": "Alergeni i prehrambene potrebe",
+    "legendBody": "Alergeni su navedeni prema Uredbi (EU) 1169/2011. U kuhinji radimo sa svih četrnaest pa ne možemo isključiti tragove. Recite konobaru za svaku alergiju ili netoleranciju.",
+    "empty": "Jelovnik se upravo mijenja. Nazovite nas za današnja jela.",
+    "ctaTitle": "Ogladnjeli ste?",
+    "ctaBook": "Rezervirajte stol",
+    "allergens": {
+      "gluten": "Gluten",
+      "crustaceans": "Rakovi",
+      "eggs": "Jaja",
+      "fish": "Riba",
+      "peanuts": "Kikiriki",
+      "soy": "Soja",
+      "milk": "Mlijeko",
+      "nuts": "Orašasto voće",
+      "celery": "Celer",
+      "mustard": "Gorušica",
+      "sesame": "Sezam",
+      "sulphites": "Sulfiti",
+      "lupin": "Lupina",
+      "molluscs": "Mekušci"
+    },
+    "dietary": {
+      "vegetarian": "Vegetarijansko",
+      "vegan": "Vegansko",
+      "gluten_free": "Bez glutena",
+      "dairy_free": "Bez mliječnih proizvoda",
+      "pescatarian": "Peskatarijansko"
+    }
+  },
+  "Hours": {
+    "title": "Radno vrijeme",
+    "closed": "Zatvoreno",
+    "today": "Danas",
+    "special": "Posebni datumi",
+    "specialClosed": "Zatvoreno",
+    "timezoneNote": "Sva vremena su po lokalnom vremenu, {city}.",
+    "services": {
+      "breakfast": "Doručak",
+      "lunch": "Ručak",
+      "dinner": "Večera",
+      "all_day": "Cijeli dan",
+      "bar": "Bar"
+    }
+  },
+  "Visit": {
+    "eyebrow": "Posjet",
+    "title": "Opatička 14, u Gornjem gradu.",
+    "lede": "Kratak uspon od Trga bana Jelačića ili dvije minute od gornje postaje uspinjače.",
+    "addressTitle": "Adresa",
+    "directions": "Upute za dolazak",
+    "openInMaps": "Otvori u kartama",
+    "contactTitle": "Kontakt",
+    "gettingHereTitle": "Kako do nas",
+    "gettingHere": "Gornji grad je uglavnom pješačka zona. Pješice se popnite Radićevom kroz Kamenita vrata ili se uspinjačom iz Tomićeve popnite do Strossmayerova šetališta. Automobilom, najbliža javna garaža je Tuškanac, deset minuta hoda. Taksi može stati na uglu Opatičke i Mletačke.",
+    "faqTitle": "Često postavljana pitanja",
+    "faq": [
+      {
+        "q": "Primate li goste bez rezervacije?",
+        "a": "Da, kad imamo mjesta. Četiri mjesta za šankom čuvamo za goste bez rezervacije. Petkom i subotom navečer preporučujemo rezervaciju."
+      },
+      {
+        "q": "Postoji li pravilo odijevanja?",
+        "a": "Ne. Dođite kako vam je ugodno."
+      },
+      {
+        "q": "Možete li prilagoditi jela alergijama i prehrambenim potrebama?",
+        "a": "Da. Jelovnik za svako jelo navodi svih četrnaest EU alergena i označava vegetarijanska, veganska i bezglutenska jela. Spomenite svoje potrebe pri rezervaciji i kuhinja će se pripremiti."
+      },
+      {
+        "q": "Kako rezervirati za više od osam osoba?",
+        "a": "Pišite nam putem stranice Kontakt ili nas nazovite. Cijeli prostor može se rezervirati za do dvadeset i osam gostiju."
+      },
+      {
+        "q": "Je li restoran pristupačan?",
+        "a": "Blagovaonica i toalet su u prizemlju. Na ulazu je jedna niska stepenica, a imamo i prijenosnu rampu — javite nam i bit će spremna."
+      },
+      {
+        "q": "Kako mogu platiti?",
+        "a": "Primamo sve veće kartice i gotovinu u eurima."
+      }
+    ]
+  },
+  "Booking": {
+    "eyebrow": "Rezervacije",
+    "title": "Rezervirajte stol",
+    "lede": "Odaberite datum i vrijeme i recite nam ponešto o svojoj večeri. Ovo je upit: svaku rezervaciju osobno potvrđujemo, obično u roku od nekoliko sati.",
+    "sideTitle": "Dobro je znati",
+    "sideItems": [
+      "Stol čuvamo petnaest minuta.",
+      "Za više od {max} gostiju, molimo pišite nam.",
+      "Ručak i večera od utorka do subote, ručak nedjeljom."
+    ],
+    "sideCall": "Radije biste nazvali?",
+    "stepWhen": "Kada",
+    "stepWho": "Tko",
+    "date": "Datum",
+    "time": "Vrijeme",
+    "guests": "Broj gostiju",
+    "guestsCount": "{count, plural, one {# gost} few {# gosta} other {# gostiju}}",
+    "selectDateFirst": "Odaberite datum za prikaz slobodnih termina.",
+    "noTimes": "Taj dan ne radimo ili je prošao zadnji termin. Molimo odaberite drugi datum.",
+    "closedDay": "Zatvoreno",
+    "name": "Ime i prezime",
+    "email": "E-pošta",
+    "phone": "Telefon",
+    "phoneHint": "S pozivnim brojem, npr. +385 91 234 5678",
+    "occasion": "Prigoda",
+    "occasionNone": "Bez posebne prigode",
+    "occasions": {
+      "birthday": "Rođendan",
+      "anniversary": "Godišnjica",
+      "business": "Poslovna večera",
+      "celebration": "Proslava",
+      "other": "Nešto drugo"
+    },
+    "seating": "Željeno mjesto",
+    "seatings": {
+      "no_preference": "Svejedno",
+      "dining_room": "Blagovaonica",
+      "chefs_counter": "Šank uz kuhinju",
+      "terrace": "Terasa (u sezoni)"
+    },
+    "message": "Trebamo li nešto znati?",
+    "messageHint": "Alergije, dječja stolica, iznenađenje…",
+    "consent": "Slažem se da {name} koristi ove podatke za obradu mog upita, kako je opisano u <link>obavijesti o privatnosti</link>.",
+    "submit": "Pošalji upit",
+    "submitting": "Šaljemo…",
+    "required": "Obavezno",
+    "optional": "Neobavezno",
+    "successTitle": "Hvala — vaš upit je kod nas.",
+    "successBody": "Zaprimili smo vaš upit za {guests}, {date} u {time}. Restoran će uskoro potvrditi rezervaciju e-poštom ili telefonom.",
+    "successReference": "Broj upita",
+    "successNote": "Ništa nije potvrđeno dok se ne javimo. Ako vam se planovi promijene, samo odgovorite na našu poruku.",
+    "successAgain": "Pošalji novi upit",
+    "errors": {
+      "invalid_name": "Upišite svoje ime.",
+      "invalid_email": "Upišite ispravnu adresu e-pošte.",
+      "invalid_phone": "Upišite broj telefona s pozivnim brojem na kojem smo vas mogli dobiti.",
+      "invalid_party_size": "Online upiti su za 1 do {max} gostiju. Za veće grupe pišite nam.",
+      "invalid_date": "Odaberite datum.",
+      "invalid_time": "Odaberite vrijeme.",
+      "invalid_message": "Napomena može imati najviše 1000 znakova.",
+      "consent": "Potvrdite da se slažete s korištenjem vaših podataka.",
+      "closed": "U to vrijeme ne primamo rezervacije. Odaberite drugi termin.",
+      "too_soon": "Taj termin je preblizu za online upit — molimo nazovite nas.",
+      "too_far": "Upite primamo do {days} dana unaprijed.",
+      "booking_disabled": "Online rezervacije su trenutno zaustavljene. Molimo nazovite nas.",
+      "rate_limited": "Upravo smo primili nekoliko vaših upita. Pričekajte nekoliko minuta.",
+      "generic": "Nešto je pošlo po zlu i upit nije poslan. Pokušajte ponovno ili nas nazovite na {phone}.",
+      "summary": "Provjerite označena polja."
+    }
+  },
+  "Contact": {
+    "eyebrow": "Kontakt",
+    "title": "Pišite nam",
+    "lede": "Privatne večere, događanja, mediji ili pitanje o jelovniku. Na svaku poruku odgovaramo unutar jednog radnog dana.",
+    "subject": "Tema",
+    "subjects": {
+      "general": "Opće pitanje",
+      "private_dining": "Privatna večera",
+      "events": "Događanja",
+      "press": "Mediji",
+      "other": "Nešto drugo"
+    },
+    "name": "Ime i prezime",
+    "email": "E-pošta",
+    "phone": "Telefon",
+    "message": "Poruka",
+    "submit": "Pošalji poruku",
+    "submitting": "Šaljemo…",
+    "successTitle": "Hvala. Vaša poruka je stigla.",
+    "successBody": "Odgovorit ćemo na {email} unutar jednog radnog dana.",
+    "successAgain": "Pošalji novu poruku",
+    "direct": "Ili nam se javite izravno",
+    "errors": {
+      "invalid_name": "Upišite svoje ime.",
+      "invalid_email": "Upišite ispravnu adresu e-pošte.",
+      "invalid_phone": "Provjerite broj telefona.",
+      "invalid_message": "Napišite barem jednu rečenicu (10–4000 znakova).",
+      "consent": "Potvrdite da se slažete s korištenjem vaših podataka.",
+      "rate_limited": "Upravo smo primili nekoliko vaših poruka. Pričekajte nekoliko minuta.",
+      "generic": "Nešto je pošlo po zlu i poruka nije poslana. Pokušajte ponovno ili pišite na {email}.",
+      "summary": "Provjerite označena polja."
+    }
+  },
+  "Footer": {
+    "tagline": "Hrvatska regionalna kuhinja u zagrebačkom Gornjem gradu.",
+    "visit": "Posjet",
+    "hours": "Radno vrijeme",
+    "follow": "Pratite nas",
+    "explore": "Istražite",
+    "privacy": "Privatnost",
+    "rights": "© {year} {name}. Sva prava pridržana.",
+    "madeBy": "Stranicu izradio Kyro Studio"
+  },
+  "Privacy": {
+    "eyebrow": "Privatnost",
+    "title": "Vaši podaci, s pažnjom.",
+    "updated": "Zadnja izmjena {date}",
+    "sections": [
+      {
+        "title": "Što prikupljamo",
+        "body": "Kad zatražite stol ili nam pišete, primamo vaše ime, adresu e-pošte, broj telefona (ako ga navedete) i sve što napišete u poruci. Na ovoj stranici ne koristimo kolačiće za praćenje ni analitiku trećih strana."
+      },
+      {
+        "title": "Zašto ih koristimo",
+        "body": "Samo kako bismo odgovorili na vaš upit ili potvrdili, promijenili ili otkazali rezervaciju. Pravna osnova je poduzimanje radnji na vaš zahtjev prije sklapanja ugovora (čl. 6. st. 1. t. (b) GDPR-a)."
+      },
+      {
+        "title": "Koliko dugo ih čuvamo",
+        "body": "Upite za rezervaciju čuvamo dvanaest mjeseci, poruke dvadeset i četiri mjeseca, nakon čega ih brišemo."
+      },
+      {
+        "title": "Tko ih obrađuje",
+        "body": "Naša baza podataka (Supabase, smještena u EU) i naš pružatelj usluge e-pošte djeluju kao izvršitelji obrade u naše ime. Vaše podatke nikad ne prodajemo niti dijelimo u marketinške svrhe."
+      },
+      {
+        "title": "Vaša prava",
+        "body": "Možete zatražiti uvid, ispravak ili brisanje podataka, ili prigovoriti njihovoj upotrebi, pišući na {email}. Prigovor možete podnijeti i Agenciji za zaštitu osobnih podataka (AZOP)."
+      }
+    ]
+  },
+  "NotFound": {
+    "title": "Ove stranice nema na jelovniku.",
+    "body": "Možda je premještena ili je poveznica pogrešno upisana.",
+    "cta": "Natrag na početnu"
+  },
+  "Error": {
+    "title": "Nešto je pošlo po zlu u kuhinji.",
+    "body": "Pokušajte ponovno za trenutak. Ako se ponavlja, nazovite nas ili pišite — vaš stol nam je važniji od ove stranice.",
+    "retry": "Pokušaj ponovno"
+  },
+  "Common": {
+    "loading": "Učitavanje…",
+    "call": "Nazovite",
+    "email": "E-pošta",
+    "instagram": "Instagram"
   }
 }
