@@ -35,12 +35,34 @@ async function candidates(q) {
   } catch (e) { console.log('unsplash error', e.message); }
   if (found.length < 6) {
     try {
-      const params = new URLSearchParams({ q: q.query, license: req.licenses ?? 'cc0,pdm', category: 'photograph', page_size: '30', ...(q.orientation === 'landscape' ? { aspect_ratio: 'wide' } : {}) });
+      const params = new URLSearchParams({ q: q.query, license: req.licenses ?? 'cc0,pdm', category: 'photograph', page_size: '20', ...(q.orientation === 'landscape' ? { aspect_ratio: 'wide' } : {}) });
       const res = await fetch(`https://api.openverse.org/v1/images/?${params}`, { headers: HEADERS });
       console.log('openverse', q.query, res.status);
       if (res.ok) for (const r of (await res.json()).results) found.push({ src: 'openverse', id: r.id, url: r.url, title: r.title, by: r.creator, license: r.license, w: r.width, h: r.height });
     } catch (e) { console.log('openverse error', e.message); }
   }
+  if (req.commons) {
+    try {
+      // Wikimedia Commons: free-licensed files; licence + author kept for credits.
+      const params = new URLSearchParams({
+        action: 'query', format: 'json', generator: 'search', gsrnamespace: '6', gsrlimit: '15',
+        gsrsearch: `${q.commons ?? q.query} filetype:bitmap`, prop: 'imageinfo', iiprop: 'url|extmetadata|size', iiurlwidth: '1600',
+      });
+      const res = await fetch(`https://commons.wikimedia.org/w/api.php?${params}`, { headers: { 'user-agent': 'TisinaStarterPhotoFetch/1.0 (https://github.com/innovatewithkishlay/starter)' } });
+      console.log('commons', q.query, res.status);
+      if (res.ok) {
+        const pages = Object.values((await res.json()).query?.pages ?? {}).sort((a, b) => a.index - b.index);
+        for (const pg of pages) {
+          const ii = pg.imageinfo?.[0];
+          if (!ii || ii.width < 900) continue;
+          const meta = ii.extmetadata ?? {};
+          const strip = (v) => String(v?.value ?? '').replace(/<[^>]+>/g, '').trim();
+          found.push({ src: 'commons', id: pg.title, url: ii.thumburl ?? ii.url, page: ii.descriptionurl, license: strip(meta.LicenseShortName), by: strip(meta.Artist).slice(0, 80), w: ii.width, h: ii.height });
+        }
+      }
+    } catch (e) { console.log('commons error', e.message); }
+  }
+  await new Promise((r) => setTimeout(r, 1500));
   return found;
 }
 

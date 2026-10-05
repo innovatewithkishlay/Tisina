@@ -1,31 +1,91 @@
 {
-  "mode": "search",
-  "perQuery": 9,
-  "skipUnsplash": true,
-  "licenses": "cc0,pdm,by,by-sa",
-  "queries": {
-    "pag-cheese": { "query": "sheep cheese slices honey" },
-    "strukli": { "query": "baked strukli" },
-    "consomme": { "query": "consomme soup bowl" },
-    "scampi-pasta": { "query": "scampi pasta" },
-    "truffle-pizza": { "query": "truffle pizza" },
-    "prosciutto-pizza": { "query": "prosciutto arugula pizza" },
-    "burrata-pizza": { "query": "pizza burrata basil" },
-    "sea-bass": { "query": "sea bass fillet plate" },
-    "whole-fish": { "query": "grilled whole fish lemon" },
-    "turkey": { "query": "roast turkey plate" },
-    "lamb": { "query": "roast lamb plate" },
-    "beetroot": { "query": "beetroot goat cheese salad" },
-    "chard": { "query": "swiss chard potatoes" },
-    "tasting": { "query": "fine dining tasting menu plate" },
-    "wine-glasses": { "query": "wine glasses restaurant table" },
-    "white-wine": { "query": "glass of white wine" },
-    "red-wine-bottle": { "query": "red wine bottle glass" },
-    "vineyard": { "query": "vineyard croatia" },
-    "dessert-wine": { "query": "dessert wine glass" },
-    "kneading": { "query": "hands kneading dough" },
-    "pizza-oven": { "query": "wood fired pizza oven fire" },
-    "chef-kitchen": { "query": "chef cooking restaurant kitchen" },
-    "pizza-peel": { "query": "pizza peel oven" }
+ "mode": "search",
+ "perQuery": 12,
+ "skipUnsplash": true,
+ "licenses": "cc0,pdm,by,by-sa",
+ "queries": {
+  "pag-cheese": {
+   "query": "sheep cheese slices honey",
+   "commons": "Pa\u0161ki sir"
+  },
+  "strukli": {
+   "query": "baked strukli",
+   "commons": "\u0160trukli"
+  },
+  "consomme": {
+   "query": "consomme soup bowl"
+  },
+  "scampi-pasta": {
+   "query": "scampi pasta",
+   "commons": "scampi buzara"
+  },
+  "truffle-pizza": {
+   "query": "truffle pizza"
+  },
+  "prosciutto-pizza": {
+   "query": "prosciutto arugula pizza"
+  },
+  "burrata-pizza": {
+   "query": "pizza burrata basil"
+  },
+  "sea-bass": {
+   "query": "sea bass fillet plate",
+   "commons": "brancin"
+  },
+  "whole-fish": {
+   "query": "grilled whole fish lemon",
+   "commons": "grilled fish Dalmatia"
+  },
+  "turkey": {
+   "query": "roast turkey plate",
+   "commons": "Mlinci purica"
+  },
+  "lamb": {
+   "query": "roast lamb plate",
+   "commons": "lamb peka"
+  },
+  "beetroot": {
+   "query": "beetroot goat cheese salad"
+  },
+  "chard": {
+   "query": "swiss chard potatoes",
+   "commons": "blitva krumpir"
+  },
+  "tasting": {
+   "query": "fine dining tasting menu plate"
+  },
+  "wine-glasses": {
+   "query": "wine glasses restaurant table"
+  },
+  "white-wine": {
+   "query": "glass of white wine",
+   "commons": "Malvazija wine"
+  },
+  "red-wine-bottle": {
+   "query": "red wine bottle glass",
+   "commons": "Plavac mali wine"
+  },
+  "vineyard": {
+   "query": "vineyard croatia",
+   "commons": "Pelje\u0161ac vineyard"
+  },
+  "dessert-wine": {
+   "query": "dessert wine glass",
+   "commons": "pro\u0161ek"
+  },
+  "kneading": {
+   "query": "hands kneading dough"
+  },
+  "pizza-oven": {
+   "query": "wood fired pizza oven fire"
+  },
+  "chef-kitchen": {
+   "query": "chef cooking restaurant kitchen"
+  },
+  "pizza-peel": {
+   "query": "pizza peel oven"
   }
+ },
+ "commons": true,
+ "run": 2
 }
