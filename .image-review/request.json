@@ -1,91 +1,140 @@
 {
- "mode": "search",
- "perQuery": 12,
- "skipUnsplash": true,
- "licenses": "cc0,pdm,by,by-sa",
- "queries": {
-  "pag-cheese": {
-   "query": "sheep cheese slices honey",
-   "commons": "Pa\u0161ki sir"
+ "mode": "fetch",
+ "photos": [
+  {
+   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/20140507_Pa%C5%A1ki_sir_cheese_from_Pag.jpg/1920px-20140507_Pa%C5%A1ki_sir_cheese_from_Pag.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "file": "public/images/photo/pag-cheese.jpg",
+   "w": 1800
   },
-  "strukli": {
-   "query": "baked strukli",
-   "commons": "\u0160trukli"
+  {
+   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Strukli.jpg/1920px-Strukli.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "file": "public/images/photo/strukli.jpg",
+   "w": 1800
   },
-  "consomme": {
-   "query": "consomme soup bowl"
+  {
+   "url": "https://live.staticflickr.com/65535/51866783720_d0d50b2421_b.jpg",
+   "file": "public/images/photo/scampi-pasta.jpg",
+   "w": 1800
   },
-  "scampi-pasta": {
-   "query": "scampi pasta",
-   "commons": "scampi buzara"
+  {
+   "url": "https://live.staticflickr.com/65535/52933302891_0910a1d66d_b.jpg",
+   "file": "public/images/photo/truffle-pizza.jpg",
+   "w": 1800
   },
-  "truffle-pizza": {
-   "query": "truffle pizza"
+  {
+   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Rossa_pizza_23_January_2025_Trattoria_%26_Dolci_Solaire_Resort_NorthC.jpg/1920px-Rossa_pizza_23_January_2025_Trattoria_%26_Dolci_Solaire_Resort_NorthC.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "file": "public/images/photo/prsut-pizza.jpg",
+   "w": 1800
   },
-  "prosciutto-pizza": {
-   "query": "prosciutto arugula pizza"
+  {
+   "url": "https://live.staticflickr.com/65535/54222843270_cdca386207_b.jpg",
+   "file": "public/images/photo/burrata-pizza.jpg",
+   "w": 1800
   },
-  "burrata-pizza": {
-   "query": "pizza burrata basil"
+  {
+   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Bar_commun_%28Dicentrarchus_labrax%29_%28Ifremer_00572-68449_-_26364%29.jpg/1920px-Bar_commun_%28Dicentrarchus_labrax%29_%28Ifremer_00572-68449_-_26364%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "file": "public/images/photo/sea-bass.jpg",
+   "w": 1800
   },
-  "sea-bass": {
-   "query": "sea bass fillet plate",
-   "commons": "brancin"
+  {
+   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/RoastTurkey.jpg/1920px-RoastTurkey.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "file": "public/images/photo/turkey.jpg",
+   "w": 1800
   },
-  "whole-fish": {
-   "query": "grilled whole fish lemon",
-   "commons": "grilled fish Dalmatia"
+  {
+   "url": "https://live.staticflickr.com/65535/54471722837_e678a28039_b.jpg",
+   "file": "public/images/photo/lamb.jpg",
+   "w": 1800
   },
-  "turkey": {
-   "query": "roast turkey plate",
-   "commons": "Mlinci purica"
+  {
+   "url": "https://live.staticflickr.com/65535/53648474565_cc354d0e25_b.jpg",
+   "file": "public/images/photo/lamb-roast.jpg",
+   "w": 1800
   },
-  "lamb": {
-   "query": "roast lamb plate",
-   "commons": "lamb peka"
+  {
+   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Beetroot%2C_spinach%2C_rocket%2C_goat_cheese_and_pumpkin_seeds_salad.jpg/1920px-Beetroot%2C_spinach%2C_rocket%2C_goat_cheese_and_pumpkin_seeds_salad.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "file": "public/images/photo/beetroot.jpg",
+   "w": 1800
   },
-  "beetroot": {
-   "query": "beetroot goat cheese salad"
+  {
+   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/Rote-Bete-Carpaccio_Berlin.jpg/1920px-Rote-Bete-Carpaccio_Berlin.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "file": "public/images/photo/chard.jpg",
+   "w": 1800
   },
-  "chard": {
-   "query": "swiss chard potatoes",
-   "commons": "blitva krumpir"
+  {
+   "url": "https://cdn.stocksnap.io/img-thumbs/960w/J2W0D3CO2L.jpg",
+   "file": "public/images/photo/tasting.jpg",
+   "w": 1800
   },
-  "tasting": {
-   "query": "fine dining tasting menu plate"
+  {
+   "url": "https://cdn.stocksnap.io/img-thumbs/960w/CP2ANG4WUS.jpg",
+   "file": "public/images/photo/grasevina.jpg",
+   "w": 1800
   },
-  "wine-glasses": {
-   "query": "wine glasses restaurant table"
+  {
+   "url": "https://live.staticflickr.com/3861/14567866505_8b60b0476b_b.jpg",
+   "file": "public/images/photo/malvazija.jpg",
+   "w": 1800
   },
-  "white-wine": {
-   "query": "glass of white wine",
-   "commons": "Malvazija wine"
+  {
+   "url": "https://live.staticflickr.com/65535/52332281206_28c9b602d9_b.jpg",
+   "file": "public/images/photo/posip.jpg",
+   "w": 1800
   },
-  "red-wine-bottle": {
-   "query": "red wine bottle glass",
-   "commons": "Plavac mali wine"
+  {
+   "url": "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvaXMxMTgzOC1pbWFnZS1rd3lzZ2JhaS5qcGc.jpg",
+   "file": "public/images/photo/teran.jpg",
+   "w": 1800
   },
-  "vineyard": {
-   "query": "vineyard croatia",
-   "commons": "Pelje\u0161ac vineyard"
+  {
+   "url": "https://cdn.stocksnap.io/img-thumbs/960w/MHLH3PH3MV.jpg",
+   "file": "public/images/photo/plavac.jpg",
+   "w": 1800
   },
-  "dessert-wine": {
-   "query": "dessert wine glass",
-   "commons": "pro\u0161ek"
+  {
+   "url": "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA0L3Vwd2s2MTczMjY5NS13aWtpbWVkaWEtaW1hZ2Uta293cjEzYjMuanBn.jpg",
+   "file": "public/images/photo/prosek.jpg",
+   "w": 1800
   },
-  "kneading": {
-   "query": "hands kneading dough"
+  {
+   "url": "https://cdn.stocksnap.io/img-thumbs/960w/UYUX6W3QFT.jpg",
+   "file": "public/images/photo/wine-pairing.jpg",
+   "w": 1800
   },
-  "pizza-oven": {
-   "query": "wood fired pizza oven fire"
+  {
+   "url": "https://upload.wikimedia.org/wikipedia/commons/5/53/Peljesac_south_coast.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+   "file": "public/images/photo/vineyard.jpg",
+   "w": 1800
   },
-  "chef-kitchen": {
-   "query": "chef cooking restaurant kitchen"
+  {
+   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Wood_fire_brick_oven_for_baking_pizza.jpg/1920px-Wood_fire_brick_oven_for_baking_pizza.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "file": "public/images/photo/kitchen-oven.jpg",
+   "w": 1800
   },
-  "pizza-peel": {
-   "query": "pizza peel oven"
+  {
+   "url": "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4OTEyNDU2LWltYWdlLWt3dnV1NWJjLmpwZw.jpg",
+   "file": "public/images/photo/kitchen-dough.jpg",
+   "w": 1800
+  },
+  {
+   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/Pizza_in_Naples.jpg/1920px-Pizza_in_Naples.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "file": "public/images/photo/kitchen-peel.jpg",
+   "w": 1800
+  },
+  {
+   "url": "https://cdn.stocksnap.io/img-thumbs/960w/0HCMIT272C.jpg",
+   "file": "public/images/photo/kitchen-pass.jpg",
+   "w": 1800
+  },
+  {
+   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Wood_Fired_Oven.jpg/1920px-Wood_Fired_Oven.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "file": "public/images/photo/kitchen-fire.jpg",
+   "w": 1800
+  },
+  {
+   "url": "https://cdn.stocksnap.io/img-thumbs/960w/J2W0D3CO2L.jpg",
+   "file": "public/images/photo/consomme.jpg",
+   "w": 1800
   }
- },
- "commons": true,
- "run": 2
+ ]
 }
