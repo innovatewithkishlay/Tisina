@@ -1,0 +1,13 @@
+{
+  "Index": {
+    "title": "Welcome to Maison Example",
+    "description": "Modern European dining in the heart of Zagreb."
+  },
+  "Navigation": {
+    "home": "Home",
+    "menu": "Menu",
+    "about": "About",
+    "location": "Location",
+    "book": "Book a Table"
+  }
+}

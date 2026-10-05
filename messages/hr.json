@@ -1,0 +1,13 @@
+{
+  "Index": {
+    "title": "Dobrodošli u Maison Example",
+    "description": "Moderno europsko blagovanje u srcu Zagreba."
+  },
+  "Navigation": {
+    "home": "Početna",
+    "menu": "Jelovnik",
+    "about": "O nama",
+    "location": "Lokacija",
+    "book": "Rezerviraj Stol"
+  }
+}
