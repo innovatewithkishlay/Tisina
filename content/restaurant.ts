@@ -153,6 +153,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'pag-cheese-sage-honey',
           price: 9,
+          image: '/images/photo/pag-cheese.jpg',
           allergens: ['milk', 'nuts'],
           dietary: ['vegetarian', 'gluten_free'],
           i18n: {
@@ -218,6 +219,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'baked-strukli',
           price: 12,
+          image: '/images/photo/strukli.jpg',
           allergens: ['gluten', 'milk', 'eggs'],
           dietary: ['vegetarian'],
           i18n: {
@@ -230,6 +232,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'porcini-consomme',
           price: 11,
+          image: '/images/photo/chef-sauce.jpg',
           seasonal: true,
           allergens: ['celery'],
           dietary: ['vegan', 'gluten_free', 'dairy_free'],
@@ -268,6 +271,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'pljukanci-kvarner-scampi',
           price: 29,
+          image: '/images/photo/scampi-pasta.jpg',
           allergens: ['gluten', 'crustaceans', 'sulphites'],
           dietary: ['pescatarian', 'dairy_free'],
           i18n: {
@@ -305,7 +309,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'white-istrian-truffle',
           price: 22,
-          image: '/images/kitchen/hands.jpg',
+          image: '/images/photo/truffle-pizza.jpg',
           featured: true,
           allergens: ['gluten', 'milk'],
           dietary: ['vegetarian'],
@@ -319,6 +323,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'prsut-rocket',
           price: 19,
+          image: '/images/photo/prsut-pizza.jpg',
           allergens: ['gluten', 'milk'],
           i18n: {
             hr: { name: 'Pršut i rikola', description: 'Rajčica, fior di latte, dalmatinski pršut, rikola.' },
@@ -330,6 +335,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'burrata-basil',
           price: 18,
+          image: '/images/photo/burrata-pizza.jpg',
           allergens: ['gluten', 'milk'],
           dietary: ['vegetarian'],
           i18n: {
@@ -353,6 +359,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'sea-bass-chard',
           price: 32,
+          image: '/images/photo/sea-bass.jpg',
           allergens: ['fish'],
           dietary: ['pescatarian', 'gluten_free', 'dairy_free'],
           i18n: {
@@ -379,6 +386,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'fish-of-the-day',
           price: null,
+          image: '/images/photo/langoustines.jpg',
           allergens: ['fish'],
           dietary: ['pescatarian', 'gluten_free'],
           i18n: {
@@ -416,6 +424,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'turkey-mlinci',
           price: 26,
+          image: '/images/photo/turkey.jpg',
           allergens: ['gluten', 'eggs'],
           dietary: ['dairy_free'],
           i18n: {
@@ -428,6 +437,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'lika-lamb',
           price: 34,
+          image: '/images/photo/lamb.jpg',
           seasonal: true,
           allergens: ['sulphites'],
           dietary: ['gluten_free', 'dairy_free'],
@@ -452,6 +462,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'roasted-beetroot-goat-cheese',
           price: 14,
+          image: '/images/photo/beetroot.jpg',
           allergens: ['milk', 'nuts'],
           dietary: ['vegetarian', 'gluten_free'],
           i18n: {
@@ -464,6 +475,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'chard-potato',
           price: 7,
+          image: '/images/photo/chard.jpg',
           allergens: [],
           dietary: ['vegan', 'gluten_free', 'dairy_free'],
           i18n: {
@@ -539,6 +551,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'six-courses',
           price: 85,
+          image: '/images/photo/tasting.jpg',
           i18n: {
             hr: { name: 'Šest sljedova', description: 'Put kroz pet regija, od Istre do Slavonije.' },
             en: { name: 'Six courses', description: 'A route through five regions, from Istria to Slavonia.' },
@@ -549,6 +562,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'wine-pairing',
           price: 55,
+          image: '/images/photo/wine-pairing.jpg',
           allergens: ['sulphites'],
           i18n: {
             hr: { name: 'Sljubljivanje vina', description: 'Šest vina malih hrvatskih vinara.' },
@@ -571,6 +585,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'grasevina',
           price: 7,
+          image: '/images/photo/grasevina.jpg',
           allergens: ['sulphites'],
           i18n: {
             hr: { name: 'Graševina', description: 'Kutjevo, Slavonija. Svježe, jabuka, badem.' },
@@ -582,6 +597,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'malvazija',
           price: 8,
+          image: '/images/photo/malvazija.jpg',
           allergens: ['sulphites'],
           i18n: {
             hr: { name: 'Malvazija istarska', description: 'Zapadna Istra. Slano, kruška, bijelo cvijeće.' },
@@ -593,6 +609,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'posip',
           price: 9,
+          image: '/images/photo/posip.jpg',
           allergens: ['sulphites'],
           i18n: {
             hr: { name: 'Pošip', description: 'Korčula. Puno, smilje, citrus.' },
@@ -604,6 +621,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'teran',
           price: 9,
+          image: '/images/photo/teran.jpg',
           allergens: ['sulphites'],
           i18n: {
             hr: { name: 'Teran', description: 'Središnja Istra. Kiselo voće, crvena zemlja.' },
@@ -615,6 +633,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'plavac-mali',
           price: 11,
+          image: '/images/photo/plavac.jpg',
           allergens: ['sulphites'],
           i18n: {
             hr: { name: 'Plavac mali', description: 'Pelješac. Suha šljiva, rogač, sunce.' },
@@ -626,6 +645,7 @@ export const restaurant: RestaurantSeed = {
         {
           slug: 'prosek',
           price: 8,
+          image: '/images/photo/prosek.jpg',
           allergens: ['sulphites'],
           i18n: {
             hr: { name: 'Prošek', description: 'Desertno vino od prosušenog grožđa. Dalmacija.' },

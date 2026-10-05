@@ -42,16 +42,14 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
   const { locale } = (await params) as { locale: Locale };
   setRequestLocale(locale);
 
-  const [t, tVisit, tMenu, r, hours, featured, menu] = await Promise.all([
+  const [t, tVisit, r, hours, featured, menu] = await Promise.all([
     getTranslations('Home'),
     getTranslations('Visit'),
-    getTranslations('Menu'),
-    getRestaurant(locale),
+        getRestaurant(locale),
     getHours(),
     getFeaturedDishes(locale),
     getMenu(locale),
   ]);
-  const dishCount = menu.reduce((n, c) => n + c.items.length, 0);
 
   const signature = featured.find((d) => d.slug === SIGNATURE_SLUG) ?? featured[0];
   const price = (p: number | null, currency: string) => (p === null ? '' : formatPrice(p, currency, locale));
@@ -59,7 +57,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
 
   return (
     <>
-      <JsonLd data={restaurantJsonLd(r, hours, locale, [images.kitchen.poster.src, images.signature.src, images.hero.src])} />
+      <JsonLd data={restaurantJsonLd(r, hours, locale, [images.signature.src, images.hero.src, images.room.src])} />
       <JsonLd data={websiteJsonLd(r, locale)} />
 
       <HeroVideo
@@ -123,7 +121,6 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         label={t('menuLabel')}
         title={t('menuTitle')}
         cta={t('menuCta')}
-        count={(dishCount === 1 ? tMenu('countOne') : tMenu('countOther')).replace('#', String(dishCount))}
         courses={menu.map((c) => ({ slug: c.slug, name: c.name }))}
       />
 

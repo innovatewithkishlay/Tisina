@@ -364,7 +364,7 @@
     "ctaBody": "Twenty-eight seats, one sitting, no hurry.",
     "localTime": "Now in {city}",
     "directions": "Directions",
-    "photoCredit": "Photography: Freepik, Openverse (CC0)"
+    "photoCredit": "Photo credits"
   },
   "Privacy": {
     "eyebrow": "Privacy",
@@ -391,7 +391,8 @@
         "title": "Your rights",
         "body": "You may ask to see, correct or delete your data, or object to its use, by writing to {email}. You may also complain to the Croatian Personal Data Protection Agency (AZOP)."
       }
-    ]
+    ],
+    "creditsTitle": "Photography credits"
   },
   "NotFound": {
     "title": "This page is not on the menu.",

@@ -7,13 +7,12 @@
  * (menu_items.image in Supabase / content/restaurant.ts).
  */
 export const images = {
-  /** Stills from the kitchen film (public/media), black and white. */
+  /** The kitchen, in photographs (the film itself is only used as video). */
   kitchen: {
-    poster: { src: '/images/kitchen/poster.jpg', width: 1920, height: 1080 },
-    chefs: { src: '/images/kitchen/chefs.jpg', width: 1920, height: 1080 },
-    dough: { src: '/images/kitchen/dough.jpg', width: 1920, height: 1080 },
-    fire: { src: '/images/kitchen/fire.jpg', width: 1920, height: 1080 },
-    hands: { src: '/images/kitchen/hands.jpg', width: 1920, height: 1080 },
+    chefs: { src: '/images/photo/kitchen-pass.jpg', width: 1800, height: 1200 },
+    dough: { src: '/images/photo/kitchen-dough.jpg', width: 1800, height: 1200 },
+    fire: { src: '/images/photo/kitchen-oven.jpg', width: 1800, height: 1200 },
+    hands: { src: '/images/photo/kitchen-peel.jpg', width: 1800, height: 1200 },
   },
   /** Licensed photography (see README → Photography credits). */
   hero: { src: '/images/photo/truffle-pasta.jpg', width: 2000, height: 1121 },
@@ -42,14 +41,14 @@ export const images = {
   /** Opening photograph for each menu course (by category slug). */
   courses: {
     'to-begin': '/images/photo/room-candles.jpg',
-    starters: '/images/photo/chef-plating.jpg',
-    pasta: '/images/kitchen/dough.jpg',
-    'from-the-oven': '/images/kitchen/fire.jpg',
+    starters: '/images/photo/private-room.jpg',
+    pasta: '/images/photo/kitchen-dough.jpg',
+    'from-the-oven': '/images/photo/kitchen-fire.jpg',
     'from-the-sea': '/images/photo/langoustines.jpg',
     'from-the-land': '/images/photo/beef-medallion.jpg',
-    garden: '/images/photo/chef-sauce.jpg',
+    garden: '/images/photo/vineyard.jpg',
     desserts: '/images/photo/room-evening.jpg',
-    tasting: '/images/photo/private-room.jpg',
+    tasting: '/images/photo/chef-plating.jpg',
     wine: '/images/photo/wine-decanter.jpg',
   } as Record<string, string>,
 } as const;

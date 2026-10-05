@@ -13,18 +13,19 @@
    ============================================================================= */
 
 :root {
-  /* Palette — chalk, carbon and Adriatic cobalt. Photography carries the warmth;
-     the interface stays cool and graphic. (Token names are kept from v1.) */
-  --brand-paper: #ecebe6;
-  --brand-paper-2: #dddbd3;
-  --brand-ink: #0e0e0d;
-  --brand-ink-2: #2e2e2b;
-  --brand-stone: #5d5c57;
-  --brand-ember: #2236e8;
-  --brand-ember-light: #93a0ff;
-  --brand-night: #0e0e0d;
-  --brand-night-2: #1a1a18;
-  --brand-bone: #ecebe6;
+  /* Palette — bottle green, porcelain, Plavac wine and old gold: the colours of a
+     Croatian wine label. Wine is the accent on light, gold on dark.
+     (Token names are kept from v1: "ember" = accent, "bone" = light text.) */
+  --brand-paper: #f2efe8;
+  --brand-paper-2: #e6e1d6;
+  --brand-ink: #14211b;
+  --brand-ink-2: #34413a;
+  --brand-stone: #5f6660;
+  --brand-ember: #8a1c2c;
+  --brand-ember-light: #d6b46e;
+  --brand-night: #0f1c16;
+  --brand-night-2: #182a21;
+  --brand-bone: #f0ebe0;
   --brand-moss: #3e5a3a;
   --brand-error: #9a2b1f;
   --brand-error-light: #f0a593;
@@ -34,7 +35,7 @@
   --fg: var(--brand-ink);
   --fg-2: var(--brand-ink-2);
   --muted: var(--brand-stone);
-  --line: rgb(14 14 13 / 0.14);
+  --line: rgb(20 33 27 / 0.15);
   --accent: var(--brand-ember);
   --hacek: var(--brand-ember);
   --on-accent: #ffffff;
@@ -62,9 +63,9 @@
   --bg: var(--brand-night);
   --bg-2: var(--brand-night-2);
   --fg: var(--brand-bone);
-  --fg-2: #cfcec7;
-  --muted: #9b9a93;
-  --line: rgb(236 235 230 / 0.14);
+  --fg-2: #d3d4cb;
+  --muted: #9aa49c;
+  --line: rgb(240 235 224 / 0.14);
   --accent: var(--brand-ember-light);
   --hacek: var(--brand-ember-light);
   --on-accent: var(--brand-night);
@@ -80,7 +81,7 @@
   --fg: var(--brand-ink);
   --fg-2: var(--brand-ink-2);
   --muted: var(--brand-stone);
-  --line: rgb(14 14 13 / 0.14);
+  --line: rgb(20 33 27 / 0.15);
   --accent: var(--brand-ember);
   --hacek: var(--brand-ember);
   --on-accent: #ffffff;
@@ -106,22 +107,22 @@
   --color-paper: var(--brand-paper);
   --color-bone: var(--brand-bone);
 
-  --font-display: var(--font-display-face), "Arial Narrow", Impact, sans-serif;
-  --font-serif: var(--font-serif-face), "Didot", "Bodoni 72", serif;
+  --font-display: var(--font-display-face), "Didot", "Bodoni 72", serif;
+  --font-serif: var(--font-display-face), "Didot", "Bodoni 72", serif;
   --font-sans: var(--font-sans-face), ui-sans-serif, system-ui, sans-serif;
 
-  --text-giant: clamp(5rem, 17vw, 20rem);
-  --text-giant--line-height: 0.84;
+  --text-giant: clamp(4rem, 13vw, 15rem);
+  --text-giant--line-height: 0.92;
   --text-display: clamp(3.25rem, 9vw, 10rem);
-  --text-display--line-height: 0.88;
+  --text-display--line-height: 0.95;
   --text-h1: clamp(2.75rem, 6.6vw, 7rem);
-  --text-h1--line-height: 0.9;
+  --text-h1--line-height: 1;
   --text-h2: clamp(2.25rem, 4.8vw, 4.75rem);
-  --text-h2--line-height: 0.92;
+  --text-h2--line-height: 1.02;
   --text-h3: clamp(1.625rem, 2.6vw, 2.5rem);
-  --text-h3--line-height: 1;
+  --text-h3--line-height: 1.1;
   --text-statement: clamp(2rem, 4.4vw, 4.5rem);
-  --text-statement--line-height: 1.02;
+  --text-statement--line-height: 1.12;
   --text-lede: clamp(1.1875rem, 1.6vw, 1.5rem);
   --text-lede--line-height: 1.5;
   --text-body: 1.0625rem;
@@ -422,14 +423,6 @@ html.lenis, html.lenis body { height: auto; }
 @keyframes lift { from { opacity: 0.15; transform: translate3d(0, 22px, 0); } }
 @media (prefers-reduced-motion: reduce) { .lift { animation: none; } }
 
-/* Display: condensed caps. Any italic inside (or on) a display element switches
-   to the Bodoni accent — that contrast is the typographic voice. Unlayered so it
-   wins over Tailwind's font-family utilities. */
-.font-display { text-transform: uppercase; letter-spacing: 0.004em; font-weight: 400; }
-.font-display.italic, .font-display .italic, .font-display em, .font-display i, .font-serif {
-  font-family: var(--font-serif);
-  text-transform: none;
-  letter-spacing: -0.02em;
-  font-weight: 400;
-}
-.font-display.italic, .font-display .italic, .font-display em, .font-display i { font-style: italic; }
+/* Display: Bodoni Moda, optical size tracking the font size so hairlines stay
+   fine on headlines. Italic is the accent voice. */
+.font-display, .font-serif { font-family: var(--font-display); font-optical-sizing: auto; font-weight: 400; letter-spacing: -0.012em; }

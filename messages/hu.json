@@ -364,7 +364,7 @@
     "ctaBody": "Huszonnyolc hely, egy turnus, sietség nélkül.",
     "localTime": "Helyi idő · {city}",
     "directions": "Útvonal",
-    "photoCredit": "Fotók: Freepik, Openverse (CC0)"
+    "photoCredit": "Fotók forrásai"
   },
   "Privacy": {
     "eyebrow": "Adatvédelem",
@@ -391,7 +391,8 @@
         "title": "Az Ön jogai",
         "body": "Kérheti adatai megtekintését, helyesbítését vagy törlését, illetve tiltakozhat felhasználásuk ellen a(z) {email} címre írva. Panaszt tehet a horvát adatvédelmi hatóságnál (AZOP) is."
       }
-    ]
+    ],
+    "creditsTitle": "Fotók forrásai"
   },
   "NotFound": {
     "title": "Ez az oldal nincs az étlapon.",
