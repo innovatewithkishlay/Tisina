@@ -1,28 +1,275 @@
 {
-  "mode": "search", "run": 2,
-  "perQuery": 9,
-  "queries": {
-    "truffle-pasta": { "query": "truffle pasta" },
-    "beef-stew": { "query": "braised beef fine dining plate" },
-    "tuna-tartare": { "query": "tuna tartare" },
-    "burrata": { "query": "burrata tomatoes" },
-    "panna-cotta": { "query": "panna cotta" },
-    "oysters": { "query": "oysters on ice" },
-    "octopus": { "query": "grilled octopus" },
-    "sea-bass": { "query": "grilled fish plate fine dining" },
-    "lamb": { "query": "lamb chops plated" },
-    "bread": { "query": "sourdough bread butter" },
-    "gnocchi": { "query": "gnocchi" },
-    "scampi": { "query": "langoustine" },
-    "cheese": { "query": "cheese board honey" },
-    "prosciutto": { "query": "prosciutto" },
-    "beetroot": { "query": "beetroot salad" },
-    "cake": { "query": "cream cake slice" },
-    "wine": { "query": "red wine glass candlelight" },
-    "interior": { "query": "restaurant interior candlelight", "orientation": "landscape" },
-    "chef": { "query": "chef plating" },
-    "zagreb": { "query": "zagreb" },
-    "table": { "query": "dinner table wine glasses", "orientation": "landscape" },
-    "pizza": { "query": "wood fired pizza" }
-  }
+ "mode": "previews",
+ "groups": {
+  "fp-pasta": [
+   [
+    427604203,
+    "https://img.magnific.com/free-photo/truffle-pasta-dish-with-fresh-rosemary-garlic-dark-plate_84443-94474.jpg?w=740"
+   ],
+   [
+    427604175,
+    "https://img.magnific.com/free-photo/fettuccine-pasta-with-black-truffle-slices-dark-marble-background_84443-94449.jpg?w=740"
+   ],
+   [
+    7571639,
+    "https://img.magnific.com/free-photo/truffle-spaghetti-plate-with-mushroom-sauce-grated-parmesan_141793-1965.jpg?w=740"
+   ],
+   [
+    7727026,
+    "https://img.magnific.com/free-photo/side-view-mushroom-pasta-dark-round_176474-3153.jpg?w=740"
+   ],
+   [
+    27737691,
+    "https://img.magnific.com/free-photo/vertical-shot-tagliatelle-bolognese-black-background_181624-57879.jpg?w=740"
+   ],
+   [
+    5497578,
+    "https://img.magnific.com/free-photo/plate-spaghetti-dark-restaurant_114579-2489.jpg?w=740"
+   ]
+  ],
+  "fp-meat": [
+   [
+    28492385,
+    "https://img.magnific.com/free-photo/meat-with-potato-stew-served-plate-dark-background_1220-7157.jpg?w=740"
+   ],
+   [
+    21707438,
+    "https://img.magnific.com/free-photo/beef-stew-ball-with-vegetable-feeling-sauce-dark-plate-closeup_1220-6641.jpg?w=740"
+   ],
+   [
+    21707411,
+    "https://img.magnific.com/free-photo/meat-vegetable-stew-served-dark-bowl-grey-background_1220-6638.jpg?w=740"
+   ],
+   [
+    5493824,
+    "https://img.magnific.com/free-photo/plate-steak-red-wine-sauce-mashed-vegetables_114579-2333.jpg?w=740"
+   ],
+   [
+    8276461,
+    "https://img.magnific.com/free-photo/side-view-grilled-beef-medallion-with-sauce-vegetables-white-plate-table_140725-11510.jpg?w=740"
+   ],
+   [
+    6329600,
+    "https://img.magnific.com/free-photo/main-course-restaurant_7939-2408.jpg?w=740"
+   ]
+  ],
+  "fp-tuna": [
+   [
+    4209766,
+    "https://img.magnific.com/free-photo/tuna-tartar_74190-7831.jpg?w=740"
+   ],
+   [
+    1038219,
+    "https://img.magnific.com/free-photo/tuna-tartar_1203-3624.jpg?w=740"
+   ],
+   [
+    3737987,
+    "https://img.magnific.com/free-photo/tuna-tartar_74190-2647.jpg?w=740"
+   ],
+   [
+    3775087,
+    "https://img.magnific.com/free-photo/tuna-tartar_74190-2821.jpg?w=740"
+   ],
+   [
+    1038220,
+    "https://img.magnific.com/free-photo/tuna-tartar_1203-3625.jpg?w=740"
+   ],
+   [
+    49240140,
+    "https://img.magnific.com/free-photo/steak-tartar-dish-with-beef_23-2150550467.jpg?w=740"
+   ]
+  ],
+  "fp-chef": [
+   [
+    17016017,
+    "https://img.magnific.com/free-photo/chef-showing-his-fine-cuisine-professional-food-decoration_482257-10348.jpg?w=740"
+   ],
+   [
+    17016101,
+    "https://img.magnific.com/free-photo/fine-cuisine-design-made-by-chef-his-restaurant-kitchen_482257-10352.jpg?w=740"
+   ],
+   [
+    17016122,
+    "https://img.magnific.com/free-photo/fine-cuisine-design-made-by-chef-his-restaurant-kitchen_482257-10353.jpg?w=740"
+   ],
+   [
+    11628681,
+    "https://img.magnific.com/free-photo/high-angle-chef-plating-meal_23-2148794096.jpg?w=740"
+   ],
+   [
+    11628682,
+    "https://img.magnific.com/free-photo/mid-shot-chef-plating-dish_23-2148794098.jpg?w=740"
+   ],
+   [
+    11628687,
+    "https://img.magnific.com/free-photo/mid-shot-chef-plating-dish-with-oil_23-2148794099.jpg?w=740"
+   ],
+   [
+    13273095,
+    "https://img.magnific.com/free-photo/close-up-chef-cooking-restaurant-kitchen_329181-16142.jpg?w=740"
+   ],
+   [
+    417582499,
+    "https://img.magnific.com/free-photo/female-chef-sprinkles-fresh-rosemary-plated-dish-stove-top_482257-121108.jpg?w=740"
+   ],
+   [
+    17016078,
+    "https://img.magnific.com/free-photo/professional-food-decoration-restaurant-kitchen-cook-doing-great-job_482257-10351.jpg?w=740"
+   ]
+  ],
+  "fp-octopus": [
+   [
+    13411400,
+    "https://img.magnific.com/free-photo/horizontal-shot-dish-with-octopus-arms-with-spices-white-plate-with-silverware_181624-31962.jpg?w=740"
+   ],
+   [
+    427019567,
+    "https://img.magnific.com/free-photo/grilled-octopus-dish-dark-plate_84443-85758.jpg?w=740"
+   ],
+   [
+    9283475,
+    "https://img.magnific.com/free-photo/closeup-shot-delicious-roasted-octopus-dish-with-roasted-asparagus-veggies_181624-8595.jpg?w=740"
+   ],
+   [
+    1284570,
+    "https://img.magnific.com/free-photo/grilled-charred-octopus_1203-9852.jpg?w=740"
+   ],
+   [
+    3521447,
+    "https://img.magnific.com/free-photo/grilled-charred-octopus_74190-773.jpg?w=740"
+   ],
+   [
+    4201420,
+    "https://img.magnific.com/free-photo/grilled-charred-octopus_74190-7584.jpg?w=740"
+   ]
+  ],
+  "fp-oysters": [
+   [
+    427098351,
+    "https://img.magnific.com/free-photo/fresh-oysters-crushed-ice_84443-86691.jpg?w=740"
+   ],
+   [
+    7071115,
+    "https://img.magnific.com/free-photo/top-view-plate-with-oysters-lemon-slices_23-2148461711.jpg?w=740"
+   ],
+   [
+    40480552,
+    "https://img.magnific.com/free-photo/view-dish-made-oyster-delicacies_23-2150320494.jpg?w=740"
+   ],
+   [
+    39759434,
+    "https://img.magnific.com/free-photo/still-life-with-oysters-ready-eat_52683-109096.jpg?w=740"
+   ],
+   [
+    38688385,
+    "https://img.magnific.com/free-photo/delicious-oysters-ready-eat-still-life_23-2150202945.jpg?w=740"
+   ],
+   [
+    3521462,
+    "https://img.magnific.com/free-photo/raw-fresh-oyster-with-caviar-top-lemon_74190-788.jpg?w=740"
+   ]
+  ],
+  "fp-dessert": [
+   [
+    426916677,
+    "https://img.magnific.com/free-photo/panna-cotta-with-mixed-berries-black-plate_84443-82393.jpg?w=740"
+   ],
+   [
+    427192706,
+    "https://img.magnific.com/free-photo/elegant-creamy-dessert-with-red-currants-chocolate-sauce_84443-86988.jpg?w=740"
+   ],
+   [
+    8981635,
+    "https://img.magnific.com/free-photo/high-angle-shot-delicious-red-dessert-with-white-cream-berries-nuts-black-bowl_181624-7081.jpg?w=740"
+   ],
+   [
+    10810323,
+    "https://img.magnific.com/free-photo/fruit-cake-slice-black_114579-18525.jpg?w=740"
+   ],
+   [
+    27399607,
+    "https://img.magnific.com/free-photo/vertical-shot-vanilla-ice-cream-scoop-plate-isolated-black-background_181624-57527.jpg?w=740"
+   ],
+   [
+    10638336,
+    "https://img.magnific.com/free-photo/slice-honey-cake-with-figs-confiture_114579-16610.jpg?w=740"
+   ]
+  ],
+  "fp-wine": [
+   [
+    8061683,
+    "https://img.magnific.com/free-photo/glass-red-wine-surrounded-with-candles-romantic-atmosphere_140725-10699.jpg?w=740"
+   ],
+   [
+    5399827,
+    "https://img.magnific.com/free-photo/sommelier-working_1098-13808.jpg?w=740"
+   ],
+   [
+    22725086,
+    "https://img.magnific.com/free-photo/close-up-hand-pouring-wine_23-2149272796.jpg?w=740"
+   ],
+   [
+    32690364,
+    "https://img.magnific.com/free-photo/side-view-hand-pouring-wine_52683-98183.jpg?w=740"
+   ],
+   [
+    3597250,
+    "https://img.magnific.com/free-photo/man-woman-clanging-glasses-wine-table-restaurant_23-2148016771.jpg?w=740"
+   ],
+   [
+    1530467,
+    "https://img.magnific.com/free-photo/wineglasses-young-couple-having-meal_23-2147735748.jpg?w=740"
+   ],
+   [
+    8896039,
+    "https://img.magnific.com/free-photo/side-view-red-color-rose-lying-near-glass-red-wine-wooden-table-window-background_141793-8614.jpg?w=740"
+   ],
+   [
+    2947894,
+    "https://img.magnific.com/free-photo/hand-pouring-wine-transparent-glass-wooden-table_23-2147891231.jpg?w=740"
+   ],
+   [
+    94781904,
+    "https://img.magnific.com/free-photo/side-view-friends-dinner-party_23-2151043709.jpg?w=740"
+   ]
+  ],
+  "fp-room": [
+   [
+    5697815,
+    "https://img.magnific.com/free-photo/beautiful-candles-restaurant_8353-9527.jpg?w=740"
+   ],
+   [
+    6448490,
+    "https://img.magnific.com/free-photo/wonderful-wedding-table-amazing-restaurant_8353-9875.jpg?w=740"
+   ],
+   [
+    12647242,
+    "https://img.magnific.com/free-photo/dinner-setting-restaurant_395237-81.jpg?w=740"
+   ],
+   [
+    5497588,
+    "https://img.magnific.com/free-photo/restaurant-luxury-interior-design-dark-lightning_114579-2492.jpg?w=740"
+   ],
+   [
+    11541026,
+    "https://img.magnific.com/free-photo/vertical-shot-table-with-elegant-setting-restaurant-evening_181624-24647.jpg?w=740"
+   ],
+   [
+    7184572,
+    "https://img.magnific.com/free-photo/half-empty-restaurant-table-with-plate-glass-cutlery_140725-5022.jpg?w=740"
+   ],
+   [
+    7735270,
+    "https://img.magnific.com/free-photo/grey-painted-fancy-restaurant-with-empty-dinner-table_140725-8730.jpg?w=740"
+   ],
+   [
+    1173717,
+    "https://img.magnific.com/free-photo/candles-shine-wooden-floor-darkness_1304-3768.jpg?w=740"
+   ],
+   [
+    7873442,
+    "https://img.magnific.com/free-photo/classic-luxury-style-restaurant-with-tables-chairs_140725-9389.jpg?w=740"
+   ]
+  ]
+ }
 }

@@ -67,6 +67,25 @@ if (req.mode === 'search') {
   execFileSync('rm', ['-rf', out]);
 }
 
+// previews: { groups: { key: [[stockId, previewUrl], ...] } } → labelled contact sheets
+if (req.mode === 'previews') {
+  const out = '.image-review/candidates';
+  mkdirSync(out, { recursive: true });
+  for (const [key, list] of Object.entries(req.groups)) {
+    const tiles = [];
+    for (const [id, url] of list) {
+      const file = `${out}/${key}-${id}.jpg`;
+      try {
+        await download(url, file);
+        execFileSync('convert', [file, '-resize', '480x360^', '-gravity', 'center', '-extent', '480x360', file]);
+        tiles.push('-label', String(id), file);
+      } catch (e) { console.log('skip', id, e.message); }
+    }
+    if (tiles.length) execFileSync('montage', [...tiles, '-tile', '3x', '-geometry', '480x360+4+4', '-pointsize', '24', '-background', '#222', '-fill', 'white', `.image-review/sheet-${key}.jpg`]);
+  }
+  execFileSync('rm', ['-rf', out]);
+}
+
 if (req.mode === 'fetch') {
   // photos: [{ url, file, w? }] — url as listed in manifest.json
   for (const { url, file, w = 1800 } of req.photos) {
