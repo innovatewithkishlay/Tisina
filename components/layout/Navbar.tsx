@@ -66,6 +66,13 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status }: 
   useMotionValueEvent(scrollY, 'change', (y) => {
     const prev = scrollY.getPrevious() ?? 0;
     setScrolled(y > 80);
+    
+    // Prevent hiding on the menu page so it doesn't detach from the sticky filter bar
+    if (pathname.includes('/menu')) {
+      setHidden(false);
+      return;
+    }
+
     if (y < 160) setHidden(false);
     else if (Math.abs(y - prev) > 4) setHidden(y > prev);
   });
