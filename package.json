@@ -10,7 +10,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "db:seed:generate": "node --experimental-strip-types --no-warnings scripts/generate-seed.ts",
     "db:seed:chunks": "node --experimental-strip-types --no-warnings scripts/generate-seed.ts --chunks",
-    "media:blur": "node --experimental-strip-types --no-warnings scripts/generate-blur.ts"
+    "media:blur": "node --experimental-strip-types --no-warnings scripts/generate-blur.ts",
+    "media:optimize": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
