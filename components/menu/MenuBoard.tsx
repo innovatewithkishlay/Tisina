@@ -47,7 +47,6 @@ export interface BoardLabels {
 }
 
 type Filter = DietaryTag | 'all';
-const pad = (n: number) => String(n).padStart(2, '0');
 
 /**
  * The menu, photograph first. Every course opens on a wide image with its name
@@ -81,27 +80,37 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
         ScrollTrigger.create({ trigger: section, start: 'top 45%', end: 'bottom 45%', onToggle: (self) => self.isActive && setActiveCat(i) });
       });
       if (reducedMotion()) return;
+      // Course photo: lies tilted back in 3D and swings flat as it reaches you.
       el.querySelectorAll<HTMLElement>('[data-cover]').forEach((cover) => {
         gsap.fromTo(
           cover,
-          { clipPath: 'inset(10% 6% 10% 6% round 32px)' },
-          { clipPath: 'inset(0% 0% 0% 0% round 24px)', ease: 'none', scrollTrigger: { trigger: cover, start: 'top bottom', end: 'top 30%', scrub: true } },
+          { rotateX: 38, scale: 0.82, yPercent: 8, transformOrigin: '50% 100%' },
+          { rotateX: 0, scale: 1, yPercent: 0, ease: 'none', scrollTrigger: { trigger: cover, start: 'top bottom', end: 'top 25%', scrub: true } },
         );
         gsap.fromTo(
           cover.querySelector('img'),
-          { yPercent: -8, scale: 1.18 },
-          { yPercent: 8, scale: 1.04, ease: 'none', scrollTrigger: { trigger: cover, start: 'top bottom', end: 'bottom top', scrub: true } },
-        );
-        gsap.fromTo(
-          cover.querySelectorAll('[data-cover-word]'),
-          { yPercent: 110 },
-          { yPercent: 0, stagger: 0.06, ease: 'none', scrollTrigger: { trigger: cover, start: 'top 85%', end: 'top 40%', scrub: true } },
+          { scale: 1.25 },
+          { scale: 1, ease: 'none', scrollTrigger: { trigger: cover, start: 'top bottom', end: 'bottom top', scrub: true } },
         );
       });
+      // Course names: letters rise one after another on the way in.
+      el.querySelectorAll<HTMLElement>('[data-course-title]').forEach((title) =>
+        gsap.fromTo(
+          title.querySelectorAll('[data-ch]'),
+          { yPercent: 105, rotate: 4 },
+          { yPercent: 0, rotate: 0, stagger: 0.025, ease: 'none', scrollTrigger: { trigger: title, start: 'top 92%', end: 'top 55%', scrub: true } },
+        ),
+      );
+      // Dish cards fly in from depth, turned, and settle flat.
       ScrollTrigger.batch(el.querySelectorAll('[data-reveal-card]'), {
         start: 'top 92%',
         once: true,
-        onEnter: (batch) => gsap.fromTo(batch, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, stagger: 0.09, ease: 'power3.out' }),
+        onEnter: (batch) =>
+          gsap.fromTo(
+            batch,
+            { opacity: 0, rotateY: -28, rotateX: 12, z: -260, y: 80 },
+            { opacity: 1, rotateY: 0, rotateX: 0, z: 0, y: 0, duration: 1.4, stagger: 0.12, ease: 'expo.out', clearProps: 'transform' },
+          ),
       });
     },
     { scope: root, dependencies: [categories] },
@@ -139,7 +148,6 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
             aria-label={`${labels.jumpTo}: ${current?.name ?? ''}`}
             className="label flex min-h-11 shrink-0 items-center gap-2.5 rounded-full bg-fg px-4 text-bg transition-colors hover:bg-accent"
           >
-            <span className="index text-[1.2em] normal-case tabular-nums">{pad(activeCat + 1)}</span>
             <span className="max-w-[8.5rem] truncate sm:max-w-[14rem]">{current?.name}</span>
             <svg viewBox="0 0 10 6" className="size-2.5" aria-hidden="true">
               <path d="M1 1 L5 5 L9 1" fill="none" stroke="currentColor" strokeWidth="1.4" />
@@ -174,33 +182,34 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
         if (c.items.length === 0 && filter !== 'all') return null;
         return (
           <section key={c.slug} id={`c-${c.slug}`} data-cat={ci} aria-labelledby={`h-${c.slug}`} className="scroll-mt-36 pt-[clamp(4rem,9vw,8rem)]">
-            {/* Course cover */}
+            {/* Course name, then its photograph — nothing laid over the picture */}
             <div className="wrap">
-              <div data-cover className="relative aspect-[4/5] overflow-hidden rounded-[24px] bg-bg-2 sm:aspect-[16/9] lg:aspect-[21/9]">
-                <Img src={c.image} alt="" fill sizes="(min-width: 1536px) 92rem, 100vw" className="object-cover" />
-                <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgb(15_13_11/0.1)_30%,rgb(15_13_11/0.78))]" />
-                <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-4 p-6 text-bone sm:p-10">
-                  <div>
-                    <p className="index text-lede text-bone/75">({pad(ci + 1)})</p>
-                    <h2 id={`h-${c.slug}`} className="font-display mt-2 text-[clamp(3rem,9vw,9.5rem)] italic leading-[0.9] tracking-[-0.03em]">
-                      {c.name.split(' ').map((w, i) => (
-                        <span key={i} className="inline-block overflow-hidden pb-[0.06em] align-bottom">
-                          <span data-cover-word className="inline-block pr-[0.22em]">{w}</span>
-                        </span>
-                      ))}
-                    </h2>
-                  </div>
-                  <p className="label pb-2 text-bone/80">
-                    {(c.items.length === 1 ? labels.countOne : labels.countOther).replace('#', String(c.items.length))}
-                  </p>
+              <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+                <h2 id={`h-${c.slug}`} data-course-title className="font-display text-[clamp(3.5rem,13vw,13rem)] leading-[0.82]">
+                  <span className="sr-only">{c.name}</span>
+                  <span aria-hidden="true" className="inline-flex flex-wrap overflow-hidden pb-[0.04em]">
+                    {Array.from(c.name).map((ch, i) => (
+                      <span key={i} data-ch className="inline-block">
+                        {ch === ' ' ? '\u00a0' : ch}
+                      </span>
+                    ))}
+                  </span>
+                </h2>
+                <div className="pb-[0.6em] text-right">
+                  <p className="label text-accent">{(c.items.length === 1 ? labels.countOne : labels.countOther).replace('#', String(c.items.length))}</p>
+                  {c.description ? <p className="font-serif mt-2 max-w-[34ch] text-lede italic text-fg-2">{c.description}</p> : null}
                 </div>
               </div>
-              {c.description ? <p className="mt-6 max-w-[52ch] text-lede text-fg-2">{c.description}</p> : null}
+              <div className="mt-8 [perspective:1400px]">
+                <div data-cover className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-bg-2 will-change-transform sm:aspect-[16/9] lg:aspect-[21/9]">
+                  <Img src={c.image} alt="" fill sizes="(min-width: 1536px) 92rem, 100vw" className="object-cover" />
+                </div>
+              </div>
             </div>
 
             {/* Dishes with photographs */}
             {pictured.length ? (
-              <ul className={cn('wrap mt-12 grid gap-x-8 gap-y-14', pictured.length === 2 ? 'sm:grid-cols-2' : pictured.length > 2 && 'sm:grid-cols-2 lg:grid-cols-3')}>
+              <ul className={cn('wrap mt-14 grid gap-x-8 gap-y-16 [perspective:1600px]', pictured.length === 2 ? 'sm:grid-cols-2' : pictured.length > 2 && 'sm:grid-cols-2 lg:grid-cols-3')}>
                 {pictured.map((item) => (
                   <li
                     key={item.slug}
@@ -208,7 +217,7 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
                     data-reveal-card
                     className={cn('group scroll-mt-40', pictured.length === 1 && 'md:grid md:grid-cols-[1.25fr_1fr] md:items-end md:gap-12', !item.available && 'opacity-55')}
                   >
-                    <div className={cn('relative overflow-hidden rounded-[20px] bg-bg-2', pictured.length === 1 ? 'aspect-[4/3]' : 'aspect-[4/5]')}>
+                    <TiltFrame className={cn('relative overflow-hidden rounded-[20px] bg-bg-2', pictured.length === 1 ? 'aspect-[4/3]' : 'aspect-[4/5]')}>
                       <Img
                         src={item.image!}
                         alt={item.name}
@@ -217,7 +226,7 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
                         className="object-cover transition-transform duration-[1400ms] ease-[var(--ease-out)] group-hover:scale-[1.06]"
                       />
                       <Badges item={item} labels={labels} className="absolute left-4 top-4" />
-                    </div>
+                    </TiltFrame>
                     <DishText item={item} labels={labels} className={cn('mt-5', pictured.length === 1 && 'md:mt-0 md:pb-4')} />
                   </li>
                 ))}
@@ -226,7 +235,7 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
 
             {/* Everything else, as a list */}
             {listed.length ? (
-              <ul className="wrap mt-12 grid gap-x-16 md:grid-cols-2">
+              <ul className="wrap mt-14 grid gap-x-16 [perspective:1600px] md:grid-cols-2">
                 {listed.map((item) => (
                   <li key={item.slug} id={item.slug} data-reveal-card className={cn('scroll-mt-40 border-t hairline py-7', !item.available && 'opacity-55')}>
                     <Badges item={item} labels={labels} className="mb-3" />
@@ -255,8 +264,7 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
                 onClick={() => jump(c.slug)}
                 className={cn('flex min-h-11 w-full items-baseline gap-4 rounded-xl px-3 py-2 text-left transition-colors hover:bg-white/5', i === activeCat && 'text-accent')}
               >
-                <span className="index w-7 text-muted tabular-nums">{pad(i + 1)}</span>
-                <span className="font-display text-[1.5rem] leading-tight">{c.name}</span>
+                <span className="font-display text-[1.75rem] leading-none">{c.name}</span>
                 {i === activeCat ? <Hacek className="ml-auto h-2" /> : null}
               </button>
             </li>
@@ -271,9 +279,9 @@ function DishText({ item, labels, className }: { item: BoardItem; labels: BoardL
   return (
     <div className={className}>
       <div className="flex items-baseline">
-        <h3 className="font-display text-[clamp(1.5rem,2.2vw,2rem)] leading-[1.1]">{item.name}</h3>
+        <h3 className="font-serif text-[clamp(1.5rem,2.2vw,2rem)] italic leading-[1.1]">{item.name}</h3>
         <span className="leader" aria-hidden="true" />
-        <p className={cn('font-display whitespace-nowrap text-[1.5rem] tabular-nums', item.marketPrice && 'text-[1.0625rem] italic text-fg-2')}>{item.price}</p>
+        <p className={cn('font-display whitespace-nowrap text-[1.75rem] leading-none', item.marketPrice && 'font-serif text-[1.0625rem] italic normal-case text-fg-2')}>{item.price}</p>
       </div>
       {item.description ? <p className="mt-2 max-w-[48ch] text-fg-2">{item.description}</p> : null}
       {item.dietary.length || item.allergens.length ? (
@@ -305,5 +313,42 @@ function Badges({ item, labels, className }: { item: BoardItem; labels: BoardLab
       {item.featured ? <span className={tag}>{labels.signature}</span> : null}
       {item.seasonal ? <span className={tag}>{labels.seasonal}</span> : null}
     </p>
+  );
+}
+
+/**
+ * Photo frame that leans towards the pointer in 3D, with a soft highlight
+ * following it. Pure CSS variables — no re-renders while the mouse moves.
+ */
+function TiltFrame({ className, children }: { className?: string; children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const move = (e: React.PointerEvent) => {
+    const el = ref.current;
+    if (!el || e.pointerType !== 'mouse' || reducedMotion()) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.setProperty('--rx', `${(-y * 9).toFixed(2)}deg`);
+    el.style.setProperty('--ry', `${(x * 11).toFixed(2)}deg`);
+    el.style.setProperty('--gx', `${((x + 0.5) * 100).toFixed(1)}%`);
+    el.style.setProperty('--gy', `${((y + 0.5) * 100).toFixed(1)}%`);
+  };
+  const leave = () => {
+    ref.current?.style.setProperty('--rx', '0deg');
+    ref.current?.style.setProperty('--ry', '0deg');
+  };
+  return (
+    <div
+      ref={ref}
+      onPointerMove={move}
+      onPointerLeave={leave}
+      className={cn(
+        className,
+        'transition-transform duration-500 ease-[var(--ease-out)] [transform:rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))] [transform-style:preserve-3d]',
+        "after:pointer-events-none after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_var(--gx,50%)_var(--gy,50%),rgb(255_255_255/0.18),transparent_55%)] after:opacity-0 after:transition-opacity after:duration-500 hover:after:opacity-100",
+      )}
+    >
+      {children}
+    </div>
   );
 }

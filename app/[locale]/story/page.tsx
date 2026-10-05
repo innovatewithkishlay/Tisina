@@ -76,7 +76,6 @@ export default async function StoryPage({ params }: PageProps<'/[locale]/story'>
         <div className="wrap grid gap-16 md:grid-cols-12">
           {chapters.slice(1).map((c, i) => (
             <Reveal key={c.title} delay={i * 120} className={i === 0 ? 'md:col-span-5 md:col-start-2' : 'md:col-span-5 md:col-start-8 md:pt-32'}>
-              <p className="label tabular-nums text-muted">{String(i + 2).padStart(2, '0')}</p>
               <h2 className="font-display text-h2 mt-4">{c.title}</h2>
               <p className="mt-8 text-lede text-fg-2">{c.body}</p>
             </Reveal>

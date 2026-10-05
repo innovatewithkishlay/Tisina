@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Hanken_Grotesk, Instrument_Serif } from 'next/font/google';
+import { fontVariables } from '@/lib/fonts';
 import { notFound } from 'next/navigation';
 import { ViewTransition } from 'react';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
@@ -16,25 +16,6 @@ import { OpenStatus } from '@/components/layout/OpenStatus';
 import { RevealObserver } from '@/components/motion/RevealObserver';
 import { SmoothScroll } from '@/components/motion/SmoothScroll';
 import '../globals.css';
-
-/*
- * Typography: a high-contrast display serif for headlines and the wordmark,
- * a quiet grotesk for text and UI. Both ship the latin-ext subset, which covers
- * Croatian (č ć đ š ž), Hungarian (ő ű) and German (ä ö ü ß).
- */
-const display = Instrument_Serif({
-  subsets: ['latin', 'latin-ext'],
-  weight: '400',
-  style: ['normal', 'italic'],
-  variable: '--font-display-face',
-  display: 'swap',
-});
-// `subsets` only controls preloading; latin-ext still loads on demand via unicode-range.
-const sans = Hanken_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-sans-face',
-  display: 'swap',
-});
 
 export const dynamicParams = false;
 export const revalidate = 300;
@@ -82,7 +63,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
   const status = <OpenStatus hours={hours} timeZone={r.timezone} initial={openStatus(hours, r.timezone)} />;
 
   return (
-    <html lang={knownLocales[locale].hreflang} className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
+    <html lang={knownLocales[locale].hreflang} className={fontVariables} suppressHydrationWarning>
       <head>
         {/* Enables reveal animations only when JS runs; content stays visible otherwise. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

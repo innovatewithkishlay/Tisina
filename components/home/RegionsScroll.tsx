@@ -86,7 +86,6 @@ export function RegionsScroll({ label, items }: { label: string; items: RegionSt
               <div className="relative mb-8 aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] lg:hidden">
                 <Img src={it.image} alt={it.alt} fill sizes="100vw" className="object-cover" />
               </div>
-              <p className="index text-[1.25rem] text-muted">({String(i + 1).padStart(2, '0')})</p>
               <h3
                 className={cn(
                   'font-display text-display mt-3 transition-[color,font-style] duration-700',

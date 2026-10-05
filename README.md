@@ -334,13 +334,13 @@ Routes, switcher, hreflang, sitemap and OG images pick up the new language autom
 | What | Where |
 |---|---|
 | Name / wordmark | `config/site.ts → brandName` |
-| Colours | `app/globals.css → :root` (`--brand-*`). Dark sections use `.night`. |
-| Typefaces | `app/[locale]/layout.tsx` (`next/font/google`). Keep the `latin-ext` coverage for Croatian and Hungarian. Also update the TTFs in `assets/fonts/` used by the OG image. |
+| Colours | `app/globals.css → :root` (`--brand-*`): chalk `#ecebe6`, carbon `#0e0e0d`, cobalt `#2236e8` / `#93a0ff` on dark. Dark sections use `.night`, light ones `.paper`. |
+| Typefaces | `lib/fonts.ts`: **Anton** (condensed display caps), **Bodoni Moda** italic (dish names, quotes, and any `italic` inside a `.font-display` heading switches to it automatically), **Archivo** (text; labels use its expanded width). Keep `latin-ext` coverage for Croatian and Hungarian. `assets/fonts/Anton-Regular.ttf` is used for the OG image. |
 | Type scale, spacing, motion timing | `app/globals.css → @theme` and `:root` |
 | Favicon / touch icon | `app/icon.svg`, `app/apple-icon.png` |
 | Photography | `content/images.ts` (by role) and `menu_items.image` |
 | Editorial copy | `messages/<locale>.json → Home`, `Story`, `Visit.faq`… |
-| Wordmark | `components/brand/Logo.tsx`. The letters are SVG paths (converted from the display font), and the háček is a separate stroke that draws in on load and takes the accent colour. For another name, export the new wordmark as one path and replace `LETTERS`. To drop the háček, remove `HACEK_PATH`. Section labels (`Kicker`) reuse the same chevron. |
+| Wordmark | `components/brand/Logo.tsx`. The letters are Anton outlines as SVG paths (converted with opentype.js), and the háček is a separate stroke that draws in on load and takes the accent colour. For another name, export the new wordmark as one path and replace `LETTERS`. To drop the háček, remove `HACEK_PATH`. Section labels (`Kicker`) reuse the same chevron. |
 
 ### Media pipeline
 
@@ -363,8 +363,10 @@ After adding or replacing any image in `public/images`, run `npm run media:blur`
 Scroll choreography uses GSAP ScrollTrigger inside `useGSAP` (scoped and cleaned up on
 navigation). Lenis smooths the scroll and drives ScrollTrigger from GSAP's ticker
 (`components/motion/SmoothScroll.tsx`). With `prefers-reduced-motion`, Lenis is not started, every
-GSAP block returns early, CSS animations collapse and the hero video stays on its poster. All
-movement is vertical: sticky stacks, pinned frames and parallax columns. Nothing scrolls sideways.
+GSAP block returns early, CSS animations collapse and the hero video stays on its poster. Most
+movement is vertical (sticky sections, parallax columns), with one pinned sideways sequence on
+the home page. The menu adds 3D: the plates hang on a cylinder that turns with the scroll, course
+photos lie tipped back and swing flat, dish cards fly in from depth and lean towards the pointer.
 
 ## 13. How to change the menu
 

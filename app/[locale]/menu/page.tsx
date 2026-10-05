@@ -30,7 +30,16 @@ const DIETARY = ['vegetarian', 'vegan', 'gluten_free', 'dairy_free', 'pescataria
  */
 const COURSE_IMAGES = images.courses;
 const COURSE_FALLBACK = images.kitchen.hands.src;
-const HERO_PLATES = ['/images/photo/oysters.jpg', images.hero.src, '/images/photo/panna-cotta.jpg', '/images/photo/octopus.jpg', '/images/photo/burrata.jpg'];
+const HERO_PLATES = [
+  '/images/photo/oysters.jpg',
+  images.hero.src,
+  '/images/photo/octopus.jpg',
+  '/images/photo/panna-cotta.jpg',
+  '/images/photo/tuna-tartare.jpg',
+  '/images/photo/beef-stew.jpg',
+  '/images/photo/burrata.jpg',
+  '/images/photo/rozata.jpg',
+];
 
 export default async function MenuPage({ params }: PageProps<'/[locale]/menu'>) {
   const { locale } = (await params) as { locale: Locale };
