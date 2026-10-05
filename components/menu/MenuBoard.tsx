@@ -161,7 +161,7 @@ export function MenuBoard({ categories, labels }: { categories: BoardCategory[];
               <SidewaysCourse>
                 {c.items.map((item) => (
                   <li key={item.slug} id={item.slug} className={cn('w-[min(78vw,26rem)] shrink-0 snap-center scroll-mt-40', !item.available && 'opacity-55')}>
-                    <TiltFrame className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-bg-2">
+                    <TiltFrame className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-bg-2" data-cursor="View">
                       <Img src={item.image ?? c.image} alt={item.name} fill sizes="(min-width: 768px) 26rem, 78vw" className="object-cover" />
                       <Badges item={item} labels={labels} className="absolute left-4 top-4" />
                     </TiltFrame>
@@ -296,7 +296,7 @@ function DishRow({ item, index: i, fallback, labels }: { item: BoardItem; index:
       id={item.slug}
       className={cn('grid scroll-mt-40 gap-6 md:grid-cols-12 md:items-center md:gap-10', !item.available && 'opacity-55')}
     >
-      <ClipReveal className={cn('aspect-[4/3] rounded-[20px] bg-bg-2 md:col-span-7', i % 2 === 1 && 'md:order-2 md:col-start-6')}>
+      <ClipReveal className={cn('aspect-[4/3] rounded-[20px] bg-bg-2 md:col-span-7', i % 2 === 1 && 'md:order-2 md:col-start-6')} data-cursor="View">
         <Parallax speed={-0.18} className="absolute inset-0">
           <Img src={item.image ?? fallback} alt={item.name} fill sizes="(min-width: 768px) 56vw, 100vw" className="object-cover" />
         </Parallax>

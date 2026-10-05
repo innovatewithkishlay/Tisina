@@ -60,8 +60,7 @@ export function CraftHorizontal({
   const root = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const calm = useCalm();
-  const desktop = useDesktop();
-  const pinned = desktop && !calm;
+  const pinned = !calm;
   const lenis = useLenis();
   const titleHtml = title.replace(/\*([^*]+)\*/g, '<em class="text-accent">$1</em>');
 
@@ -169,11 +168,11 @@ export function CraftHorizontal({
   return (
     <section
       ref={root}
-      className="night relative md:h-[calc(var(--n)*100svh)] md:motion-reduce:h-auto"
+      className="night relative h-[calc(var(--n)*100svh)] motion-reduce:h-auto"
       style={{ ['--n' as string]: panels.length }}
       aria-labelledby="craft-title"
     >
-      <div className="relative overflow-hidden py-[var(--section)] md:sticky md:top-0 md:flex md:h-[100svh] md:flex-col md:justify-center md:py-0 md:pt-[var(--header-h)] md:motion-reduce:static md:motion-reduce:h-auto md:motion-reduce:py-[var(--section)]">
+      <div className="relative overflow-hidden sticky top-0 flex h-[100svh] flex-col justify-center py-0 pt-[var(--header-h)] motion-reduce:static motion-reduce:h-auto motion-reduce:py-[var(--section)]">
         {/* The oven's glow, rising and falling with the story. */}
         <m.div
           aria-hidden="true"
@@ -185,8 +184,6 @@ export function CraftHorizontal({
           }}
         />
 
-        <div className="wrap mb-10 md:hidden">{heading()}</div>
-
         <m.div
           ref={track}
           data-cursor={pinned ? drag : undefined}
@@ -196,13 +193,12 @@ export function CraftHorizontal({
           onPointerUp={endDrag}
           onPointerCancel={endDrag}
           className={cn(
-            'no-scrollbar relative flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-[7.5vw] md:select-none',
-            'md:w-max md:snap-none md:items-center md:gap-[clamp(1.5rem,4vw,4rem)] md:overflow-visible md:px-[var(--gutter)]',
-            'md:motion-reduce:w-auto md:motion-reduce:snap-x md:motion-reduce:overflow-x-auto',
+            'no-scrollbar relative flex items-center gap-[clamp(1.5rem,4vw,4rem)] overflow-visible px-[var(--gutter)] w-max select-none',
+            'motion-reduce:w-auto motion-reduce:snap-x motion-reduce:overflow-x-auto motion-reduce:snap-mandatory motion-reduce:px-[7.5vw] motion-reduce:overscroll-x-contain',
           )}
           style={pinned ? { x } : undefined}
         >
-          <div className="hidden w-[min(78vw,30rem)] shrink-0 md:block">{heading(true)}</div>
+          <div className="w-[min(78vw,30rem)] shrink-0">{heading(false)}</div>
 
           {panels.map((p, i) => (
             <CraftCard
@@ -225,10 +221,8 @@ export function CraftHorizontal({
           <p className="label tabular-nums text-fg-2" aria-hidden="true">
             {String(active + 1).padStart(2, '0')} <span className="text-muted">/ {String(panels.length).padStart(2, '0')}</span>
           </p>
-          <div className="relative hidden h-px w-40 overflow-hidden bg-line md:block">
-            <m.span className="absolute inset-0 origin-left bg-accent" style={{ scaleX: pinned ? bar : (active + 1) / panels.length }} />
-          </div>
-          <div className="flex gap-2 md:hidden" aria-hidden="true">
+
+          <div className="flex gap-2" aria-hidden="true">
             {panels.map((p, i) => (
               <span
                 key={p.key}
@@ -236,9 +230,6 @@ export function CraftHorizontal({
               />
             ))}
           </div>
-          <p className="label ml-auto text-muted md:hidden" aria-hidden="true">
-            {swipe} →
-          </p>
         </div>
       </div>
     </section>
@@ -269,8 +260,8 @@ function CraftCard({
       data-craft-card
       aria-label={`${index + 1} / ${total}`}
       className={cn(
-        'w-[85vw] shrink-0 snap-center transition-[transform,opacity] duration-700 ease-[var(--ease-out)] md:w-[min(80vw,50rem)] md:transition-none',
-        !pinned && !active && 'max-md:scale-[0.92] max-md:opacity-60',
+        'w-[85vw] shrink-0 snap-center transition-[transform,opacity] duration-700 ease-[var(--ease-out)] w-[min(80vw,50rem)] transition-none',
+        !pinned && !active && 'scale-[0.92] opacity-60',
       )}
       style={pinned ? { skewX: skew } : undefined}
     >

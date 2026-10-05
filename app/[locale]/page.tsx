@@ -154,7 +154,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         <div className="wrap grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Kicker>{t('visitLabel')}</Kicker>
-            <SplitReveal as="h2" id="visit-title" by="line" text={t('visitTitle')} className="font-display text-h1 mt-6" />
+            <SplitReveal as="h2" id="visit-title" by="line" text={t('visitTitle')} className="font-display text-[clamp(3rem,6vw,4.5rem)] leading-[0.95] mt-6 tracking-tight" />
             <ClipReveal className="mt-10 aspect-[16/10] rounded-[var(--radius-card)]">
               <Parallax speed={-0.25} className="absolute inset-0">
                 <Img src={images.visit.src} alt="" fill sizes="(min-width: 1024px) 38vw, 100vw" className="object-cover" />
@@ -162,7 +162,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
             </ClipReveal>
             <div className="mt-10 flex items-end justify-between gap-6 border-t hairline pt-6">
               <p className="label text-muted">{tFooter('localTime', { city: r.address.city })}</p>
-              <p className="font-display text-[clamp(2.75rem,5vw,4rem)] leading-none">
+              <p className="font-display text-[clamp(2rem,4vw,3rem)] leading-none">
                 <LocalClock timeZone={r.timezone} initial={nowAt(r.timezone, locale)} />
               </p>
             </div>

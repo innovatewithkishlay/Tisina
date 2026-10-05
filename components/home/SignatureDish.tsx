@@ -5,7 +5,6 @@ import { m, useMotionTemplate, useMotionValueEvent, useScroll, useTransform } fr
 import { Link } from '@/i18n/routing';
 import { Img } from '@/components/ui/Img';
 import { Kicker } from '@/components/ui/Kicker';
-import { CircularText } from '@/components/motion/CircularText';
 import { Counter } from '@/components/motion/Counter';
 import { SplitReveal } from '@/components/motion/SplitReveal';
 import { useCalm, useDesktop } from '@/lib/motion';
@@ -129,24 +128,7 @@ export function SignatureDish({ label, name, description, note, price, stamp, im
           </div>
         </div>
 
-        {/* The stamp: since the first night, under the peka, for two. */}
-        <CircularText
-          texts={[stamp]}
-          period={48}
-          className={cn(
-            'absolute right-[var(--gutter)] top-[calc(var(--header-h)+1.5rem)] z-10 size-[96px] text-bone transition-opacity duration-1000 md:size-[140px]',
-            show ? 'opacity-100' : 'js:opacity-0',
-          )}
-        >
-          <svg viewBox="0 0 24 24" className="size-6 text-[var(--brand-ember-light)] md:size-8" aria-hidden="true">
-            <path
-              d="M12 3c1.5 3 4.5 5 4.5 9a4.5 4.5 0 1 1-9 0c0-2 1-3.2 2-4.2.2 1.4.9 2.4 2 2.7-.6-2.6-.2-5.2.5-7.5Z"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.3"
-            />
-          </svg>
-        </CircularText>
+
       </div>
     </section>
   );

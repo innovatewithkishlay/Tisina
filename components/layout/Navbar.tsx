@@ -169,12 +169,7 @@ export function Navbar({ address, phone, phoneHref, email, instagram, status }: 
         </div>
       </header>
 
-      {/* Reading progress — a hairline of gold across the very top. */}
-      <m.div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 top-0 z-[72] h-[2px] origin-left bg-[var(--brand-ember-light)]"
-        style={{ scaleX: progress }}
-      />
+
 
       {/* Dimmed Backdrop */}
       <div 

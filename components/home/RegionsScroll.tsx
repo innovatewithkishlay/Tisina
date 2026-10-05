@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import { m, useInView, useScroll, useTransform } from 'motion/react';
 import { Img } from '@/components/ui/Img';
 import { Kicker } from '@/components/ui/Kicker';
-import { CircularText } from '@/components/motion/CircularText';
 import { SplitReveal } from '@/components/motion/SplitReveal';
 import { useCalm, useMedia, useParallaxScale } from '@/lib/motion';
 import { cn } from '@/lib/utils';
@@ -68,17 +67,7 @@ export function RegionsScroll({ label, items }: { label: string; items: RegionSt
                   {items[active]?.dish}
                 </p>
               </div>
-              {/* The ring sits over the frame's lower corner and keeps turning. */}
-              <CircularText
-                texts={items.map((it) => it.ring)}
-                active={active}
-                className="absolute -right-1 -top-5 size-[96px] rounded-full bg-bg p-1 text-fg shadow-[0_10px_30px_-12px_rgb(15_28_22/0.35)] sm:size-[120px] lg:-bottom-14 lg:-right-14 lg:top-auto lg:size-[176px] lg:p-2"
-                textClassName="[font-size:7.6px]"
-              >
-                <span className="grid size-10 place-items-center rounded-full bg-[var(--brand-night)] text-[var(--brand-ember-light)] lg:size-14">
-                  <span className="font-display text-[1.15rem] italic lg:text-[1.6rem]">{String(active + 1).padStart(2, '0')}</span>
-                </span>
-              </CircularText>
+
             </div>
           </div>
 
@@ -111,7 +100,7 @@ function Region({ item, index, active, onEnter }: { item: RegionStory; index: nu
   return (
     <article
       ref={ref}
-      className="relative flex min-h-[62svh] flex-col justify-start border-t hairline pb-14 pt-10 first:border-t-0 lg:min-h-[85svh] lg:justify-center lg:py-0"
+      className="relative flex min-h-[100svh] flex-col justify-start border-t hairline pb-14 pt-10 first:border-t-0 lg:min-h-[85svh] lg:justify-center lg:py-0"
     >
       <m.span
         aria-hidden="true"

@@ -1,14 +1,14 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, LazyMotion, m, useInView } from 'motion/react';
+import { AnimatePresence, LazyMotion, m, useInView, useScroll, useSpring, useTransform } from 'motion/react';
 import { Img } from '@/components/ui/Img';
 import { Kicker } from '@/components/ui/Kicker';
 import { ClipReveal } from '@/components/motion/ClipReveal';
 import { Parallax } from '@/components/motion/Parallax';
 import { SplitReveal } from '@/components/motion/SplitReveal';
 import { useLenis } from '@/components/motion/SmoothScroll';
-import { ease } from '@/lib/motion';
+import { ease, scrollSpring, useCalm, useDesktop } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
 export interface GalleryImage {
@@ -17,23 +17,11 @@ export interface GalleryImage {
   caption: string;
 }
 
-// Layout animations (layoutId) need the larger feature set; load it only here.
 const loadMax = () => import('motion/react').then((mod) => mod.domMax);
 
-/** Depth per picture: each drifts at its own pace (-0.1 … -0.35). */
 const SPEEDS = [-0.12, -0.3, -0.2, -0.35, -0.1, -0.25];
-/** Asymmetric frames for the wall on desktop. */
-const SHAPES = ['aspect-[4/5]', 'aspect-[3/4] lg:mt-40', 'aspect-[5/4]', 'aspect-[4/5] lg:mt-24', 'aspect-[3/4] lg:-mt-16', 'aspect-[1/1] lg:mt-20'];
 const RATIOS = [4 / 5, 3 / 4, 5 / 4, 4 / 5, 3 / 4, 1];
 
-/**
- * Evenings at Tišina. On desktop the heading stays put while an asymmetric
- * wall of photographs scrolls past it, each picture at its own depth; every
- * frame opens like a blind and its caption follows a beat later. The
- * candlelit table flickers, very slightly. Tap or click any picture and it
- * grows out of its place in the wall to fill the screen. On phones the wall
- * becomes a swipe carousel with the picture in focus brought forward.
- */
 export function GalleryColumns({
   label,
   title,
@@ -50,22 +38,28 @@ export function GalleryColumns({
   close: string;
 }) {
   const [open, setOpen] = useState<number | null>(null);
-  const [focus, setFocus] = useState(0);
+  const root = useRef<HTMLElement>(null);
   const list = useRef<HTMLUListElement>(null);
   const opener = useRef<HTMLButtonElement | null>(null);
   const lenis = useLenis();
+  const calm = useCalm();
+  const desktop = useDesktop();
+  const pinned = desktop && !calm;
+  const [distance, setDistance] = useState(0);
 
-  const onScroll = () => {
+  useEffect(() => {
     const el = list.current;
-    if (!el || el.scrollWidth <= el.clientWidth) return;
-    const mid = el.scrollLeft + el.clientWidth / 2;
-    const kids = Array.from(el.children) as HTMLElement[];
-    let best = 0;
-    kids.forEach((k, i) => {
-      if (Math.abs(k.offsetLeft + k.offsetWidth / 2 - mid) < Math.abs(kids[best].offsetLeft + kids[best].offsetWidth / 2 - mid)) best = i;
-    });
-    setFocus(best);
-  };
+    if (!el || !pinned) return;
+    const measure = () => setDistance(Math.max(el.scrollWidth - window.innerWidth, 1));
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [pinned]);
+
+  const { scrollYProgress } = useScroll({ target: root, offset: ['start start', 'end end'] });
+  const progress = useSpring(scrollYProgress, scrollSpring);
+  const x = useTransform(progress, (v) => -v * distance);
 
   const dismiss = useCallback(() => {
     setOpen(null);
@@ -88,28 +82,43 @@ export function GalleryColumns({
 
   return (
     <LazyMotion features={loadMax}>
-      <section className="paper section" aria-labelledby="gallery-title">
-        <div className="wrap grid gap-12 lg:grid-cols-12 lg:gap-x-10">
-          <div className="lg:sticky lg:top-[calc(var(--header-h)+2.5rem)] lg:col-span-4 lg:self-start">
+      <section 
+        ref={root} 
+        className="paper relative md:h-[calc(var(--n)*100svh)] md:motion-reduce:h-auto"
+        style={{ ['--n' as string]: items.length }}
+        aria-labelledby="gallery-title"
+      >
+        <div className="relative py-[var(--section)] md:sticky md:top-0 md:flex md:h-[100svh] md:flex-col md:justify-center md:overflow-hidden md:py-0 md:pt-[var(--header-h)] md:motion-reduce:static md:motion-reduce:h-auto md:motion-reduce:py-[var(--section)]">
+          <div className="wrap mb-10 md:hidden">
             <Kicker>{label}</Kicker>
             <SplitReveal as="h2" id="gallery-title" by="line" text={title} className="font-display mt-6 text-h2" />
             <p className="mt-6 max-w-[42ch] text-lede text-fg-2">{body}</p>
           </div>
 
-          <ul
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-[min(45vw,40rem)] flex-col justify-center bg-bg px-[var(--gutter)] pt-[var(--header-h)] md:flex">
+            <div className="pointer-events-auto w-[min(78vw,30rem)]">
+              <Kicker>{label}</Kicker>
+              <SplitReveal as="h2" id="gallery-title-desktop" by="line" text={title} className="font-display mt-6 text-h2" />
+              <p className="mt-6 max-w-[42ch] text-lede text-fg-2">{body}</p>
+            </div>
+          </div>
+
+          <m.ul
             ref={list}
-            onScroll={onScroll}
             className={cn(
-              'no-scrollbar -mx-[var(--gutter)] flex snap-x snap-mandatory gap-4 overflow-x-auto px-[11vw]',
-              'lg:col-span-8 lg:mx-0 lg:grid lg:snap-none lg:grid-cols-2 lg:gap-x-10 lg:gap-y-20 lg:overflow-visible lg:px-0',
+              'relative flex flex-col gap-12 px-[var(--gutter)]',
+              'md:w-max md:flex-row md:items-center md:gap-[clamp(1.5rem,4vw,4rem)] md:px-0 md:pl-[min(50vw,45rem)] md:pr-[var(--gutter)]',
+              'md:motion-reduce:w-auto md:motion-reduce:overflow-x-auto md:motion-reduce:pl-[var(--gutter)]',
             )}
+            style={pinned ? { x } : undefined}
           >
+
+
             {items.map((it, i) => (
               <Frame
                 key={it.key}
                 item={it}
                 index={i}
-                focused={focus === i}
                 view={view}
                 onOpen={(btn) => {
                   opener.current = btn;
@@ -117,7 +126,8 @@ export function GalleryColumns({
                 }}
               />
             ))}
-          </ul>
+            <li className="w-[1px] shrink-0 md:w-[8vw]" aria-hidden="true" />
+          </m.ul>
         </div>
 
         <AnimatePresence>
@@ -184,13 +194,11 @@ export function GalleryColumns({
 function Frame({
   item,
   index,
-  focused,
   view,
   onOpen,
 }: {
   item: GalleryImage;
   index: number;
-  focused: boolean;
   view: string;
   onOpen: (btn: HTMLButtonElement) => void;
 }) {
@@ -200,11 +208,7 @@ function Frame({
   return (
     <li
       ref={ref}
-      className={cn(
-        'w-[78vw] shrink-0 snap-center transition-[transform,opacity] duration-700 ease-[var(--ease-out)] lg:w-auto lg:transition-none',
-        !focused && 'max-lg:scale-[0.92] max-lg:opacity-70',
-        SHAPES[index].split(' ').filter((c) => c.startsWith('lg:')).join(' '),
-      )}
+      className="w-full shrink-0 md:w-[min(45vw,35rem)]"
     >
       <figure>
         <button
@@ -216,7 +220,8 @@ function Frame({
         >
           <m.div
             layoutId={`gallery-${item.key}`}
-            className={cn('relative w-full overflow-hidden rounded-[18px] bg-bg-2', SHAPES[index].split(' ')[0])}
+            className="relative w-full overflow-hidden rounded-[18px] bg-bg-2"
+            style={{ aspectRatio: RATIOS[index] }}
             transition={{ duration: 0.75, ease: ease.inOut }}
           >
             <ClipReveal className="absolute inset-0" amount={0.2}>

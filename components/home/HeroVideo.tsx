@@ -6,7 +6,6 @@ import { Link } from '@/i18n/routing';
 import { Logo } from '@/components/brand/Logo';
 import { Magnetic } from '@/components/motion/Magnetic';
 import { SplitReveal } from '@/components/motion/SplitReveal';
-import { CircularText } from '@/components/motion/CircularText';
 import { Img } from '@/components/ui/Img';
 import { useCalm } from '@/lib/motion';
 import { cn } from '@/lib/utils';
@@ -145,10 +144,6 @@ export function HeroVideo({
           className="mt-auto pb-[clamp(1.25rem,3vw,2.5rem)]"
           style={calm ? undefined : { y: copyY, opacity: copyOpacity, filter: copyFilter }}
         >
-          <div className="mb-8 flex items-end justify-between gap-6 md:hidden">
-            <ScrollCue label={scroll} opacity={cueOpacity} />
-            <ReserveBadge text={badge} label={ctaBook} cursor={cursorReserve} />
-          </div>
 
           <div className="flex items-end justify-between gap-10">
             <div>
@@ -183,10 +178,6 @@ export function HeroVideo({
                 </Magnetic>
               </div>
             </div>
-            <div className="hidden items-end gap-12 md:flex">
-              <ScrollCue label={scroll} opacity={cueOpacity} />
-              <ReserveBadge text={badge} label={ctaBook} cursor={cursorReserve} />
-            </div>
           </div>
         </m.div>
 
@@ -212,37 +203,3 @@ export function HeroVideo({
   );
 }
 
-/** A slow-turning seal that leads to the booking page. */
-function ReserveBadge({ text, label, cursor }: { text: string; label: string; cursor: string }) {
-  return (
-    <Link
-      href="/book"
-      data-cursor={cursor}
-      className="rise group block shrink-0 text-bone"
-      style={{ ['--delay' as string]: 1100 }}
-    >
-      <span className="sr-only">{label}</span>
-      <CircularText texts={[text]} className="size-[88px] md:size-[120px]" period={30}>
-        <span className="grid size-9 place-items-center rounded-full border border-bone/30 transition-[background-color,border-color] duration-500 group-hover:border-[var(--brand-ember-light)] group-hover:bg-[var(--brand-ember-light)] group-hover:text-night md:size-11">
-          <svg viewBox="0 0 16 16" className="size-3.5 -rotate-45 transition-transform duration-500 group-hover:rotate-0" aria-hidden="true">
-            <path d="M2 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
-          </svg>
-        </span>
-      </CircularText>
-    </Link>
-  );
-}
-
-/** A thin line with a bead of light travelling down it; gone after the first 50px. */
-function ScrollCue({ label, opacity }: { label: string; opacity: MotionValue<number> }) {
-  return (
-    <m.div style={{ opacity }} aria-hidden="true">
-      <div className="rise flex flex-col items-center gap-3 text-bone/70" style={{ ['--delay' as string]: 1300 }}>
-      <span className="label text-[0.625rem] [writing-mode:vertical-rl]">{label}</span>
-      <span className="relative block h-14 w-px overflow-hidden bg-bone/20">
-        <span className="scroll-cue-dot absolute left-[-1px] top-0 block size-[3px] rounded-full bg-[var(--brand-ember-light)]" />
-      </span>
-      </div>
-    </m.div>
-  );
-}

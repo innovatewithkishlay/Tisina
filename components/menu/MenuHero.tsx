@@ -13,12 +13,10 @@ export function MenuHero({
   eyebrow,
   title,
   lede,
-  plates,
 }: {
   eyebrow: string;
   title: string;
   lede: string;
-  plates: { src: string; alt: string }[];
 }) {
   const root = useRef<HTMLElement>(null);
 
@@ -44,21 +42,25 @@ export function MenuHero({
         </p>
       </div>
 
-      <div className="wrap mt-[clamp(3rem,6vw,5rem)] grid grid-cols-3 items-start gap-3 sm:gap-6" aria-hidden="true">
-        {plates.slice(0, 3).map((p, i) => (
-          <m.div key={p.src} style={calm ? undefined : { y: drift[i] }}>
-            <div
-              className="plate-rise relative overflow-hidden rounded-[clamp(12px,1.6vw,22px)]"
-              style={{
-                aspectRatio: i === 1 ? '4 / 5' : '3 / 4',
-                marginTop: i === 1 ? 0 : 'clamp(2rem, 6vw, 6rem)',
-                ['--delay' as string]: `${0.15 + i * 0.14}s`,
-              }}
-            >
-              <Img src={p.src} alt="" fill priority={i === 1} sizes="33vw" className="object-cover" />
-            </div>
-          </m.div>
-        ))}
+      <div className="relative mt-[clamp(4rem,10vw,8rem)] flex w-full overflow-hidden border-y hairline py-4 sm:py-6" aria-hidden="true">
+        <div className="marquee flex w-max items-center">
+          <div className="flex items-center gap-8 px-4 text-[clamp(4rem,10vw,8rem)] font-display uppercase leading-none tracking-tighter text-fg-2/10">
+            <span>TIŠINA</span><span className="text-accent">*</span>
+            <span>{title}</span><span className="text-accent">*</span>
+            <span>À LA CARTE</span><span className="text-accent">*</span>
+            <span>TIŠINA</span><span className="text-accent">*</span>
+            <span>{title}</span><span className="text-accent">*</span>
+            <span>À LA CARTE</span><span className="text-accent">*</span>
+          </div>
+          <div className="flex items-center gap-8 px-4 text-[clamp(4rem,10vw,8rem)] font-display uppercase leading-none tracking-tighter text-fg-2/10">
+            <span>TIŠINA</span><span className="text-accent">*</span>
+            <span>{title}</span><span className="text-accent">*</span>
+            <span>À LA CARTE</span><span className="text-accent">*</span>
+            <span>TIŠINA</span><span className="text-accent">*</span>
+            <span>{title}</span><span className="text-accent">*</span>
+            <span>À LA CARTE</span><span className="text-accent">*</span>
+          </div>
+        </div>
       </div>
     </section>
   );
