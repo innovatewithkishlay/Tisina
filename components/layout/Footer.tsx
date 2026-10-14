@@ -137,7 +137,11 @@ export async function Footer() {
             </ul>
           </nav>
           <p>
-            {t('rights', { year, name: r.name })} <span aria-hidden="true">·</span> {t('madeBy')} <span aria-hidden="true">·</span>{' '}
+            {t('rights', { year, name: r.name })} <span aria-hidden="true">·</span>{' '}
+            <a href="https://kyrostudio.eu/" target="_blank" rel="noopener" className="link-draw">
+              {t('madeBy')}
+            </a>{' '}
+            <span aria-hidden="true">·</span>{' '}
             <Link href={{ pathname: '/privacy', hash: 'credits' }} className="link-draw">
               {t('photoCredit')}
             </Link>
